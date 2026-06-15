@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/admin/', '/private/'],
     },
-    sitemap: 'https://genzneuralx.com/sitemap.xml',
+    sitemap: 'https://gen-z-neural-x.vercel.app/sitemap.xml',
   }
 }
