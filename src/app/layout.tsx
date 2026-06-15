@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://genzneuralx.com'),
+  metadataBase: new URL('https://gen-z-neural-x.vercel.app'),
   title: {
     default: "Gen Z Neural-X | AI Technology & Digital Solutions",
     template: "%s | Gen Z Neural-X"
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Gen Z Neural-X | Leading AI & Tech Solutions",
     description: "Transform your digital future with Gen Z Neural-X's cutting-edge software development and professional education services.",
-    url: 'https://genzneuralx.com',
+    url: 'https://gen-z-neural-x.vercel.app',
     siteName: 'Gen Z Neural-X',
     images: [
       {
