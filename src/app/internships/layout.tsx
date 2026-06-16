@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Web Development, AI Solutions & Digital Marketing Services",
+  title: "IT Internship for Engineering Students in Sivakasi & Srivilliputtur",
   description: "Gen Z Neural-X provides web development, AI solutions, software development, internships and IT training in Srivilliputtur, Sivakasi and Virudhunagar district.",
   keywords: [
     "srivilliputtur best it company", "sivakasi best it company", "srivilliputtur internship", "sivakasi internship",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   ]
 };
 
-export default function ServicesLayout({
+export default function InternshipsLayout({
   children,
 }: {
   children: React.ReactNode;

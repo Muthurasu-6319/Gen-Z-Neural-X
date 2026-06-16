@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Briefcase, Send, LogOut, CheckCircle, MessageSquare, Edit, Trash2 } from "lucide-react";
+import { Briefcase, Send, LogOut, CheckCircle, MessageSquare, Edit, Trash2, FileText } from "lucide-react";
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -17,6 +17,10 @@ export default function AdminDashboard() {
   const [loadingCareers, setLoadingCareers] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
+  const [blogs, setBlogs] = useState([]);
+  const [loadingBlogs, setLoadingBlogs] = useState(false);
+  const [editingBlogId, setEditingBlogId] = useState<string | null>(null);
+
   const [formData, setFormData] = useState({
     title: "",
     department: "",
@@ -24,6 +28,15 @@ export default function AdminDashboard() {
     type: "Full-Time",
     experience: "",
     description: "",
+  });
+
+  const [blogData, setBlogData] = useState({
+    title: "",
+    category: "",
+    excerpt: "",
+    content: "",
+    author: "Admin",
+    readTime: "5 min"
   });
 
   useEffect(() => {
@@ -39,6 +52,8 @@ export default function AdminDashboard() {
       fetchResponses();
     } else if (activeTab === "careers") {
       fetchCareers();
+    } else if (activeTab === "blogs") {
+      fetchBlogs();
     }
   }, [activeTab]);
 
@@ -74,6 +89,22 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchBlogs = async () => {
+    setLoadingBlogs(true);
+    try {
+      const res = await fetch('/api/blogs');
+      const data = await res.json();
+      if (data.blogs) {
+        const sorted = data.blogs.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        setBlogs(sorted);
+      }
+    } catch (err) {
+      console.error("Failed to fetch blogs", err);
+    } finally {
+      setLoadingBlogs(false);
+    }
+  };
+
   if (!isAuthenticated) {
     return null;
   }
@@ -85,6 +116,10 @@ export default function AdminDashboard() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleBlogChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setBlogData({ ...blogData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -126,6 +161,45 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleBlogSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (editingBlogId) {
+        const res = await fetch(`/api/blogs/${editingBlogId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(blogData)
+        });
+        if (res.ok) {
+          setSuccessMsg("Blog successfully updated!");
+          setEditingBlogId(null);
+        }
+      } else {
+        const res = await fetch('/api/blogs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(blogData)
+        });
+        if (res.ok) {
+          setSuccessMsg("Blog successfully posted!");
+        }
+      }
+      
+      setBlogData({
+        title: "",
+        category: "",
+        excerpt: "",
+        content: "",
+        author: "Admin",
+        readTime: "5 min"
+      });
+      fetchBlogs();
+      setTimeout(() => setSuccessMsg(""), 3000);
+    } catch (err) {
+      console.error("Error saving blog", err);
+    }
+  };
+
   const handleEdit = (career: any) => {
     setEditingId(career.id);
     setFormData({
@@ -135,6 +209,19 @@ export default function AdminDashboard() {
       type: career.type,
       experience: career.experience,
       description: career.description,
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBlogEdit = (blog: any) => {
+    setEditingBlogId(blog.id);
+    setBlogData({
+      title: blog.title,
+      category: blog.category,
+      excerpt: blog.excerpt,
+      content: blog.content,
+      author: blog.author,
+      readTime: blog.readTime
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -152,6 +239,19 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleBlogDelete = async (id: string) => {
+    if (confirm("Are you sure you want to delete this blog post?")) {
+      try {
+        const res = await fetch(`/api/blogs/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+          fetchBlogs();
+        }
+      } catch (err) {
+        console.error("Error deleting blog", err);
+      }
+    }
+  };
+
   const cancelEdit = () => {
     setEditingId(null);
     setFormData({
@@ -161,6 +261,18 @@ export default function AdminDashboard() {
       type: "Full-Time",
       experience: "",
       description: "",
+    });
+  };
+
+  const cancelBlogEdit = () => {
+    setEditingBlogId(null);
+    setBlogData({
+      title: "",
+      category: "",
+      excerpt: "",
+      content: "",
+      author: "Admin",
+      readTime: "5 min"
     });
   };
 
@@ -183,6 +295,17 @@ export default function AdminDashboard() {
             }}
           >
             <Briefcase size={20} /> Careers
+          </button>
+          <button 
+            onClick={() => setActiveTab("blogs")}
+            style={{ 
+              display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "12px", 
+              background: activeTab === "blogs" ? "var(--primary-glow)" : "transparent",
+              color: activeTab === "blogs" ? "var(--primary-light)" : "var(--gray-600)",
+              border: "none", cursor: "pointer", fontSize: "15px", fontWeight: "600", transition: "all 0.2s"
+            }}
+          >
+            <FileText size={20} /> Blogs
           </button>
           <button 
             onClick={() => setActiveTab("responses")}
@@ -217,18 +340,19 @@ export default function AdminDashboard() {
           
           <div style={{ marginBottom: "32px", display: "flex", alignItems: "center", gap: "16px" }}>
             <div style={{ width: "48px", height: "48px", background: "white", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--primary-light)", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
-              {activeTab === "careers" ? <Briefcase size={24} /> : <MessageSquare size={24} />}
+              {activeTab === "careers" ? <Briefcase size={24} /> : activeTab === "blogs" ? <FileText size={24} /> : <MessageSquare size={24} />}
             </div>
             <div>
               <h1 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "28px", fontWeight: "800", color: "#0a0a0f" }}>
-                {activeTab === "careers" ? "Manage Careers" : "Contact Responses"}
+                {activeTab === "careers" ? "Manage Careers" : activeTab === "blogs" ? "Manage Blog Posts" : "Contact Responses"}
               </h1>
               <p style={{ color: "var(--gray-500)", fontSize: "15px" }}>
-                {activeTab === "careers" ? "Post and manage job openings" : "View all form submissions from the website"}
+                {activeTab === "careers" ? "Post and manage job openings" : activeTab === "blogs" ? "Publish and edit SEO optimized blog articles" : "View all form submissions from the website"}
               </p>
             </div>
           </div>
 
+          {/* Careers Tab */}
           {activeTab === "careers" && (
             <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
               <div className="card">
@@ -326,6 +450,87 @@ export default function AdminDashboard() {
             </div>
           )}
 
+          {/* Blogs Tab */}
+          {activeTab === "blogs" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+              <div className="card">
+                <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "20px", fontWeight: "700", marginBottom: "24px" }}>
+                  {editingBlogId ? "Edit Blog Post" : "Create New Blog Post"}
+                </h2>
+
+                {successMsg && (
+                  <div style={{ background: "#ecfdf5", color: "#10b981", padding: "16px", borderRadius: "12px", fontSize: "15px", fontWeight: "500", display: "flex", alignItems: "center", gap: "8px", marginBottom: "24px", border: "1px solid #d1fae5" }}>
+                    <CheckCircle size={20} /> {successMsg}
+                  </div>
+                )}
+
+                <form onSubmit={handleBlogSubmit} style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                  <div className="grid-2">
+                    <div className="form-group">
+                      <label className="form-label">Blog Title</label>
+                      <input type="text" name="title" className="form-input" placeholder="e.g. Top IT Career Opportunities in Sivakasi" value={blogData.title} onChange={handleBlogChange} required />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Category</label>
+                      <input type="text" name="category" className="form-input" placeholder="e.g. Technology / Internships" value={blogData.category} onChange={handleBlogChange} required />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Short Excerpt (Meta Description)</label>
+                    <input type="text" name="excerpt" className="form-input" placeholder="Brief 1-2 sentence summary for SEO..." value={blogData.excerpt} onChange={handleBlogChange} required />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Full Blog Content (Markdown / Text)</label>
+                    <textarea name="content" className="form-textarea" placeholder="Write your full SEO optimized blog post here..." value={blogData.content} onChange={handleBlogChange} required style={{ minHeight: "300px" }} />
+                  </div>
+
+                  <div style={{ display: "flex", gap: "16px" }}>
+                    <button type="submit" className="btn-primary" style={{ padding: "16px 32px" }}>
+                      <Send size={18} /> {editingBlogId ? "Update Blog Post" : "Publish Blog Post"}
+                    </button>
+                    {editingBlogId && (
+                      <button type="button" onClick={cancelBlogEdit} className="btn-secondary" style={{ padding: "16px 32px", borderColor: "var(--gray-300)", color: "var(--gray-600)" }}>
+                        Cancel
+                      </button>
+                    )}
+                  </div>
+                </form>
+              </div>
+
+              <div>
+                <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "20px", fontWeight: "700", marginBottom: "16px", color: "var(--black)" }}>Published Blogs</h3>
+                {loadingBlogs ? (
+                  <p style={{ color: "var(--gray-500)" }}>Loading blogs...</p>
+                ) : blogs.length === 0 ? (
+                  <p style={{ color: "var(--gray-500)", background: "white", padding: "24px", borderRadius: "12px", border: "1px solid var(--gray-200)", textAlign: "center" }}>No blogs published yet.</p>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    {blogs.map((blog: any) => (
+                      <div key={blog.id} style={{ background: "white", padding: "20px", borderRadius: "12px", border: "1px solid var(--gray-200)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div>
+                          <span className="badge badge-blue" style={{ marginBottom: "8px" }}>{blog.category}</span>
+                          <h4 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "18px", fontWeight: "700", color: "var(--black)", marginBottom: "4px" }}>{blog.title}</h4>
+                          <p style={{ color: "var(--gray-500)", fontSize: "14px" }}>Published: {new Date(blog.createdAt).toLocaleDateString()}</p>
+                        </div>
+                        <div style={{ display: "flex", gap: "12px" }}>
+                          <button onClick={() => handleBlogEdit(blog)} style={{ background: "var(--primary-glow)", color: "var(--primary)", border: "none", width: "40px", height: "40px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                            <Edit size={18} />
+                          </button>
+                          <button onClick={() => handleBlogDelete(blog.id)} style={{ background: "#fef2f2", color: "#ef4444", border: "none", width: "40px", height: "40px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                            <Trash2 size={18} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Responses Tab */}
           {activeTab === "responses" && (
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
               {loadingResponses ? (

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Courses & Internships | Gen Z Neural-X",
-  description: "Join the best IT training institute in Sivakasi and Srivilliputtur. We offer internships for engineering students and professional software courses.",
+  title: "Software Training & IT Courses in Sivakasi and Srivilliputtur",
+  description: "Gen Z Neural-X provides web development, AI solutions, software development, internships and IT training in Srivilliputtur, Sivakasi and Virudhunagar district.",
   keywords: [
     "srivilliputtur best it company", "sivakasi best it company", "srivilliputtur internship", "sivakasi internship",
     "best software company in srivilliputtur", "best software company in sivakasi", "IT jobs in sivakasi", 

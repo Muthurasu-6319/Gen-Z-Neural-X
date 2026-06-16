@@ -9,8 +9,8 @@ import ContactCTA from "@/components/home/ContactCTA";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Gen Z Neural-X | AI Technology & Digital Solutions Company",
-  description: "Gen Z Neural-X delivers cutting-edge Web Development, AI/ML Solutions, Mobile Apps, Digital Marketing, and professional IT courses. Transform your business with us.",
+  title: "Gen Z Neural-X | Best IT Company in Srivilliputtur & Sivakasi",
+  description: "Gen Z Neural-X provides web development, AI solutions, software development, internships and IT training in Srivilliputtur, Sivakasi and Virudhunagar district.",
   keywords: [
     "srivilliputtur best it company", "sivakasi best it company", "srivilliputtur internship", "sivakasi internship",
     "best software company in srivilliputtur", "best software company in sivakasi", "IT jobs in sivakasi", 
