@@ -4,112 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Clock, ArrowRight, User, FileText, Monitor, Bot } from "lucide-react";
 
-const staticPosts = [
-  {
-    id: "web-dev-trends-2025",
-    title: "Top Web Development Trends to Watch in 2025",
-    excerpt: "Explore the latest trends shaping web development — from AI-powered tooling to edge computing and the rise of full-stack frameworks.",
-    category: "Web Development",
-    categoryColor: "#6366f1",
-    author: "Tech Team",
-    date: "June 10, 2026",
-    readTime: "5 min read",
-    featured: true,
-  },
-  {
-    id: "ai-ml-beginners-guide",
-    title: "AI/ML for Beginners: Where to Start in 2026",
-    excerpt: "A comprehensive beginner's guide to getting started with Artificial Intelligence and Machine Learning — tools, resources, and roadmap.",
-    category: "AI/ML",
-    categoryColor: "#8b5cf6",
-    author: "AI Team",
-    date: "June 5, 2026",
-    readTime: "8 min read",
-    featured: true,
-  },
-  {
-    id: "mern-stack-tutorial",
-    title: "Build Your First Full-Stack App with MERN Stack",
-    excerpt: "Step-by-step tutorial to build a complete web application using MongoDB, Express.js, React, and Node.js from scratch.",
-    category: "MERN Stack",
-    categoryColor: "#10b981",
-    author: "Dev Team",
-    date: "May 28, 2026",
-    readTime: "12 min read",
-    featured: false,
-  },
-  {
-    id: "python-career-guide",
-    title: "Python Career Guide: Jobs, Salaries & Roadmap 2026",
-    excerpt: "Everything you need to know about building a career in Python — from job roles to salary expectations and the skills employers want.",
-    category: "Career Guidance",
-    categoryColor: "#f59e0b",
-    author: "Career Team",
-    date: "May 20, 2026",
-    readTime: "7 min read",
-    featured: false,
-  },
-  {
-    id: "data-science-tools",
-    title: "Essential Data Science Tools Every Analyst Needs",
-    excerpt: "From Jupyter notebooks to Power BI — the must-have data science tools and libraries that professionals rely on in 2026.",
-    category: "AI/ML",
-    categoryColor: "#8b5cf6",
-    author: "Data Team",
-    date: "May 15, 2026",
-    readTime: "6 min read",
-    featured: false,
-  },
-  {
-    id: "digital-marketing-seo",
-    title: "SEO in 2026: What's Changed and What Still Works",
-    excerpt: "Google's algorithm keeps evolving. Discover the SEO strategies that are working right now and what to avoid in your digital marketing.",
-    category: "Digital Marketing",
-    categoryColor: "#f43f5e",
-    author: "Marketing Team",
-    date: "May 8, 2026",
-    readTime: "9 min read",
-    featured: false,
-  },
-  {
-    id: "react-best-practices",
-    title: "React Best Practices Every Developer Should Know",
-    excerpt: "Write cleaner, more performant React code with these proven best practices around state management, hooks, and component architecture.",
-    category: "Web Development",
-    categoryColor: "#6366f1",
-    author: "Dev Team",
-    date: "April 30, 2026",
-    readTime: "10 min read",
-    featured: false,
-  },
-  {
-    id: "tech-news-june-2026",
-    title: "Technology News: The Biggest Announcements This Month",
-    excerpt: "A roundup of the most exciting technology announcements, product launches, and industry developments from this month.",
-    category: "Technology News",
-    categoryColor: "#06b6d4",
-    author: "Content Team",
-    date: "June 1, 2026",
-    readTime: "4 min read",
-    featured: false,
-  },
-  {
-    id: "freelancing-guide-2026",
-    title: "How to Start Freelancing as a Developer in India",
-    excerpt: "A practical guide to starting your freelance career as a developer — finding clients, pricing your work, and managing projects.",
-    category: "Career Guidance",
-    categoryColor: "#f59e0b",
-    author: "Career Team",
-    date: "April 22, 2026",
-    readTime: "8 min read",
-    featured: false,
-  },
-];
-
-const categories = ["All", "Web Development", "AI/ML", "MERN Stack", "Career Guidance", "Digital Marketing", "Technology News", "Internships"];
-
 export default function BlogPage() {
-  const [allPosts, setAllPosts] = useState<any[]>(staticPosts);
+  const [allPosts, setAllPosts] = useState<any[]>([]);
+  const [categories, setCategories] = useState<string[]>(["All"]);
   const [activeCategory, setActiveCategory] = useState("All");
 
   useEffect(() => {
@@ -123,14 +20,19 @@ export default function BlogPage() {
             title: b.title,
             excerpt: b.excerpt,
             category: b.category,
-            categoryColor: "#6366f1", // Default color for dynamic blogs
+            categoryColor: b.categoryColor || "#6366f1", // Default color
             author: b.author || "Admin",
             date: b.date || new Date(b.createdAt).toLocaleDateString(),
             readTime: b.readTime || "5 min read",
-            featured: false,
+            featured: b.featured || false,
             dynamic: true
           }));
-          setAllPosts([...dynamicBlogs, ...staticPosts]);
+          
+          setAllPosts(dynamicBlogs);
+          
+          // Compute unique categories
+          const uniqueCats = Array.from(new Set(dynamicBlogs.map((b: any) => b.category)));
+          setCategories(["All", ...(uniqueCats as string[])]);
         }
       } catch (e) {
         console.error("Error fetching dynamic blogs", e);

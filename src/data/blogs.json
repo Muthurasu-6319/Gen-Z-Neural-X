@@ -1,1 +1,106 @@
-[]
+[
+  {
+    "id": "web-dev-trends-2025",
+    "title": "Top Web Development Trends to Watch in 2025",
+    "excerpt": "Explore the latest trends shaping web development — from AI-powered tooling to edge computing and the rise of full-stack frameworks.",
+    "category": "Web Development",
+    "categoryColor": "#6366f1",
+    "author": "Tech Team",
+    "date": "June 10, 2026",
+    "readTime": "5 min read",
+    "featured": true,
+    "createdAt": "2026-06-10T00:00:00.000Z",
+    "content": "Explore the latest trends shaping web development — from AI-powered tooling to edge computing and the rise of full-stack frameworks."
+  },
+  {
+    "id": "ai-ml-beginners-guide",
+    "title": "AI/ML for Beginners: Where to Start in 2026",
+    "excerpt": "A comprehensive beginner's guide to getting started with Artificial Intelligence and Machine Learning — tools, resources, and roadmap.",
+    "category": "AI/ML",
+    "categoryColor": "#8b5cf6",
+    "author": "AI Team",
+    "date": "June 5, 2026",
+    "readTime": "8 min read",
+    "featured": true,
+    "createdAt": "2026-06-05T00:00:00.000Z",
+    "content": "A comprehensive beginner's guide to getting started with Artificial Intelligence and Machine Learning — tools, resources, and roadmap."
+  },
+  {
+    "id": "mern-stack-tutorial",
+    "title": "Build Your First Full-Stack App with MERN Stack",
+    "excerpt": "Step-by-step tutorial to build a complete web application using MongoDB, Express.js, React, and Node.js from scratch.",
+    "category": "MERN Stack",
+    "categoryColor": "#10b981",
+    "author": "Dev Team",
+    "date": "May 28, 2026",
+    "readTime": "12 min read",
+    "featured": false,
+    "createdAt": "2026-05-28T00:00:00.000Z",
+    "content": "Step-by-step tutorial to build a complete web application using MongoDB, Express.js, React, and Node.js from scratch."
+  },
+  {
+    "id": "python-career-guide",
+    "title": "Python Career Guide: Jobs, Salaries & Roadmap 2026",
+    "excerpt": "Everything you need to know about building a career in Python — from job roles to salary expectations and the skills employers want.",
+    "category": "Career Guidance",
+    "categoryColor": "#f59e0b",
+    "author": "Career Team",
+    "date": "May 20, 2026",
+    "readTime": "7 min read",
+    "featured": false,
+    "createdAt": "2026-05-20T00:00:00.000Z",
+    "content": "Everything you need to know about building a career in Python — from job roles to salary expectations and the skills employers want."
+  },
+  {
+    "id": "data-science-tools",
+    "title": "Essential Data Science Tools Every Analyst Needs",
+    "excerpt": "From Jupyter notebooks to Power BI — the must-have data science tools and libraries that professionals rely on in 2026.",
+    "category": "AI/ML",
+    "categoryColor": "#8b5cf6",
+    "author": "Data Team",
+    "date": "May 15, 2026",
+    "readTime": "6 min read",
+    "featured": false,
+    "createdAt": "2026-05-15T00:00:00.000Z",
+    "content": "From Jupyter notebooks to Power BI — the must-have data science tools and libraries that professionals rely on in 2026."
+  },
+  {
+    "id": "digital-marketing-seo",
+    "title": "SEO in 2026: What's Changed and What Still Works",
+    "excerpt": "Google's algorithm keeps evolving. Discover the SEO strategies that are working right now and what to avoid in your digital marketing.",
+    "category": "Digital Marketing",
+    "categoryColor": "#f43f5e",
+    "author": "Marketing Team",
+    "date": "May 8, 2026",
+    "readTime": "9 min read",
+    "featured": false,
+    "createdAt": "2026-05-08T00:00:00.000Z",
+    "content": "Google's algorithm keeps evolving. Discover the SEO strategies that are working right now and what to avoid in your digital marketing."
+  },
+  {
+    "id": "react-best-practices",
+    "title": "React Best Practices Every Developer Should Know",
+    "excerpt": "Write cleaner, more performant React code with these proven best practices around state management, hooks, and component architecture.",
+    "category": "Web Development",
+    "categoryColor": "#6366f1",
+    "author": "Dev Team",
+    "date": "April 30, 2026",
+    "readTime": "10 min read",
+    "featured": false,
+    "createdAt": "2026-04-30T00:00:00.000Z",
+    "content": "Write cleaner, more performant React code with these proven best practices around state management, hooks, and component architecture."
+  },
+  {
+    "id": "tech-news-june-2026",
+    "title": "Technology News: The Biggest Announcements This Month",
+    "excerpt": "A roundup of the most exciting technology announcements, product launches, and industry developments from this month.",
+    "category": "Technology News",
+    "categoryColor": "#06b6d4",
+    "author": "Content Team",
+    "date": "June 1, 2026",
+    "readTime": "4 min read",
+    "featured": false,
+    "createdAt": "2026-06-01T00:00:00.000Z",
+    "content": "A roundup of the most exciting technology announcements, product launches, and industry developments from this month."
+  }
+]
