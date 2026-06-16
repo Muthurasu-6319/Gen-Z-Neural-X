@@ -4,8 +4,9 @@ import path from 'path';
 
 const getFilePath = () => path.join(process.cwd(), 'src', 'data', 'careers.json');
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const data = await req.json();
     const filePath = getFilePath();
     
@@ -16,7 +17,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     let careers = JSON.parse(fileContent);
     
-    const index = careers.findIndex((c: any) => c.id === params.id);
+    const index = careers.findIndex((c: any) => c.id === id);
     if (index === -1) {
       return NextResponse.json({ error: 'Career not found' }, { status: 404 });
     }
@@ -30,8 +31,9 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const filePath = getFilePath();
     
     if (!fs.existsSync(filePath)) {
@@ -41,7 +43,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     let careers = JSON.parse(fileContent);
     
-    const newCareers = careers.filter((c: any) => c.id !== params.id);
+    const newCareers = careers.filter((c: any) => c.id !== id);
     
     if (newCareers.length === careers.length) {
       return NextResponse.json({ error: 'Career not found' }, { status: 404 });
