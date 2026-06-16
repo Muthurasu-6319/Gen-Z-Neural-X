@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import LayoutWrapper from "@/components/LayoutWrapper";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://gen-z-neural-x.vercel.app'),
@@ -10,7 +9,17 @@ export const metadata: Metadata = {
     template: "%s | Gen Z Neural-X"
   },
   description: "Gen Z Neural-X is a leading technology company offering Web Development, Mobile Apps, AI/ML Solutions, Game Development, Digital Marketing, and professional training courses.",
-  keywords: ["web development", "AI solutions", "machine learning", "mobile app development", "digital marketing", "internships", "tech courses", "Gen Z Neural-X", "software company", "MERN stack", "Tamil Nadu Tech"],
+  keywords: [
+    "web development", "AI solutions", "machine learning", "mobile app development", "digital marketing", 
+    "internships", "tech courses", "Gen Z Neural-X", "software company", "MERN stack", "Tamil Nadu Tech",
+    "srivilliputtur best it company", "sivakasi best it company", "srivilliputtur internship", "sivakasi internship",
+    "best software company in srivilliputtur", "best software company in sivakasi", "IT jobs in sivakasi", 
+    "IT jobs in srivilliputtur", "web development company in sivakasi", "web development company in srivilliputtur",
+    "software training in srivilliputtur", "software training in sivakasi", "best IT training institute sivakasi", 
+    "AI solutions srivilliputtur", "tech courses sivakasi", "internship for engineering students in sivakasi", 
+    "internship for engineering students in srivilliputtur", "Virudhunagar district best IT company",
+    "app development company sivakasi", "digital marketing agency srivilliputtur", "tech startup sivakasi"
+  ],
   authors: [{ name: "Gen Z Neural-X Team" }],
   creator: "Gen Z Neural-X",
   publisher: "Gen Z Neural-X",
@@ -62,9 +71,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <LayoutWrapper>
+          {children}
+        </LayoutWrapper>
       </body>
     </html>
   );

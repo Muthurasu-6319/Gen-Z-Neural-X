@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Sparkles, Play, Code2, Brain, Smartphone } from "lucide-react";
+import { ArrowRight, Play, Code2, Brain, Smartphone } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const typingTexts = [
@@ -156,25 +156,6 @@ export default function HeroSection() {
 
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
-          {/* Badge */}
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              padding: "8px 20px",
-              background: "rgba(99,102,241,0.15)",
-              border: "1px solid rgba(99,102,241,0.3)",
-              borderRadius: "50px",
-              marginBottom: "32px",
-              animation: "fadeInUp 0.6s ease forwards",
-            }}
-          >
-            <Sparkles size={14} style={{ color: "#a5b4fc" }} />
-            <span style={{ color: "#a5b4fc", fontSize: "13px", fontWeight: "600", letterSpacing: "0.5px" }}>
-              Next-Gen Technology Solutions
-            </span>
-          </div>
 
           {/* Heading */}
           <h1
@@ -283,7 +264,7 @@ export default function HeroSection() {
                 >
                   {stat.value}
                 </div>
-                <div style={{ color: "rgba(255,255,255,0.5)", fontSize: "13px", fontWeight: "500" }}>{stat.label}</div>
+                <div style={{ color: "#6b6fa0", fontSize: "14px", fontWeight: "600" }}>{stat.label}</div>
               </div>
             ))}
           </div>
