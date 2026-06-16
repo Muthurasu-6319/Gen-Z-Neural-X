@@ -1,13 +1,51 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Clock, User, Calendar } from "lucide-react";
 import { useParams } from "next/navigation";
+import ReactMarkdown from 'react-markdown';
 
 export default function BlogPostPage() {
   const params = useParams();
   const slug = params.slug as string;
-  const title = slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  const [blog, setBlog] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const res = await fetch(`/api/blogs/${slug}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.blog) {
+            setBlog(data.blog);
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching blog", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    // If it's a dynamic slug from the API
+    if (slug) {
+      fetchBlog();
+    }
+  }, [slug]);
+
+  if (loading) {
+    return <div style={{ padding: "120px 0", textAlign: "center", color: "var(--primary)", fontWeight: "bold" }}>Loading Blog...</div>;
+  }
+
+  // Fallback for static posts or not found
+  const title = blog ? blog.title : slug.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+  const category = blog ? blog.category : "Technology";
+  const author = blog ? blog.author : "Gen Z Neural-X Team";
+  const readTime = blog ? blog.readTime : "5 min read";
+  const date = blog ? new Date(blog.createdAt).toLocaleDateString() : "June 2026";
+  const content = blog ? blog.content : "Welcome to this article from Gen Z Neural-X. We publish regular insights, tutorials, and industry news to help you stay ahead in the technology world.\n\nOur team of experienced developers, designers, and marketers share practical knowledge based on real-world project experience. Whether you're a beginner or seasoned professional, our blog has something valuable for you.\n\n**Why This Matters**\nIn today's fast-paced technology landscape, staying updated with the latest trends, tools, and best practices is essential for success. This article covers the key concepts you need to understand and apply in your work.";
 
   return (
     <>
@@ -16,6 +54,7 @@ export default function BlogPostPage() {
           <Link href="/blog" style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "14px", display: "inline-flex", alignItems: "center", gap: "6px", marginBottom: "24px" }}>
             <ArrowLeft size={14} /> Back to Blog
           </Link>
+          <br/>
           <span
             style={{
               padding: "6px 16px",
@@ -29,7 +68,7 @@ export default function BlogPostPage() {
               marginBottom: "16px",
             }}
           >
-            Technology
+            {category}
           </span>
           <h1
             style={{
@@ -46,13 +85,13 @@ export default function BlogPostPage() {
           </h1>
           <div style={{ display: "flex", gap: "24px", color: "rgba(255,255,255,0.55)", fontSize: "13px", flexWrap: "wrap" }}>
             <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <User size={13} /> Gen Z Neural-X Team
+              <User size={13} /> {author}
             </span>
             <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <Calendar size={13} /> June 2026
+              <Calendar size={13} /> {date}
             </span>
             <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <Clock size={13} /> 5 min read
+              <Clock size={13} /> {readTime}
             </span>
           </div>
         </div>
@@ -61,62 +100,23 @@ export default function BlogPostPage() {
       <section className="section" style={{ background: "white" }}>
         <div className="container" style={{ maxWidth: "780px" }}>
           <div style={{ fontSize: "17px", color: "#2d3160", lineHeight: "1.9" }}>
-            <p style={{ marginBottom: "24px" }}>
-              Welcome to this article from Gen Z Neural-X. We publish regular insights, tutorials, and industry news to help you stay ahead in the technology world.
-            </p>
-            <p style={{ marginBottom: "24px" }}>
-              Our team of experienced developers, designers, and marketers share practical knowledge based on real-world project experience. Whether you&apos;re a beginner or seasoned professional, our blog has something valuable for you.
-            </p>
-
-            <div
-              style={{
-                background: "var(--gray-50)",
-                borderLeft: "4px solid #6366f1",
-                borderRadius: "0 12px 12px 0",
-                padding: "24px 28px",
-                margin: "40px 0",
-              }}
-            >
-              <p style={{ color: "#3730a3", fontSize: "16px", fontWeight: "500", fontStyle: "italic" }}>
-                &quot;Technology is not just a tool. It can give learners a voice that they may not have had before.&quot;
-              </p>
-            </div>
-
-            <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "24px", fontWeight: "700", color: "#0a0a0f", margin: "40px 0 16px" }}>
-              Why This Matters
-            </h2>
-            <p style={{ marginBottom: "24px" }}>
-              In today&apos;s fast-paced technology landscape, staying updated with the latest trends, tools, and best practices is essential for success. This article covers the key concepts you need to understand and apply in your work.
-            </p>
-            <p style={{ marginBottom: "24px" }}>
-              We&apos;ll explore practical examples, real-world applications, and actionable insights that you can implement immediately in your projects.
-            </p>
-
-            <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "24px", fontWeight: "700", color: "#0a0a0f", margin: "40px 0 16px" }}>
-              Key Takeaways
-            </h2>
-            <ul style={{ marginBottom: "24px", paddingLeft: "24px", display: "flex", flexDirection: "column", gap: "12px" }}>
-              {[
-                "Understand the fundamentals before diving into advanced topics",
-                "Practice with real projects to solidify your learning",
-                "Stay updated with community resources and documentation",
-                "Network with other professionals in your field",
-              ].map((item) => (
-                <li key={item} style={{ color: "#4a4e7a" }}>{item}</li>
-              ))}
-            </ul>
-
-            <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "24px", fontWeight: "700", color: "#0a0a0f", margin: "40px 0 16px" }}>
-              Getting Started
-            </h2>
-            <p style={{ marginBottom: "24px" }}>
-              The best way to learn is by doing. Start with small projects and gradually increase complexity. Join our courses for structured, mentor-guided learning that takes you from beginner to job-ready in months.
-            </p>
+            
+            {/* Render markdown or text content directly */}
+            {blog && blog.content ? (
+              <div style={{ whiteSpace: "pre-wrap" }}>
+                <ReactMarkdown>{blog.content}</ReactMarkdown>
+              </div>
+            ) : (
+              <div style={{ whiteSpace: "pre-wrap" }}>
+                {content}
+              </div>
+            )}
+            
           </div>
 
           {/* Tags */}
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "48px" }}>
-            {["Technology", "Learning", "Career", "Development"].map((tag) => (
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "48px", marginTop: "40px" }}>
+            {[category, "Learning", "Career", "Development"].map((tag) => (
               <span
                 key={tag}
                 style={{

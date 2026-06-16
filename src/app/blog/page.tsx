@@ -1,9 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Clock, ArrowRight, User, FileText, Monitor, Bot } from "lucide-react";
 
-const posts = [
+const staticPosts = [
   {
     id: "web-dev-trends-2025",
     title: "Top Web Development Trends to Watch in 2025",
@@ -105,11 +106,43 @@ const posts = [
   },
 ];
 
-const categories = ["All", "Web Development", "AI/ML", "MERN Stack", "Career Guidance", "Digital Marketing", "Technology News"];
+const categories = ["All", "Web Development", "AI/ML", "MERN Stack", "Career Guidance", "Digital Marketing", "Technology News", "Internships"];
 
 export default function BlogPage() {
-  const featured = posts.filter((p) => p.featured);
-  const regular = posts.filter((p) => !p.featured);
+  const [allPosts, setAllPosts] = useState<any[]>(staticPosts);
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await fetch('/api/blogs');
+        const data = await res.json();
+        if (data.blogs) {
+          const dynamicBlogs = data.blogs.map((b: any) => ({
+            id: b.id,
+            title: b.title,
+            excerpt: b.excerpt,
+            category: b.category,
+            categoryColor: "#6366f1", // Default color for dynamic blogs
+            author: b.author || "Admin",
+            date: b.date || new Date(b.createdAt).toLocaleDateString(),
+            readTime: b.readTime || "5 min read",
+            featured: false,
+            dynamic: true
+          }));
+          setAllPosts([...dynamicBlogs, ...staticPosts]);
+        }
+      } catch (e) {
+        console.error("Error fetching dynamic blogs", e);
+      }
+    };
+    fetchBlogs();
+  }, []);
+
+  const filteredPosts = activeCategory === "All" ? allPosts : allPosts.filter(p => p.category === activeCategory);
+
+  const featured = filteredPosts.filter((p) => p.featured);
+  const regular = filteredPosts.filter((p) => !p.featured);
 
   return (
     <>
@@ -134,13 +167,14 @@ export default function BlogPage() {
             {categories.map((cat) => (
               <button
                 key={cat}
+                onClick={() => setActiveCategory(cat)}
                 id={`blog-filter-${cat.toLowerCase().replace(/\s/g, "-")}`}
                 style={{
                   padding: "8px 20px",
                   borderRadius: "50px",
-                  border: cat === "All" ? "none" : "1.5px solid var(--gray-200)",
-                  background: cat === "All" ? "linear-gradient(135deg, #3730a3, #6366f1)" : "white",
-                  color: cat === "All" ? "white" : "#4a4e7a",
+                  border: cat === activeCategory ? "none" : "1.5px solid var(--gray-200)",
+                  background: cat === activeCategory ? "linear-gradient(135deg, #3730a3, #6366f1)" : "white",
+                  color: cat === activeCategory ? "white" : "#4a4e7a",
                   fontSize: "13px",
                   fontWeight: "600",
                   cursor: "pointer",

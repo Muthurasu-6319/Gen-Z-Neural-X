@@ -4,6 +4,25 @@ import path from 'path';
 
 const getFilePath = () => path.join(process.cwd(), 'src', 'data', 'blogs.json');
 
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await params;
+    const filePath = getFilePath();
+    if (!fs.existsSync(filePath)) {
+      return NextResponse.json({ error: 'Blog not found' }, { status: 404 });
+    }
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+    const blogs = JSON.parse(fileContent);
+    const blog = blogs.find((b: any) => b.id === id);
+    if (!blog) {
+      return NextResponse.json({ error: 'Blog not found' }, { status: 404 });
+    }
+    return NextResponse.json({ blog });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch blog' }, { status: 500 });
+  }
+}
+
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
