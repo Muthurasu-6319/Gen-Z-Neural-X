@@ -51,7 +51,7 @@ export async function generateMetadata(
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   
-  let blog = null;
+  let blog: any = null;
   
   try {
     const docRef = doc(db, 'blogs', slug);
