@@ -21,7 +21,7 @@ export async function generateMetadata(
     const docSnap = await getDoc(docRef);
     
     if (docSnap.exists()) {
-      const blog = docSnap.data();
+      const blog = docSnap.data() as Record<string, any>;
       
       return {
         title: blog.seoTitle || blog.title,
@@ -51,14 +51,14 @@ export async function generateMetadata(
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   
-  let blog: any = null;
+  let blog: Record<string, any> | null = null;
   
   try {
     const docRef = doc(db, 'blogs', slug);
     const docSnap = await getDoc(docRef);
     
     if (docSnap.exists()) {
-      blog = { id: docSnap.id, ...docSnap.data() };
+      blog = { id: docSnap.id, ...(docSnap.data() || {}) };
     }
   } catch (err) {
     console.error("Error fetching blog", err);
