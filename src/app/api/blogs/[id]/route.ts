@@ -1,23 +1,20 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { db } from '@/lib/firebase';
+import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 
-const getFilePath = () => path.join(process.cwd(), 'src', 'data', 'blogs.json');
+export const dynamic = 'force-dynamic';
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const filePath = getFilePath();
-    if (!fs.existsSync(filePath)) {
+    const docRef = doc(db, 'blogs', id);
+    const docSnap = await getDoc(docRef);
+    
+    if (!docSnap.exists()) {
       return NextResponse.json({ error: 'Blog not found' }, { status: 404 });
     }
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    const blogs = JSON.parse(fileContent);
-    const blog = blogs.find((b: any) => b.id === id);
-    if (!blog) {
-      return NextResponse.json({ error: 'Blog not found' }, { status: 404 });
-    }
-    return NextResponse.json({ blog });
+    
+    return NextResponse.json({ blog: { id: docSnap.id, ...docSnap.data() } });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch blog' }, { status: 500 });
   }
@@ -27,24 +24,17 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
   try {
     const { id } = await params;
     const data = await req.json();
-    const filePath = getFilePath();
     
-    if (!fs.existsSync(filePath)) {
+    const docRef = doc(db, 'blogs', id);
+    const docSnap = await getDoc(docRef);
+    
+    if (!docSnap.exists()) {
       return NextResponse.json({ error: 'Blog not found' }, { status: 404 });
     }
     
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    let blogs = JSON.parse(fileContent);
+    await updateDoc(docRef, data);
     
-    const index = blogs.findIndex((b: any) => b.id === id);
-    if (index === -1) {
-      return NextResponse.json({ error: 'Blog not found' }, { status: 404 });
-    }
-    
-    blogs[index] = { ...blogs[index], ...data };
-    fs.writeFileSync(filePath, JSON.stringify(blogs, null, 2));
-    
-    return NextResponse.json({ success: true, blog: blogs[index] });
+    return NextResponse.json({ success: true, blog: { id, ...data } });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update blog' }, { status: 500 });
   }
@@ -53,22 +43,14 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const filePath = getFilePath();
+    const docRef = doc(db, 'blogs', id);
+    const docSnap = await getDoc(docRef);
     
-    if (!fs.existsSync(filePath)) {
+    if (!docSnap.exists()) {
       return NextResponse.json({ error: 'Blog not found' }, { status: 404 });
     }
     
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    let blogs = JSON.parse(fileContent);
-    
-    const newBlogs = blogs.filter((b: any) => b.id !== id);
-    
-    if (newBlogs.length === blogs.length) {
-      return NextResponse.json({ error: 'Blog not found' }, { status: 404 });
-    }
-    
-    fs.writeFileSync(filePath, JSON.stringify(newBlogs, null, 2));
+    await deleteDoc(docRef);
     
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -36,7 +36,10 @@ export default function AdminDashboard() {
     excerpt: "",
     content: "",
     author: "Admin",
-    readTime: "5 min"
+    readTime: "5 min",
+    seoTitle: "",
+    metaDescription: "",
+    keywords: ""
   });
 
   useEffect(() => {
@@ -60,7 +63,7 @@ export default function AdminDashboard() {
   const fetchResponses = async () => {
     setLoadingResponses(true);
     try {
-      const res = await fetch('/api/responses');
+      const res = await fetch('/api/responses', { cache: 'no-store' });
       const data = await res.json();
       if (data.responses) {
         const sorted = data.responses.sort((a: any, b: any) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime());
@@ -76,7 +79,7 @@ export default function AdminDashboard() {
   const fetchCareers = async () => {
     setLoadingCareers(true);
     try {
-      const res = await fetch('/api/careers');
+      const res = await fetch('/api/careers', { cache: 'no-store' });
       const data = await res.json();
       if (data.careers) {
         const sorted = data.careers.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
@@ -92,7 +95,7 @@ export default function AdminDashboard() {
   const fetchBlogs = async () => {
     setLoadingBlogs(true);
     try {
-      const res = await fetch('/api/blogs');
+      const res = await fetch('/api/blogs', { cache: 'no-store' });
       const data = await res.json();
       if (data.blogs) {
         const sorted = data.blogs.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
@@ -191,7 +194,10 @@ export default function AdminDashboard() {
         excerpt: "",
         content: "",
         author: "Admin",
-        readTime: "5 min"
+        readTime: "5 min",
+        seoTitle: "",
+        metaDescription: "",
+        keywords: ""
       });
       fetchBlogs();
       setTimeout(() => setSuccessMsg(""), 3000);
@@ -216,12 +222,15 @@ export default function AdminDashboard() {
   const handleBlogEdit = (blog: any) => {
     setEditingBlogId(blog.id);
     setBlogData({
-      title: blog.title,
-      category: blog.category,
-      excerpt: blog.excerpt,
-      content: blog.content,
-      author: blog.author,
-      readTime: blog.readTime
+      title: blog.title || "",
+      category: blog.category || "",
+      excerpt: blog.excerpt || "",
+      content: blog.content || "",
+      author: blog.author || "Admin",
+      readTime: blog.readTime || "5 min",
+      seoTitle: blog.seoTitle || "",
+      metaDescription: blog.metaDescription || "",
+      keywords: blog.keywords || ""
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -272,7 +281,10 @@ export default function AdminDashboard() {
       excerpt: "",
       content: "",
       author: "Admin",
-      readTime: "5 min"
+      readTime: "5 min",
+      seoTitle: "",
+      metaDescription: "",
+      keywords: ""
     });
   };
 
@@ -476,14 +488,37 @@ export default function AdminDashboard() {
                     </div>
                   </div>
 
-                  <div className="form-group">
-                    <label className="form-label">Short Excerpt (Meta Description)</label>
-                    <input type="text" name="excerpt" className="form-input" placeholder="Brief 1-2 sentence summary for SEO..." value={blogData.excerpt} onChange={handleBlogChange} required />
+                  <div className="grid-2">
+                    <div className="form-group">
+                      <label className="form-label">Author Name</label>
+                      <input type="text" name="author" className="form-input" placeholder="e.g. Naga Muthu" value={blogData.author} onChange={handleBlogChange} required />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Short Excerpt (Summary)</label>
+                      <input type="text" name="excerpt" className="form-input" placeholder="Brief 1-2 sentence summary..." value={blogData.excerpt} onChange={handleBlogChange} required />
+                    </div>
                   </div>
 
                   <div className="form-group">
                     <label className="form-label">Full Blog Content (Markdown / Text)</label>
                     <textarea name="content" className="form-textarea" placeholder="Write your full SEO optimized blog post here..." value={blogData.content} onChange={handleBlogChange} required style={{ minHeight: "300px" }} />
+                  </div>
+
+                  {/* SEO Settings Section */}
+                  <div style={{ background: "rgba(99,102,241,0.05)", padding: "20px", borderRadius: "12px", border: "1px solid rgba(99,102,241,0.1)", display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <h3 style={{ fontSize: "16px", fontWeight: "700", color: "var(--primary)", margin: 0 }}>SEO Settings (Important for Google)</h3>
+                    <div className="form-group" style={{ margin: 0 }}>
+                      <label className="form-label">SEO Title (Appears in Google Search)</label>
+                      <input type="text" name="seoTitle" className="form-input" placeholder="e.g. Best IT Jobs in Sivakasi 2026 | Gen Z Neural" value={blogData.seoTitle} onChange={handleBlogChange} required />
+                    </div>
+                    <div className="form-group" style={{ margin: 0 }}>
+                      <label className="form-label">Meta Description</label>
+                      <input type="text" name="metaDescription" className="form-input" placeholder="Search engine description (150-160 characters)" value={blogData.metaDescription} onChange={handleBlogChange} required />
+                    </div>
+                    <div className="form-group" style={{ margin: 0 }}>
+                      <label className="form-label">SEO Keywords</label>
+                      <input type="text" name="keywords" className="form-input" placeholder="e.g. IT jobs, React developer, Sivakasi software jobs (comma separated)" value={blogData.keywords} onChange={handleBlogChange} required />
+                    </div>
                   </div>
 
                   <div style={{ display: "flex", gap: "16px" }}>

@@ -12,7 +12,7 @@ export default function BlogPage() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await fetch('/api/blogs');
+        const res = await fetch('/api/blogs', { cache: 'no-store' });
         const data = await res.json();
         if (data.blogs) {
           const dynamicBlogs = data.blogs.map((b: any) => ({
