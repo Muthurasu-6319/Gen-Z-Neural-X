@@ -68,7 +68,8 @@ export default async function BlogPostPage({ params }: Props) {
     return <div style={{ padding: "120px 0", textAlign: "center", color: "var(--primary)", fontWeight: "bold", fontSize: "24px" }}>Blog Not Found</div>;
   }
 
-  const date = blog.createdAt ? new Date(blog.createdAt).toLocaleDateString() : "June 2026";
+  // Get date for display
+  const date = blog?.createdAt ? new Date(blog.createdAt).toLocaleDateString() : "June 2026";
 
   return (
     <>
