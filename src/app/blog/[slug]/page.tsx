@@ -47,18 +47,32 @@ export async function generateMetadata(
   };
 }
 
-// 2. THIS IS A SERVER COMPONENT: Renders HTML on the server for instant SEO indexing
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   
-  let blog: Record<string, any> | null = null;
+  interface BlogData {
+    id: string;
+    createdAt?: string;
+    title?: string;
+    excerpt?: string;
+    content?: string;
+    category?: string;
+    author?: string;
+    readTime?: string;
+    seoTitle?: string;
+    metaDescription?: string;
+    keywords?: string;
+    [key: string]: any;
+  }
+  
+  let blog: BlogData | null = null;
   
   try {
     const docRef = doc(db, 'blogs', slug);
     const docSnap = await getDoc(docRef);
     
     if (docSnap.exists()) {
-      blog = { id: docSnap.id, ...(docSnap.data() || {}) };
+      blog = { id: docSnap.id, ...(docSnap.data() || {}) } as BlogData;
     }
   } catch (err) {
     console.error("Error fetching blog", err);
