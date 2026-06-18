@@ -35,8 +35,8 @@ const reasons = [
   },
   {
     icon: TrendingUp,
-    title: "Proven Results",
-    description: "200+ successful projects and a 95% client retention rate speak for our commitment to excellence.",
+    title: "Innovative Approach",
+    description: "Our innovative approach and strict quality standards ensure we deliver excellence on every project.",
     color: "#f43f5e",
   },
 ];
@@ -61,7 +61,7 @@ export default function WhyChooseUs() {
             {/* Key points */}
             <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               {[
-                "Expert team with 3+ years of industry experience",
+                "Highly skilled team dedicated to cutting-edge technologies",
                 "Transparent development process with regular updates",
                 "Competitive pricing with no hidden costs",
                 "Post-delivery support and maintenance included",

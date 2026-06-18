@@ -6,12 +6,12 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const careersCol = collection(db, 'careers');
-    const careersSnapshot = await getDocs(careersCol);
-    const careers = careersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    return NextResponse.json({ careers });
+    const internshipsCol = collection(db, 'internships');
+    const internshipSnapshot = await getDocs(internshipsCol);
+    const internships = internshipSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return NextResponse.json({ internships });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch careers' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to fetch internships' }, { status: 500 });
   }
 }
 
@@ -22,17 +22,17 @@ export async function POST(req: Request) {
     // Create SEO-friendly slug from title
     const slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
     
-    const newCareer = {
+    const newInternship = {
       ...data,
       slug,
       createdAt: new Date().toISOString()
     };
     
     // Save to Firestore with slug as document ID
-    await setDoc(doc(db, 'careers', slug), newCareer);
+    await setDoc(doc(db, 'internships', slug), newInternship);
     
-    return NextResponse.json({ success: true, career: { id: slug, ...newCareer } });
+    return NextResponse.json({ success: true, internship: { id: slug, ...newInternship } });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to create career' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to create internship' }, { status: 500 });
   }
 }

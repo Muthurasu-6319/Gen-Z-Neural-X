@@ -18,6 +18,9 @@ const floatingCards = [
   { icon: Smartphone, label: "Mobile", color: "#8b5cf6", top: "35%", right: "3%" },
 ];
 
+
+
+
 export default function HeroSection() {
   const [currentText, setCurrentText] = useState(0);
   const [displayText, setDisplayText] = useState("");
@@ -52,129 +55,93 @@ export default function HeroSection() {
       id="hero"
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #0d0f2b 0%, #1a1d45 40%, #0a0a0f 100%)",
+        backgroundColor: "#050505",
+        backgroundImage: "radial-gradient(circle at 50% 0%, #1a1a2e 0%, #050505 70%)",
         display: "flex",
         alignItems: "center",
         position: "relative",
         overflow: "hidden",
-        paddingTop: "80px",
+        paddingTop: "100px",
       }}
     >
-      {/* Background Effects */}
+      {/* Premium subtle grid background */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           backgroundImage: `
-            radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.18) 0%, transparent 50%),
-            radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.12) 0%, transparent 50%),
-            radial-gradient(circle at 50% 50%, rgba(55, 48, 163, 0.1) 0%, transparent 70%)
+            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)
           `,
+          backgroundSize: "40px 40px",
+          maskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
+          animation: "gridPan 3s linear infinite",
         }}
       />
 
-      {/* Animated grid */}
+      {/* Elegant Glowing Orbs */}
       <div
         style={{
           position: "absolute",
-          inset: 0,
-          backgroundImage: `
-            linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px)
-          `,
-          backgroundSize: "60px 60px",
-          maskImage: "radial-gradient(ellipse at center, black 20%, transparent 80%)",
-        }}
-      />
-
-      {/* Floating orbs */}
-      <div
-        className="animate-float"
-        style={{
-          position: "absolute",
-          top: "15%",
-          right: "10%",
-          width: "400px",
-          height: "400px",
-          background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)",
+          top: "-10%",
+          left: "20%",
+          width: "60vw",
+          height: "60vw",
+          background: "radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 60%)",
           borderRadius: "50%",
-          filter: "blur(40px)",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          bottom: "15%",
-          left: "5%",
-          width: "300px",
-          height: "300px",
-          background: "radial-gradient(circle, rgba(6,182,212,0.1) 0%, transparent 70%)",
-          borderRadius: "50%",
-          filter: "blur(40px)",
-          animation: "float 6s ease-in-out infinite reverse",
+          filter: "blur(60px)",
+          pointerEvents: "none",
+          animation: "pulseOrb 8s ease-in-out infinite",
         }}
       />
 
-      {/* Floating Cards - Desktop */}
-      {floatingCards.map((card, index) => (
-        <div
-          key={index}
-          className="animate-float hidden lg:flex"
-          style={{
-            position: "absolute",
-            top: card.top,
-            left: card.left,
-            right: card.right,
-            animationDelay: `${index * 1.5}s`,
-            background: "rgba(255,255,255,0.05)",
-            backdropFilter: "blur(20px)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            borderRadius: "16px",
-            padding: "16px 20px",
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
-          <div
+
+      <div className="container" style={{ position: "relative", zIndex: 10 }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto", textAlign: "center" }}>
+          
+          {/* Announcement Pill */}
+          <div 
             style={{
-              width: "36px",
-              height: "36px",
-              background: `${card.color}22`,
-              borderRadius: "8px",
-              display: "flex",
+              display: "inline-flex",
               alignItems: "center",
-              justifyContent: "center",
-              color: card.color,
+              gap: "8px",
+              background: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              padding: "6px 16px",
+              borderRadius: "100px",
+              marginBottom: "32px",
+              animation: "fadeInUp 0.6s ease 0s forwards",
+              opacity: 0,
             }}
           >
-            <card.icon size={18} />
+            <span style={{ display: "flex", height: "8px", width: "8px", borderRadius: "50%", background: "#6366f1", boxShadow: "0 0 10px #6366f1" }}></span>
+            <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "13px", fontWeight: "500", letterSpacing: "0.5px" }}>
+              Elevating Digital Experiences
+            </span>
           </div>
-          <span style={{ color: "white", fontSize: "13px", fontWeight: "600" }}>{card.label}</span>
-        </div>
-      ))}
 
-      <div className="container" style={{ position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
-
-          {/* Heading */}
+          {/* Premium Typography Heading */}
           <h1
             style={{
-              fontFamily: "'Outfit', sans-serif",
-              fontSize: "clamp(2.8rem, 7vw, 5.5rem)",
-              fontWeight: "900",
-              color: "white",
-              lineHeight: "1.05",
+              fontFamily: "'Inter', 'Outfit', sans-serif",
+              fontSize: "clamp(3rem, 7vw, 5.5rem)",
+              fontWeight: "800",
+              color: "#ffffff",
+              lineHeight: "1.1",
+              letterSpacing: "-1px",
               marginBottom: "24px",
               animation: "fadeInUp 0.6s ease 0.1s forwards",
               opacity: 0,
             }}
           >
-            We Build
-            <br />
+            We Build{" "}
             <span
               style={{
-                background: "linear-gradient(135deg, #a5b4fc, #6366f1, #06b6d4)",
+                display: "inline-block",
+                minWidth: "280px",
+                textAlign: "left",
+                background: "linear-gradient(to right, #a5b4fc, #818cf8, #c084fc)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -183,104 +150,174 @@ export default function HeroSection() {
               {displayText}
               <span
                 style={{
-                  WebkitTextFillColor: "#6366f1",
+                  display: "inline-block",
+                  width: "4px",
+                  height: "0.8em",
+                  background: "#818cf8",
+                  marginLeft: "4px",
+                  verticalAlign: "middle",
                   opacity: 1,
-                  animation: "pulse 1s infinite",
+                  animation: "blink 1s step-end infinite",
                 }}
-              >
-                |
-              </span>
+              />
             </span>
             <br />
-            That Matters
+            <span style={{ color: "rgba(255,255,255,0.9)" }}>That Matters.</span>
           </h1>
+
+          <style>
+            {`
+              @keyframes blink {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0; }
+              }
+              @keyframes gridPan {
+                0% { background-position: 0 0; }
+                100% { background-position: 0 40px; }
+              }
+              @keyframes pulseOrb {
+                0%, 100% { transform: scale(1); opacity: 0.8; }
+                50% { transform: scale(1.1); opacity: 1; }
+              }
+              @keyframes floatBadge {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-4px); }
+              }
+            `}
+          </style>
 
           {/* Subtitle */}
           <p
             style={{
-              fontSize: "1.2rem",
-              color: "rgba(255,255,255,0.65)",
-              lineHeight: "1.8",
-              marginBottom: "48px",
-              maxWidth: "600px",
-              margin: "0 auto 48px",
+              fontSize: "1.15rem",
+              color: "rgba(255,255,255,0.5)",
+              lineHeight: "1.7",
+              marginBottom: "32px",
+              maxWidth: "640px",
+              margin: "0 auto 32px",
               animation: "fadeInUp 0.6s ease 0.2s forwards",
               opacity: 0,
+              fontWeight: "400",
             }}
           >
-            Gen Z Neural-X is your technology partner for AI-powered solutions, digital transformation, and world-class training programs.
+            Gen Z Neural-X is your elite technology partner for AI-powered solutions, enterprise digital transformation, and world-class architectures.
           </p>
 
-          {/* CTA Buttons */}
+          {/* Service Badges */}
           <div
             style={{
               display: "flex",
-              gap: "16px",
               justifyContent: "center",
               flexWrap: "wrap",
-              marginBottom: "64px",
+              gap: "12px",
+              marginBottom: "48px",
+              animation: "fadeInUp 0.6s ease 0.25s forwards",
+              opacity: 0,
+            }}
+          >
+            {floatingCards.map((card, idx) => (
+              <div key={idx} style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                padding: "8px 16px",
+                borderRadius: "100px",
+                backdropFilter: "blur(10px)",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+                animation: `floatBadge 4s ease-in-out ${idx * 0.4}s infinite`
+              }}>
+                <card.icon size={14} style={{ color: card.color }} />
+                <span style={{ color: "rgba(255,255,255,0.85)", fontSize: "13px", fontWeight: "500" }}>{card.label}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Refined CTA Buttons */}
+          <div
+            style={{
+              display: "flex",
+              gap: "20px",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              marginBottom: "72px",
               animation: "fadeInUp 0.6s ease 0.3s forwards",
               opacity: 0,
             }}
           >
-            <Link href="/services" id="hero-cta-services" className="btn-primary" style={{ fontSize: "16px", padding: "16px 36px" }}>
+            <Link 
+              href="/services" 
+              id="hero-cta-services" 
+              style={{ 
+                background: "white",
+                color: "black",
+                fontSize: "15px", 
+                fontWeight: "600",
+                padding: "16px 36px",
+                borderRadius: "100px",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                transition: "all 0.3s ease",
+                boxShadow: "0 4px 14px rgba(255,255,255,0.25)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 6px 20px rgba(255,255,255,0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 14px rgba(255,255,255,0.25)";
+              }}
+            >
               Explore Services <ArrowRight size={18} />
             </Link>
-            <Link href="/about" id="hero-cta-about" className="btn-secondary" style={{ borderColor: "rgba(255,255,255,0.3)", color: "white", fontSize: "16px", padding: "16px 36px" }}>
+            <Link 
+              href="/about" 
+              id="hero-cta-about" 
+              style={{ 
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                color: "white", 
+                fontSize: "15px", 
+                fontWeight: "500",
+                padding: "16px 36px",
+                borderRadius: "100px",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.03)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
+              }}
+            >
               <Play size={16} style={{ fill: "white" }} /> Watch Our Story
             </Link>
           </div>
 
-          {/* Stats row */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: "48px",
-              flexWrap: "wrap",
-              animation: "fadeInUp 0.6s ease 0.4s forwards",
-              opacity: 0,
-            }}
-          >
-            {[
-              { value: "200+", label: "Projects Delivered" },
-              { value: "50+", label: "Happy Clients" },
-              { value: "8+", label: "Core Services" },
-              { value: "3+", label: "Years Experience" },
-            ].map((stat, i) => (
-              <div key={i} style={{ textAlign: "center" }}>
-                <div
-                  style={{
-                    fontFamily: "'Outfit', sans-serif",
-                    fontSize: "2rem",
-                    fontWeight: "900",
-                    background: "linear-gradient(135deg, #a5b4fc, #06b6d4)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                    lineHeight: "1",
-                    marginBottom: "4px",
-                  }}
-                >
-                  {stat.value}
-                </div>
-                <div style={{ color: "#6b6fa0", fontSize: "14px", fontWeight: "600" }}>{stat.label}</div>
-              </div>
-            ))}
-          </div>
+          {/* Tech stack moved to absolute bottom */}
         </div>
       </div>
+      
 
-      {/* Bottom wave */}
-      <div
+
+      {/* Clean border bottom transition instead of wave */}
+      <div 
         style={{
           position: "absolute",
           bottom: 0,
           left: 0,
           right: 0,
-          height: "80px",
-          background: "white",
-          clipPath: "ellipse(55% 100% at 50% 100%)",
+          height: "1px",
+          background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)",
+          zIndex: 21,
         }}
       />
     </section>

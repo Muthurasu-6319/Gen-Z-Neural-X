@@ -1,57 +1,29 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { db } from '@/lib/firebase';
+import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 
-export const dynamic = 'force-dynamic';
-
-const getFilePath = () => path.join(process.cwd(), 'src', 'data', 'careers.json');
-
-export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function PUT(req: Request, { params }: { params: { id: string } }) {
   try {
     const { id } = await params;
     const data = await req.json();
-    const filePath = getFilePath();
     
-    if (!fs.existsSync(filePath)) {
-      return NextResponse.json({ error: 'Career not found' }, { status: 404 });
-    }
+    const careerRef = doc(db, 'careers', id);
+    await updateDoc(careerRef, {
+      ...data,
+      updatedAt: new Date().toISOString()
+    });
     
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    let careers = JSON.parse(fileContent);
-    
-    const index = careers.findIndex((c: any) => c.id === id);
-    if (index === -1) {
-      return NextResponse.json({ error: 'Career not found' }, { status: 404 });
-    }
-    
-    careers[index] = { ...careers[index], ...data };
-    fs.writeFileSync(filePath, JSON.stringify(careers, null, 2));
-    
-    return NextResponse.json({ success: true, career: careers[index] });
+    return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update career' }, { status: 500 });
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(req: Request, { params }: { params: { id: string } }) {
   try {
     const { id } = await params;
-    const filePath = getFilePath();
-    
-    if (!fs.existsSync(filePath)) {
-      return NextResponse.json({ error: 'Career not found' }, { status: 404 });
-    }
-    
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    let careers = JSON.parse(fileContent);
-    
-    const newCareers = careers.filter((c: any) => c.id !== id);
-    
-    if (newCareers.length === careers.length) {
-      return NextResponse.json({ error: 'Career not found' }, { status: 404 });
-    }
-    
-    fs.writeFileSync(filePath, JSON.stringify(newCareers, null, 2));
+    const careerRef = doc(db, 'careers', id);
+    await deleteDoc(careerRef);
     
     return NextResponse.json({ success: true });
   } catch (error) {
