@@ -8,7 +8,7 @@ import ReactMarkdown from "react-markdown";
 
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const docRef = doc(db, "internships", slug);
   const docSnap = await getDoc(docRef);
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function InternshipDetailsPage({ params }: { params: { slug: string } }) {
+export default async function InternshipDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const docRef = doc(db, "internships", slug);
   const docSnap = await getDoc(docRef);

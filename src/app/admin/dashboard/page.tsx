@@ -390,6 +390,9 @@ export default function AdminDashboard() {
       type: "Full-Time",
       experience: "",
       description: "",
+      seoTitle: "",
+      metaDescription: "",
+      keywords: ""
     });
   };
 
