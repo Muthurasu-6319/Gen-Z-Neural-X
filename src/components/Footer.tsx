@@ -31,6 +31,7 @@ const footerLinks = {
     { label: "All Courses", href: "/courses" },
     { label: "Internships", href: "/internships" },
     { label: "Certifications", href: "/certifications" },
+    { label: "Final Year Project", href: "/learn/final-year-project" },
     { label: "MERN Stack", href: "/courses#mern" },
     { label: "AI/ML Course", href: "/courses#aiml" },
   ],
@@ -48,7 +49,7 @@ const socialLinks = [
         <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
       </svg>
     ),
-    href: "#",
+    href: "https://www.facebook.com/profile.php?id=61591068687800",
     label: "Facebook",
     bg: "#1877f2",
   },
@@ -59,8 +60,8 @@ const socialLinks = [
         <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
       </svg>
     ),
-    href: "#",
-    label: "Twitter",
+    href: "https://x.com/GenzNeuralX",
+    label: "Twitter / X",
     bg: "#000",
   },
   {
@@ -71,7 +72,7 @@ const socialLinks = [
         <circle cx="4" cy="4" r="2"></circle>
       </svg>
     ),
-    href: "#",
+    href: "https://www.linkedin.com/company/gen-z-neural-x?trk=public_profile_topcard-current-company",
     label: "LinkedIn",
     bg: "#0077b5",
   },
@@ -83,7 +84,7 @@ const socialLinks = [
         <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
       </svg>
     ),
-    href: "#",
+    href: "https://www.instagram.com/genz.neural_x/",
     label: "Instagram",
     bg: "#e1306c",
   },
@@ -94,9 +95,19 @@ const socialLinks = [
         <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
       </svg>
     ),
-    href: "#",
+    href: "https://www.youtube.com/@GenzNeural-X",
     label: "YouTube",
     bg: "#ff0000",
+  },
+  {
+    icon: (
+      <svg viewBox="0 0 568 501" width="16" height="16" fill="currentColor">
+        <path d="M123.121 33.664C188.241 82.553 258.281 181.68 284 234.873c25.719-53.192 95.759-152.32 160.879-201.209C491.866-1.611 568-28.906 568 57.947c0 17.346-9.945 145.713-15.778 166.555-20.275 72.453-94.155 90.933-159.875 79.748C507.222 328.887 536 355.622 536 396.754c0 73.244-86.022 110.233-168.499 116.23C308.894 516.865 281.276 517 284 517c-2.724 0-30.342-.135-83.501-4.016C118.022 506.987 32 469.998 32 396.754c0-41.132 28.778-67.867 142.653-92.504-65.72 11.185-139.6-7.295-159.875-79.748C8.945 203.660 0 75.293 0 57.947c0-86.853 76.134-59.558 123.121-24.283z"/>
+      </svg>
+    ),
+    href: "https://bsky.app/profile/genzneural-x.bsky.social",
+    label: "Bluesky",
+    bg: "#0085ff",
   },
 ];
 
@@ -170,8 +181,8 @@ export default function Footer() {
                   <Image 
                     src="/logo.png" 
                     alt="Gen Z Neural-X Logo" 
-                    width={80} 
-                    height={80} 
+                    width={100} 
+                    height={100} 
                     style={{ objectFit: 'contain' }}
                   />
                 <div>
@@ -191,21 +202,23 @@ export default function Footer() {
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "rgba(255,255,255,0.7)", fontSize: "13px" }}>
                   <Phone size={14} style={{ color: "#6366f1", flexShrink: 0 }} />
-                  +91 81249 96319
+                  +91 81249 96319, +91 78718 03642
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "rgba(255,255,255,0.7)", fontSize: "13px" }}>
                   <MapPin size={14} style={{ color: "#6366f1", flexShrink: 0 }} />
                   Tamil Nadu, India
                 </div>
               </div>
-              <div style={{ display: "flex", gap: "10px" }}>
+              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}
                     href={social.href}
-                    id={`footer-social-${social.label.toLowerCase()}`}
+                    id={`footer-social-${social.label.toLowerCase().replace(/[\s/]/g, "-")}`}
                     aria-label={social.label}
                     title={social.label}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     style={{
                       width: "36px",
                       height: "36px",
@@ -259,7 +272,7 @@ export default function Footer() {
             }}
           >
             <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "13px" }}>
-              © {currentYear} Gen Z Neural-X. All rights reserved.
+              © {currentYear} Gen Z Neural X. All rights reserved.
             </p>
             <div style={{ display: "flex", gap: "24px" }}>
               {footerLinks.legal.map((link) => (

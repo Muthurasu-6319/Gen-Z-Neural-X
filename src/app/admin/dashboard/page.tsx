@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Briefcase, Send, LogOut, CheckCircle, MessageSquare, Edit, Trash2, FileText, GraduationCap } from "lucide-react";
+import { Briefcase, Send, LogOut, CheckCircle, MessageSquare, Edit, Trash2, FileText, GraduationCap, BookOpen } from "lucide-react";
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -38,6 +38,16 @@ export default function AdminDashboard() {
   const [blogs, setBlogs] = useState<any[]>([]);
   const [loadingBlogs, setLoadingBlogs] = useState(false);
   const [editingBlogId, setEditingBlogId] = useState<string | null>(null);
+
+  const [courses, setCourses] = useState<any[]>([]);
+  const [loadingCourses, setLoadingCourses] = useState(false);
+  const [editingCourseSlug, setEditingCourseSlug] = useState<string | null>(null);
+  const [courseData, setCourseData] = useState({
+    title: "", description: "", duration: "", students: "", rating: "",
+    level: "Beginner", imageUrl: "", syllabus: "", mode: "Online + Offline",
+    certification: true, whatsappMessage: "",
+    seoTitle: "", metaDescription: "", keywords: ""
+  });
 
   const [formData, setFormData] = useState({
     title: "",
@@ -80,6 +90,8 @@ export default function AdminDashboard() {
       fetchBlogs();
     } else if (activeTab === "internships") {
       fetchInternships();
+    } else if (activeTab === "courses") {
+      fetchCourses();
     }
   }, [activeTab]);
 
@@ -144,6 +156,82 @@ export default function AdminDashboard() {
       console.error("Failed to fetch blogs", err);
     } finally {
       setLoadingBlogs(false);
+    }
+  };
+
+  const fetchCourses = async () => {
+    setLoadingCourses(true);
+    try {
+      const res = await fetch('/api/courses', { cache: 'no-store' });
+      const data = await res.json();
+      if (data.courses) setCourses(data.courses);
+    } catch (err) {
+      console.error("Failed to fetch courses", err);
+    } finally {
+      setLoadingCourses(false);
+    }
+  };
+
+  const handleCourseChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    setCourseData(prev => ({ ...prev, [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value }));
+  };
+
+  const handleCourseSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      let res;
+      if (editingCourseSlug) {
+        res = await fetch(`/api/courses/${editingCourseSlug}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(courseData)
+        });
+        if (res.ok) { setSuccessMsg("Course updated successfully!"); setEditingCourseSlug(null); }
+      } else {
+        res = await fetch('/api/courses', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(courseData)
+        });
+        if (res.ok) { setSuccessMsg("Course published successfully!"); }
+      }
+      setCourseData({ title: "", description: "", duration: "", students: "", rating: "", level: "Beginner", imageUrl: "", syllabus: "", mode: "Online + Offline", certification: true, whatsappMessage: "", seoTitle: "", metaDescription: "", keywords: "" });
+      fetchCourses();
+      setTimeout(() => setSuccessMsg(""), 3000);
+    } catch (err) { console.error(err); }
+  };
+
+  const handleCourseEdit = (c: any) => {
+    setEditingCourseSlug(c.id);
+    setCourseData({
+      title: c.title || "",
+      description: c.description || "",
+      duration: c.duration || "",
+      students: c.students || "",
+      rating: c.rating || "",
+      level: c.level || "Beginner",
+      imageUrl: c.imageUrl || "",
+      syllabus: c.syllabus || "",
+      mode: c.mode || "Online + Offline",
+      certification: c.certification !== false,
+      whatsappMessage: c.whatsappMessage || "",
+      seoTitle: c.seoTitle || "",
+      metaDescription: c.metaDescription || "",
+      keywords: c.keywords || ""
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const cancelCourseEdit = () => {
+    setEditingCourseSlug(null);
+    setCourseData({ title: "", description: "", duration: "", students: "", rating: "", level: "Beginner", imageUrl: "", syllabus: "", mode: "Online + Offline", certification: true, whatsappMessage: "", seoTitle: "", metaDescription: "", keywords: "" });
+  };
+
+  const handleCourseDelete = async (slug: string) => {
+    if (confirm("Delete this course?")) {
+      await fetch(`/api/courses/${slug}`, { method: 'DELETE' });
+      fetchCourses();
     }
   };
 
@@ -412,10 +500,10 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--gray-50)", display: "flex" }}>
+    <div className="admin-container">
       {/* Sidebar */}
-      <div style={{ width: "260px", background: "white", borderRight: "1px solid var(--gray-200)", padding: "24px 0", display: "flex", flexDirection: "column", position: "sticky", top: 0, height: "100vh" }}>
-        <div style={{ padding: "0 24px", marginBottom: "32px" }}>
+      <div className="admin-sidebar">
+        <div style={{ padding: "0 24px", marginBottom: "20px" }}>
           <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "20px", fontWeight: "800", color: "var(--primary)" }}>Admin Portal</h2>
         </div>
         
@@ -454,6 +542,17 @@ export default function AdminDashboard() {
             <GraduationCap size={20} /> Internships
           </button>
           <button 
+            onClick={() => setActiveTab("courses")}
+            style={{ 
+              display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "12px", 
+              background: activeTab === "courses" ? "var(--primary-glow)" : "transparent",
+              color: activeTab === "courses" ? "var(--primary-light)" : "var(--gray-600)",
+              border: "none", cursor: "pointer", fontSize: "15px", fontWeight: "600", transition: "all 0.2s"
+            }}
+          >
+            <BookOpen size={20} /> Courses
+          </button>
+          <button 
             onClick={() => setActiveTab("responses")}
             style={{ 
               display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "12px", 
@@ -481,7 +580,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Main Content */}
-      <div style={{ flex: 1, padding: "40px", overflowY: "auto", height: "100vh" }}>
+      <div className="admin-main">
         <div style={{ maxWidth: "900px", margin: "0 auto" }}>
           
           <div style={{ marginBottom: "32px", display: "flex", alignItems: "center", gap: "16px" }}>
@@ -490,10 +589,10 @@ export default function AdminDashboard() {
             </div>
             <div>
               <h1 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "28px", fontWeight: "800", color: "#0a0a0f" }}>
-                {activeTab === "careers" ? "Manage Careers" : activeTab === "blogs" ? "Manage Blog Posts" : activeTab === "internships" ? "Manage Internships" : "Contact Responses"}
+                {activeTab === "careers" ? "Manage Careers" : activeTab === "blogs" ? "Manage Blog Posts" : activeTab === "internships" ? "Manage Internships" : activeTab === "courses" ? "Manage Courses" : "Contact Responses"}
               </h1>
               <p style={{ color: "var(--gray-500)", fontSize: "15px" }}>
-                {activeTab === "careers" ? "Post and manage job openings" : activeTab === "blogs" ? "Publish and edit SEO optimized blog articles" : activeTab === "internships" ? "Post internship opportunities" : "View all form submissions from the website"}
+                {activeTab === "careers" ? "Post and manage job openings" : activeTab === "blogs" ? "Publish and edit SEO optimized blog articles" : activeTab === "internships" ? "Post internship opportunities" : activeTab === "courses" ? "Publish and manage course listings" : "View all form submissions from the website"}
               </p>
             </div>
           </div>
@@ -824,6 +923,143 @@ export default function AdminDashboard() {
                             <Edit size={18} />
                           </button>
                           <button onClick={() => handleInternshipDelete(intern.id || intern.slug)} style={{ background: "#fef2f2", color: "#ef4444", border: "none", width: "40px", height: "40px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                            <Trash2 size={18} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Courses Tab */}
+          {activeTab === "courses" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+              <div className="card">
+                <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "20px", fontWeight: "700", marginBottom: "24px" }}>{editingCourseSlug ? "Edit Course" : "Publish a New Course"}</h2>
+                {successMsg && (
+                  <div style={{ background: "#ecfdf5", color: "#10b981", padding: "16px", borderRadius: "12px", fontSize: "15px", fontWeight: "500", display: "flex", alignItems: "center", gap: "8px", marginBottom: "24px", border: "1px solid #d1fae5" }}>
+                    <CheckCircle size={20} /> {successMsg}
+                  </div>
+                )}
+                <form onSubmit={handleCourseSubmit} style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                  <div className="grid-2">
+                    <div className="form-group">
+                      <label className="form-label">Course Title *</label>
+                      <input type="text" name="title" className="form-input" placeholder="e.g. MERN Stack Development" value={courseData.title} onChange={handleCourseChange} required />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Level *</label>
+                      <select name="level" className="form-input" value={courseData.level} onChange={handleCourseChange} style={{ cursor: "pointer" }}>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Course Description *</label>
+                    <textarea name="description" className="form-textarea" placeholder="Brief description of the course..." value={courseData.description} onChange={handleCourseChange} required style={{ minHeight: "100px" }} />
+                  </div>
+                  <div className="grid-3">
+                    <div className="form-group">
+                      <label className="form-label">Duration</label>
+                      <input type="text" name="duration" className="form-input" placeholder="e.g. 4 Months" value={courseData.duration} onChange={handleCourseChange} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Students Enrolled</label>
+                      <input type="text" name="students" className="form-input" placeholder="e.g. 120+" value={courseData.students} onChange={handleCourseChange} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Rating</label>
+                      <input type="text" name="rating" className="form-input" placeholder="e.g. 4.9" value={courseData.rating} onChange={handleCourseChange} />
+                    </div>
+                  </div>
+                  <div className="grid-2">
+                    <div className="form-group">
+                      <label className="form-label">Mode</label>
+                      <select name="mode" className="form-input" value={courseData.mode} onChange={handleCourseChange} style={{ cursor: "pointer" }}>
+                        <option value="Online">Online</option>
+                        <option value="Offline">Offline</option>
+                        <option value="Online + Offline">Online + Offline</option>
+                        <option value="Hybrid">Hybrid</option>
+                      </select>
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Certification Included?</label>
+                      <select name="certification" className="form-input" value={courseData.certification ? "true" : "false"} onChange={(e) => setCourseData(prev => ({ ...prev, certification: e.target.value === "true" }))} style={{ cursor: "pointer" }}>
+                        <option value="true">Yes – Certificate Included</option>
+                        <option value="false">No Certificate</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">🖼️ Course Image URL *</label>
+                    <input type="url" name="imageUrl" className="form-input" placeholder="https://example.com/course-image.jpg" value={courseData.imageUrl} onChange={handleCourseChange} required />
+                    <span style={{ fontSize: "12px", color: "var(--gray-400)", marginTop: 4 }}>This image will show on the course card instead of the green area.</span>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Syllabus Highlights (comma separated)</label>
+                    <input type="text" name="syllabus" className="form-input" placeholder="HTML/CSS, React.js, Node.js, MongoDB, REST APIs, Deployment" value={courseData.syllabus} onChange={handleCourseChange} />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">💬 WhatsApp Enroll Message Template *</label>
+                    <textarea name="whatsappMessage" className="form-textarea" placeholder="Hi! I'm interested in the MERN Stack course. Please share the fee details and batch schedule." value={courseData.whatsappMessage} onChange={handleCourseChange} required style={{ minHeight: "100px" }} />
+                    <span style={{ fontSize: "12px", color: "var(--gray-400)", marginTop: 4 }}>This message will be auto-sent on WhatsApp when a student clicks "Enroll via WhatsApp".</span>
+                  </div>
+                  <div style={{ background: "rgba(99,102,241,0.05)", padding: "20px", borderRadius: "12px", border: "1px solid rgba(99,102,241,0.1)", display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <h3 style={{ fontSize: "16px", fontWeight: "700", color: "var(--primary)", margin: 0 }}>SEO Settings</h3>
+                    <div className="form-group" style={{ margin: 0 }}>
+                      <label className="form-label">SEO Title</label>
+                      <input type="text" name="seoTitle" className="form-input" placeholder="e.g. MERN Stack Course in Sivakasi | Gen Z Neural-X" value={courseData.seoTitle} onChange={handleCourseChange} />
+                    </div>
+                    <div className="form-group" style={{ margin: 0 }}>
+                      <label className="form-label">Meta Description</label>
+                      <input type="text" name="metaDescription" className="form-input" placeholder="150-160 character description for Google" value={courseData.metaDescription} onChange={handleCourseChange} />
+                    </div>
+                    <div className="form-group" style={{ margin: 0 }}>
+                      <label className="form-label">Keywords</label>
+                      <input type="text" name="keywords" className="form-input" placeholder="MERN stack, web development, Sivakasi (comma separated)" value={courseData.keywords} onChange={handleCourseChange} />
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", gap: "16px" }}>
+                    <button type="submit" className="btn-primary" style={{ padding: "16px 32px" }}>
+                      <Send size={18} /> {editingCourseSlug ? "Update Course" : "Publish Course"}
+                    </button>
+                    {editingCourseSlug && (
+                      <button type="button" onClick={cancelCourseEdit} className="btn-secondary" style={{ padding: "16px 32px", borderColor: "var(--gray-300)", color: "var(--gray-600)" }}>
+                        Cancel
+                      </button>
+                    )}
+                  </div>
+                </form>
+              </div>
+
+              <div>
+                <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "20px", fontWeight: "700", marginBottom: "16px", color: "var(--black)" }}>Published Courses</h3>
+                {loadingCourses ? (
+                  <p style={{ color: "var(--gray-500)" }}>Loading...</p>
+                ) : courses.length === 0 ? (
+                  <p style={{ color: "var(--gray-500)", background: "white", padding: "24px", borderRadius: "12px", border: "1px solid var(--gray-200)", textAlign: "center" }}>No courses published yet.</p>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    {courses.map((c: any) => (
+                      <div key={c.id} style={{ background: "white", padding: "20px", borderRadius: "12px", border: "1px solid var(--gray-200)", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 6 }}>
+                            <span className="badge badge-blue">{c.level}</span>
+                            {c.mode && <span className="badge badge-cyan">{c.mode}</span>}
+                          </div>
+                          <h4 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "18px", fontWeight: "700", color: "var(--black)", marginBottom: "4px" }}>{c.title}</h4>
+                          <p style={{ color: "var(--gray-500)", fontSize: "13px" }}>{c.duration} • {c.students || "—"} students</p>
+                        </div>
+                        <div style={{ display: "flex", gap: "8px", flexShrink: 0 }}>
+                          <button onClick={() => handleCourseEdit(c)} style={{ background: "var(--primary-glow)", color: "var(--primary)", border: "none", width: "40px", height: "40px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                            <Edit size={18} />
+                          </button>
+                          <button onClick={() => handleCourseDelete(c.id)} style={{ background: "#fef2f2", color: "#ef4444", border: "none", width: "40px", height: "40px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
                             <Trash2 size={18} />
                           </button>
                         </div>

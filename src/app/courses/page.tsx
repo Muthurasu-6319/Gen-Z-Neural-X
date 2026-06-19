@@ -1,117 +1,79 @@
 "use client";
 
-import Link from "next/link";
-import { Clock, Users, Award, CheckCircle, ArrowRight, BookOpen, Star } from "lucide-react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { Clock, Users, Award, BookOpen, Star, MessageCircle, Loader2 } from "lucide-react";
 
-const courses = [
-  {
-    id: "mern",
-    title: "MERN Stack Development",
-    description: "Master MongoDB, Express.js, React, and Node.js to build full-stack web applications from scratch.",
-    duration: "4 Months",
-    fee: "₹15,000",
-    students: "120+",
-    rating: "4.9",
-    level: "Intermediate",
-    color: "#10b981",
-    gradient: "linear-gradient(135deg, #10b981, #34d399)",
-    syllabus: ["HTML/CSS/JavaScript Fundamentals", "React.js & Redux", "Node.js & Express.js", "MongoDB & Mongoose", "REST APIs & Authentication", "Deployment on AWS/Vercel", "Real-world Project Building", "Interview Preparation"],
-    certification: true,
-    mode: "Online + Offline",
-  },
-  {
-    id: "python",
-    title: "Python Programming",
-    description: "From basics to advanced Python — covering OOP, data structures, web scraping, automation, and Django.",
-    duration: "3 Months",
-    fee: "₹10,000",
-    students: "200+",
-    rating: "4.8",
-    level: "Beginner",
-    color: "#f59e0b",
-    gradient: "linear-gradient(135deg, #f59e0b, #fbbf24)",
-    syllabus: ["Python Fundamentals", "OOP Concepts", "Data Structures & Algorithms", "File Handling & Modules", "Django Web Framework", "Database Integration", "Automation & Scripting", "Final Project"],
-    certification: true,
-    mode: "Online + Offline",
-  },
-  {
-    id: "aiml",
-    title: "AI/ML Engineering",
-    description: "Comprehensive AI/ML training covering machine learning algorithms, deep learning, NLP, and computer vision.",
-    duration: "6 Months",
-    fee: "₹25,000",
-    students: "80+",
-    rating: "4.9",
-    level: "Advanced",
-    color: "#8b5cf6",
-    gradient: "linear-gradient(135deg, #8b5cf6, #a78bfa)",
-    syllabus: ["Python for Data Science", "Statistics & Probability", "Machine Learning Algorithms", "Deep Learning & Neural Networks", "Natural Language Processing", "Computer Vision", "Model Deployment", "Capstone Project"],
-    certification: true,
-    mode: "Online + Offline",
-  },
-  {
-    id: "data-science",
-    title: "Data Science",
-    description: "Learn to extract insights from data using Python, pandas, visualization tools, and machine learning.",
-    duration: "5 Months",
-    fee: "₹20,000",
-    students: "90+",
-    rating: "4.7",
-    level: "Intermediate",
-    color: "#3730a3",
-    gradient: "linear-gradient(135deg, #3730a3, #6366f1)",
-    syllabus: ["Python & NumPy", "Pandas & Data Wrangling", "Data Visualization", "SQL & Databases", "Exploratory Data Analysis", "Machine Learning Basics", "Business Analytics", "Industry Projects"],
-    certification: true,
-    mode: "Online + Offline",
-  },
-  {
-    id: "full-stack",
-    title: "Full Stack Development",
-    description: "Become a full-stack developer with expertise in both frontend and backend technologies.",
-    duration: "6 Months",
-    fee: "₹22,000",
-    students: "150+",
-    rating: "4.8",
-    level: "Intermediate",
-    color: "#06b6d4",
-    gradient: "linear-gradient(135deg, #06b6d4, #0ea5e9)",
-    syllabus: ["HTML, CSS, JavaScript", "React.js Frontend", "Node.js Backend", "Databases (SQL & NoSQL)", "API Development", "Authentication & Security", "DevOps Basics", "Portfolio Projects"],
-    certification: true,
-    mode: "Online + Offline",
-  },
-  {
-    id: "digital-marketing",
-    title: "Digital Marketing",
-    description: "Master SEO, social media marketing, Google Ads, content strategy, and analytics to grow brands online.",
-    duration: "2 Months",
-    fee: "₹8,000",
-    students: "300+",
-    rating: "4.7",
-    level: "Beginner",
-    color: "#f43f5e",
-    gradient: "linear-gradient(135deg, #f43f5e, #fb7185)",
-    syllabus: ["Digital Marketing Fundamentals", "SEO & Content Marketing", "Social Media Strategy", "Google Ads & PPC", "Facebook & Instagram Ads", "Email Marketing", "Analytics & Reporting", "Brand Strategy"],
-    certification: true,
-    mode: "Online + Offline",
-  },
-];
+interface Course {
+  id: string;
+  title: string;
+  description: string;
+  duration: string;
+  students: string;
+  rating: string;
+  level: string;
+  imageUrl: string;
+  syllabus: string; // comma-separated string stored in Firestore
+  mode: string;
+  certification: boolean;
+  whatsappMessage: string;
+  seoTitle: string;
+  metaDescription: string;
+  keywords: string;
+  gradient?: string;
+}
 
 const levelColors: Record<string, string> = {
   Beginner: "#10b981",
   Intermediate: "#f59e0b",
-  Advanced: "#f43f5e",
+  Advanced: "#ef4444",
+};
+
+const levelBg: Record<string, string> = {
+  Beginner: "rgba(16,185,129,0.12)",
+  Intermediate: "rgba(245,158,11,0.12)",
+  Advanced: "rgba(239,68,68,0.12)",
 };
 
 export default function CoursesPage() {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/courses", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.courses) {
+          const sorted = d.courses.sort(
+            (a: Course, b: Course) => new Date(b as any).getTime() - new Date(a as any).getTime()
+          );
+          setCourses(d.courses);
+        }
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleEnroll = (course: Course) => {
+    const msg = course.whatsappMessage ||
+      `Hi! I'm interested in the *${course.title}* course at Gen Z Neural-X. Please share more details.`;
+    const encoded = encodeURIComponent(msg);
+    window.open(`https://wa.me/918124996319?text=${encoded}`, "_blank");
+  };
+
   return (
     <>
+      {/* ── HERO ── */}
       <div className="page-hero">
         <div className="container" style={{ position: "relative", textAlign: "center" }}>
           <div className="section-tag" style={{ color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", margin: "0 auto 24px" }}>
             <BookOpen size={13} /> Training Programs
           </div>
           <h1 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: "900", color: "white", marginBottom: "20px" }}>
-            Professional <span style={{ background: "linear-gradient(135deg, #a5b4fc, #67e8f9)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Courses</span>
+            Professional{" "}
+            <span style={{ background: "linear-gradient(135deg, #a5b4fc, #67e8f9)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+              Courses
+            </span>
           </h1>
           <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "1.1rem", maxWidth: "600px", margin: "0 auto" }}>
             Industry-ready programs designed by experts. Learn, build, and get certified to launch your tech career.
@@ -119,93 +81,201 @@ export default function CoursesPage() {
         </div>
       </div>
 
+      {/* ── COURSES GRID ── */}
       <section className="section" style={{ background: "var(--gray-50)" }}>
         <div className="container">
-          <div className="grid-3">
-            {courses.map((course) => (
-              <div
-                key={course.id}
-                id={`course-${course.id}`}
-                style={{
-                  background: "white",
-                  borderRadius: "24px",
-                  overflow: "hidden",
-                  boxShadow: "0 4px 16px rgba(55,48,163,0.08)",
-                  border: "1px solid var(--gray-100)",
-                  display: "flex",
-                  flexDirection: "column",
-                  transition: "all 0.3s ease",
-                }}
-              >
-                {/* Header */}
-                <div style={{ background: course.gradient, padding: "32px", position: "relative", overflow: "hidden" }}>
-                  <div style={{ position: "absolute", bottom: "-20px", right: "-20px", width: "100px", height: "100px", background: "rgba(255,255,255,0.08)", borderRadius: "50%" }} />
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-                    <span style={{ padding: "4px 12px", background: "rgba(255,255,255,0.2)", borderRadius: "50px", fontSize: "11px", fontWeight: "700", color: "white" }}>
-                      {course.level}
-                    </span>
-                    <div style={{ display: "flex", alignItems: "center", gap: "4px", color: "rgba(255,255,255,0.9)", fontSize: "13px", fontWeight: "600" }}>
-                      <Star size={13} style={{ fill: "rgba(255,255,255,0.9)" }} /> {course.rating}
-                    </div>
-                  </div>
-                  <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "20px", fontWeight: "800", color: "white", marginBottom: "8px" }}>
-                    {course.title}
-                  </h3>
-                  <div style={{ display: "flex", gap: "16px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "rgba(255,255,255,0.8)", fontSize: "12px" }}>
-                      <Clock size={12} /> {course.duration}
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "rgba(255,255,255,0.8)", fontSize: "12px" }}>
-                      <Users size={12} /> {course.students} students
-                    </div>
-                  </div>
-                </div>
+          {loading ? (
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "300px", flexDirection: "column", gap: 16 }}>
+              <Loader2 size={40} style={{ color: "var(--primary-light)", animation: "spin 1s linear infinite" }} />
+              <p style={{ color: "var(--gray-500)" }}>Loading courses...</p>
+            </div>
+          ) : courses.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "80px 20px", color: "var(--gray-500)" }}>
+              <BookOpen size={48} style={{ margin: "0 auto 16px", opacity: 0.4 }} />
+              <h3 style={{ fontSize: "20px", marginBottom: 8 }}>No Courses Available</h3>
+              <p>Courses will appear here once published by admin.</p>
+            </div>
+          ) : (
+            <div className="grid-3">
+              {courses.map((course) => {
+                const syllabusItems = typeof course.syllabus === "string"
+                  ? course.syllabus.split(",").map((s) => s.trim()).filter(Boolean)
+                  : [];
+                const accentColor = levelColors[course.level] || "#6366f1";
 
-                {/* Body */}
-                <div style={{ padding: "28px", flex: 1, display: "flex", flexDirection: "column" }}>
-                  <p style={{ fontSize: "14px", color: "#4a4e7a", lineHeight: "1.7", marginBottom: "20px" }}>
-                    {course.description}
-                  </p>
+                return (
+                  <div
+                    key={course.id}
+                    id={`course-${course.id}`}
+                    style={{
+                      background: "white",
+                      borderRadius: "24px",
+                      overflow: "hidden",
+                      boxShadow: "0 4px 16px rgba(55,48,163,0.08)",
+                      border: "1px solid var(--gray-100)",
+                      display: "flex",
+                      flexDirection: "column",
+                      transition: "all 0.3s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.transform = "translateY(-6px)";
+                      (e.currentTarget as HTMLElement).style.boxShadow = "0 20px 64px rgba(55,48,163,0.18)";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                      (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(55,48,163,0.08)";
+                    }}
+                  >
+                    {/* ── Card Image Header ── */}
+                    <div style={{ position: "relative", width: "100%", height: "180px", background: "#0d0f2b", overflow: "hidden" }}>
+                      {course.imageUrl ? (
+                        <Image
+                          src={course.imageUrl}
+                          alt={course.title}
+                          fill
+                          style={{ objectFit: "cover", opacity: 0.85 }}
+                          unoptimized
+                        />
+                      ) : (
+                        <div style={{ width: "100%", height: "100%", background: "linear-gradient(135deg,#3730a3,#6366f1,#06b6d4)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          <BookOpen size={48} style={{ color: "rgba(255,255,255,0.3)" }} />
+                        </div>
+                      )}
+                      {/* Overlay */}
+                      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(13,15,43,0.55) 100%)" }} />
 
-                  <h5 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", fontWeight: "700", color: "#0a0a0f", marginBottom: "12px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                    Syllabus Highlights
-                  </h5>
-                  <div className="responsive-grid" style={{ gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "24px", flex: 1 }}>
-                    {course.syllabus.slice(0, 6).map((item) => (
-                      <div key={item} style={{ display: "flex", alignItems: "flex-start", gap: "6px" }}>
-                        <CheckCircle size={12} style={{ color: course.color, flexShrink: 0, marginTop: "2px" }} />
-                        <span style={{ fontSize: "12px", color: "#4a4e7a" }}>{item}</span>
+                      {/* Level + Rating badges on image */}
+                      <div style={{ position: "absolute", top: 14, left: 14, right: 14, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <span style={{ padding: "4px 12px", background: "rgba(0,0,0,0.45)", backdropFilter: "blur(8px)", borderRadius: "50px", fontSize: "11px", fontWeight: "700", color: "white", border: `1px solid ${accentColor}50` }}>
+                          {course.level}
+                        </span>
+                        <div style={{ display: "flex", alignItems: "center", gap: "4px", background: "rgba(0,0,0,0.45)", backdropFilter: "blur(8px)", padding: "4px 10px", borderRadius: "50px" }}>
+                          <Star size={11} style={{ fill: "#fbbf24", color: "#fbbf24" }} />
+                          <span style={{ color: "white", fontSize: "12px", fontWeight: "700" }}>{course.rating || "4.9"}</span>
+                        </div>
                       </div>
-                    ))}
+
+                      {/* Title on image */}
+                      <div style={{ position: "absolute", bottom: 14, left: 14, right: 14 }}>
+                        <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "18px", fontWeight: "800", color: "white", marginBottom: 6, lineHeight: 1.2 }}>
+                          {course.title}
+                        </h3>
+                        <div style={{ display: "flex", gap: "14px" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "5px", color: "rgba(255,255,255,0.8)", fontSize: "11px" }}>
+                            <Clock size={11} /> {course.duration}
+                          </div>
+                          {course.students && (
+                            <div style={{ display: "flex", alignItems: "center", gap: "5px", color: "rgba(255,255,255,0.8)", fontSize: "11px" }}>
+                              <Users size={11} /> {course.students} students
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* ── Card Body ── */}
+                    <div style={{ padding: "24px", flex: 1, display: "flex", flexDirection: "column" }}>
+                      <p style={{ fontSize: "14px", color: "#4a4e7a", lineHeight: "1.7", marginBottom: "18px" }}>
+                        {course.description}
+                      </p>
+
+                      {/* Syllabus */}
+                      {syllabusItems.length > 0 && (
+                        <>
+                          <h5 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", fontWeight: "700", color: "#0a0a0f", marginBottom: "10px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                            Syllabus Highlights
+                          </h5>
+                          <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginBottom: "20px", flex: 1 }}>
+                            {syllabusItems.slice(0, 8).map((item, idx) => (
+                              <div key={idx} style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
+                                <span style={{
+                                  flexShrink: 0,
+                                  width: "20px",
+                                  height: "20px",
+                                  borderRadius: "50%",
+                                  background: `${accentColor}18`,
+                                  color: accentColor,
+                                  fontSize: "10px",
+                                  fontWeight: "700",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  marginTop: "1px",
+                                }}>
+                                  {idx + 1}
+                                </span>
+                                <span style={{ fontSize: "12px", color: "#4a4e7a", lineHeight: "1.5" }}>{item}</span>
+                              </div>
+                            ))}
+                            {syllabusItems.length > 8 && (
+                              <p style={{ fontSize: "11px", color: "#9499c9", marginTop: 2 }}>
+                                +{syllabusItems.length - 8} more topics...
+                              </p>
+                            )}
+                          </div>
+                        </>
+                      )}
+
+                      {/* Mode + Cert row */}
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "18px", padding: "12px 14px", background: "var(--gray-50)", borderRadius: "10px" }}>
+                        <div>
+                          <p style={{ fontSize: "11px", color: "#9499c9", marginBottom: "2px" }}>Mode</p>
+                          <p style={{ fontSize: "13px", fontWeight: "600", color: "#2d3160" }}>{course.mode || "Online + Offline"}</p>
+                        </div>
+                        {course.certification && (
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                            <Award size={14} style={{ color: "#f59e0b" }} />
+                            <span style={{ fontSize: "12px", color: "#4a4e7a", fontWeight: "500" }}>Certificate Included</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Enroll Button */}
+                      <button
+                        id={`course-enroll-${course.id}`}
+                        onClick={() => handleEnroll(course)}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "8px",
+                          width: "100%",
+                          padding: "14px",
+                          background: "linear-gradient(135deg,#25D366,#20ba56)",
+                          color: "white",
+                          border: "none",
+                          borderRadius: "50px",
+                          fontSize: "15px",
+                          fontWeight: "700",
+                          cursor: "pointer",
+                          transition: "all 0.3s ease",
+                          boxShadow: "0 4px 16px rgba(37,211,102,0.3)",
+                          fontFamily: "'Inter', sans-serif",
+                        }}
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
+                          (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 24px rgba(37,211,102,0.45)";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                          (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(37,211,102,0.3)";
+                        }}
+                      >
+                        <MessageCircle size={18} />
+                        Enroll via WhatsApp
+                      </button>
+                    </div>
                   </div>
-
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", padding: "16px", background: "var(--gray-50)", borderRadius: "12px" }}>
-                    <div>
-                      <p style={{ fontSize: "12px", color: "#9499c9", marginBottom: "4px" }}>Course Fee</p>
-                      <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "22px", fontWeight: "800", color: course.color }}>{course.fee}</p>
-                    </div>
-                    <div style={{ textAlign: "right" }}>
-                      <p style={{ fontSize: "12px", color: "#9499c9", marginBottom: "4px" }}>Mode</p>
-                      <p style={{ fontSize: "13px", fontWeight: "600", color: "#2d3160" }}>{course.mode}</p>
-                    </div>
-                  </div>
-
-                  {course.certification && (
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "20px" }}>
-                      <Award size={14} style={{ color: "#f59e0b" }} />
-                      <span style={{ fontSize: "13px", color: "#4a4e7a", fontWeight: "500" }}>Certificate of Completion Included</span>
-                    </div>
-                  )}
-
-                  <Link href="/contact" id={`course-enroll-${course.id}`} className="btn-primary" style={{ justifyContent: "center" }}>
-                    Enroll Now <ArrowRight size={14} />
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
+
+      <style>{`
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+      `}</style>
     </>
   );
 }

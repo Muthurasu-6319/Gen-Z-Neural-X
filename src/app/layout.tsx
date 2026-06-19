@@ -8,6 +8,9 @@ export const metadata: Metadata = {
     default: "Gen Z Neural-X | AI Technology & Digital Solutions",
     template: "%s | Gen Z Neural-X"
   },
+  icons: {
+    icon: "/logo.png",
+  },
   description: "Gen Z Neural-X is a leading technology company offering Web Development, Mobile Apps, AI/ML Solutions, Game Development, Digital Marketing, and professional training courses.",
   keywords: [
     "web development", "AI solutions", "machine learning", "mobile app development", "digital marketing", 

@@ -50,6 +50,7 @@ const navItems = [
       { label: "Courses", href: "/courses" },
       { label: "Internships", href: "/internships" },
       { label: "Certifications", href: "/certifications" },
+      { label: "Final Year Project", href: "/learn/final-year-project" },
     ],
   },
   { label: "Contact", href: "/contact" },
@@ -84,12 +85,12 @@ export default function Navbar() {
         >
           {/* Logo */}
           <Link href="/" id="nav-logo" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
-            <div style={{ position: "relative", width: "80px", height: "80px" }}>
+            <div style={{ position: "relative", width: "100px", height: "100px" }}>
                 <Image 
                   src="/logo.png" 
                   alt="Gen Z Neural-X Logo" 
-                  width={80} 
-                  height={80} 
+                  width={100} 
+                  height={100} 
                   style={{ objectFit: 'contain' }}
                 />
             </div>

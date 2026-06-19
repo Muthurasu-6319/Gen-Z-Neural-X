@@ -13,10 +13,10 @@ const teamMembers = [
 ];
 
 const achievements = [
-  { icon: Trophy, title: "Best Tech Startup", desc: "Regional Technology Awards 2024" },
-  { icon: Star, title: "5-Star Rated", desc: "Google Business Reviews" },
-  { icon: GraduationCap, title: "500+ Trained", desc: "Students placed in top companies" },
-  { icon: Sparkles, title: "ISO Certified", desc: "Quality management standards" },
+  { icon: Sparkles, title: "Next-Gen Tech", desc: "Focusing on modern AI & ML" },
+  { icon: Target, title: "Vision 2026", desc: "Empowering 1000+ students" },
+  { icon: Lightbulb, title: "Innovative Solutions", desc: "Custom software for startups" },
+  { icon: Users, title: "Growing Community", desc: "Building a tech ecosystem" },
 ];
 
 export default function AboutPage() {
@@ -48,17 +48,17 @@ export default function AboutPage() {
             <div>
               <div className="section-tag"><Star size={14} style={{display: 'inline'}} /> Our Story</div>
               <h2 className="section-title">
-                Built by Passionate <span className="gradient-text">Innovators</span>
+                Pioneering the Next Era of <span className="gradient-text">Innovation</span>
               </h2>
               <div className="divider" />
               <p style={{ color: "#4a4e7a", fontSize: "16px", lineHeight: "1.9", marginBottom: "20px" }}>
-                Gen Z Neural-X was founded by a group of passionate technology enthusiasts who believed that cutting-edge tech solutions should be accessible to businesses of all sizes.
+                Founded in 2025, Gen Z Neural-X was born out of a shared vision to bridge the gap between emerging technologies and practical, real-world applications.
               </p>
               <p style={{ color: "#4a4e7a", fontSize: "16px", lineHeight: "1.9", marginBottom: "20px" }}>
-                Starting as a small web development studio, we quickly evolved into a full-service technology company offering AI/ML solutions, mobile app development, digital marketing, and comprehensive training programs.
+                As a dynamic and forward-thinking startup, we are building a strong foundation to offer state-of-the-art AI/ML solutions, robust web architectures, and transformative training programs.
               </p>
               <p style={{ color: "#4a4e7a", fontSize: "16px", lineHeight: "1.9", marginBottom: "32px" }}>
-                Today, with 200+ successful projects and 500+ trained professionals, we continue to push the boundaries of what&apos;s possible in the digital world.
+                Our journey has just begun, and we are committed to pushing the boundaries of what's possible, empowering the next generation of digital creators and businesses.
               </p>
               <Link href="/contact" id="about-cta" className="btn-primary">
                 Work With Us <ArrowRight size={16} />
