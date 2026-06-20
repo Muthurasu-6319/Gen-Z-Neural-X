@@ -113,7 +113,7 @@ export default function FinalYearProjectPage() {
       {/* ── HERO ── */}
       <section className="page-hero" style={{ position: "relative", overflow: "hidden", paddingBottom: "0" }}>
         <div className="container" style={{ position: "relative", zIndex: 2 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "64px", alignItems: "center", paddingBottom: "64px" }}>
+          <div className="grid-2" style={{ gap: "64px", alignItems: "center", paddingBottom: "64px" }}>
             <div>
               <div className="section-tag">
                 <GraduationCap size={14} />
@@ -203,7 +203,7 @@ export default function FinalYearProjectPage() {
       {/* ── WHY CHOOSE US ── */}
       <section className="section">
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "64px", alignItems: "center" }}>
+          <div className="grid-2" style={{ gap: "64px", alignItems: "center" }}>
             <div>
               <div className="section-tag"><Shield size={14} /> Why Gen Z Neural-X?</div>
               <h2 className="section-title">Trusted by 100+ Engineering Students</h2>
@@ -374,10 +374,6 @@ export default function FinalYearProjectPage() {
 
       <style>{`
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @media (max-width: 768px) {
-          .fyp-hero-grid { grid-template-columns: 1fr !important; }
-          .fyp-hero-image { display: none; }
-        }
       `}</style>
     </div>
   );

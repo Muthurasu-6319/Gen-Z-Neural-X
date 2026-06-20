@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
-import { Clock, Users, Award, BookOpen, Star, MessageCircle, Loader2 } from "lucide-react";
+import { Clock, Users, Award, BookOpen, Star, MessageCircle, Loader2, Search, Filter } from "lucide-react";
 
 interface Course {
   id: string;
@@ -47,18 +47,27 @@ export default function CoursesPage() {
           const sorted = d.courses.sort(
             (a: Course, b: Course) => new Date(b as any).getTime() - new Date(a as any).getTime()
           );
-          setCourses(d.courses);
+          setCourses(sorted);
         }
       })
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
 
-  const handleEnroll = (course: Course) => {
-    const msg = course.whatsappMessage ||
-      `Hi! I'm interested in the *${course.title}* course at Gen Z Neural-X. Please share more details.`;
-    const encoded = encodeURIComponent(msg);
-    window.open(`https://wa.me/918124996319?text=${encoded}`, "_blank");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterLevel, setFilterLevel] = useState("All");
+
+  const filteredCourses = useMemo(() => {
+    return courses.filter((course) => {
+      const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            course.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesLevel = filterLevel === "All" || course.level === filterLevel;
+      return matchesSearch && matchesLevel;
+    });
+  }, [courses, searchQuery, filterLevel]);
+
+  const handleViewDetails = (id: string) => {
+    window.location.href = `/courses/${id}`;
   };
 
   return (
@@ -84,20 +93,57 @@ export default function CoursesPage() {
       {/* ── COURSES GRID ── */}
       <section className="section" style={{ background: "var(--gray-50)" }}>
         <div className="container">
+          {/* Search & Filter Bar */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", justifyContent: "space-between", alignItems: "center", marginBottom: "40px", padding: "20px", background: "white", borderRadius: "16px", boxShadow: "0 4px 16px rgba(0,0,0,0.03)" }}>
+            <div style={{ position: "relative", flex: "1 1 300px" }}>
+              <Search size={18} style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", color: "#94a3b8" }} />
+              <input
+                type="text"
+                placeholder="Search courses..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{ width: "100%", padding: "12px 16px 12px 44px", border: "1px solid #e2e8f0", borderRadius: "10px", fontSize: "15px", outline: "none", transition: "all 0.2s" }}
+              />
+            </div>
+            <div style={{ display: "flex", gap: "10px", overflowX: "auto", paddingBottom: "4px" }}>
+              {["All", "Beginner", "Intermediate", "Advanced"].map((level) => (
+                <button
+                  key={level}
+                  onClick={() => setFilterLevel(level)}
+                  style={{
+                    padding: "8px 20px",
+                    background: filterLevel === level ? "var(--primary)" : "var(--gray-50)",
+                    color: filterLevel === level ? "white" : "#475569",
+                    border: "1px solid",
+                    borderColor: filterLevel === level ? "var(--primary)" : "#e2e8f0",
+                    borderRadius: "50px",
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    cursor: "pointer",
+                    transition: "all 0.2s ease",
+                    whiteSpace: "nowrap"
+                  }}
+                >
+                  {level}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {loading ? (
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "300px", flexDirection: "column", gap: 16 }}>
               <Loader2 size={40} style={{ color: "var(--primary-light)", animation: "spin 1s linear infinite" }} />
               <p style={{ color: "var(--gray-500)" }}>Loading courses...</p>
             </div>
-          ) : courses.length === 0 ? (
+          ) : filteredCourses.length === 0 ? (
             <div style={{ textAlign: "center", padding: "80px 20px", color: "var(--gray-500)" }}>
               <BookOpen size={48} style={{ margin: "0 auto 16px", opacity: 0.4 }} />
-              <h3 style={{ fontSize: "20px", marginBottom: 8 }}>No Courses Available</h3>
-              <p>Courses will appear here once published by admin.</p>
+              <h3 style={{ fontSize: "20px", marginBottom: 8 }}>No Courses Found</h3>
+              <p>Try adjusting your search or filter criteria.</p>
             </div>
           ) : (
             <div className="grid-3">
-              {courses.map((course) => {
+              {filteredCourses.map((course) => {
                 const syllabusItems = typeof course.syllabus === "string"
                   ? course.syllabus.split(",").map((s) => s.trim()).filter(Boolean)
                   : [];
@@ -127,7 +173,7 @@ export default function CoursesPage() {
                     }}
                   >
                     {/* ── Card Image Header ── */}
-                    <div style={{ position: "relative", width: "100%", height: "180px", background: "#0d0f2b", overflow: "hidden" }}>
+                    <div style={{ position: "relative", width: "100%", height: "160px", background: "#0d0f2b", overflow: "hidden" }}>
                       {course.imageUrl ? (
                         <Image
                           src={course.imageUrl}
@@ -156,8 +202,8 @@ export default function CoursesPage() {
                       </div>
 
                       {/* Title on image */}
-                      <div style={{ position: "absolute", bottom: 14, left: 14, right: 14 }}>
-                        <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "18px", fontWeight: "800", color: "white", marginBottom: 6, lineHeight: 1.2 }}>
+                      <div style={{ position: "absolute", bottom: 12, left: 14, right: 14 }}>
+                        <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "800", color: "white", marginBottom: 6, lineHeight: 1.2 }}>
                           {course.title}
                         </h3>
                         <div style={{ display: "flex", gap: "14px" }}>
@@ -174,47 +220,19 @@ export default function CoursesPage() {
                     </div>
 
                     {/* ── Card Body ── */}
-                    <div style={{ padding: "24px", flex: 1, display: "flex", flexDirection: "column" }}>
-                      <p style={{ fontSize: "14px", color: "#4a4e7a", lineHeight: "1.7", marginBottom: "18px" }}>
+                    <div style={{ padding: "16px", flex: 1, display: "flex", flexDirection: "column" }}>
+                      <p style={{ 
+                        fontSize: "13px", 
+                        color: "#4a4e7a", 
+                        lineHeight: "1.6", 
+                        marginBottom: "16px",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden"
+                      }}>
                         {course.description}
                       </p>
-
-                      {/* Syllabus */}
-                      {syllabusItems.length > 0 && (
-                        <>
-                          <h5 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", fontWeight: "700", color: "#0a0a0f", marginBottom: "10px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                            Syllabus Highlights
-                          </h5>
-                          <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginBottom: "20px", flex: 1 }}>
-                            {syllabusItems.slice(0, 8).map((item, idx) => (
-                              <div key={idx} style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
-                                <span style={{
-                                  flexShrink: 0,
-                                  width: "20px",
-                                  height: "20px",
-                                  borderRadius: "50%",
-                                  background: `${accentColor}18`,
-                                  color: accentColor,
-                                  fontSize: "10px",
-                                  fontWeight: "700",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                  marginTop: "1px",
-                                }}>
-                                  {idx + 1}
-                                </span>
-                                <span style={{ fontSize: "12px", color: "#4a4e7a", lineHeight: "1.5" }}>{item}</span>
-                              </div>
-                            ))}
-                            {syllabusItems.length > 8 && (
-                              <p style={{ fontSize: "11px", color: "#9499c9", marginTop: 2 }}>
-                                +{syllabusItems.length - 8} more topics...
-                              </p>
-                            )}
-                          </div>
-                        </>
-                      )}
 
                       {/* Mode + Cert row */}
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "18px", padding: "12px 14px", background: "var(--gray-50)", borderRadius: "10px" }}>
@@ -230,39 +248,39 @@ export default function CoursesPage() {
                         )}
                       </div>
 
-                      {/* Enroll Button */}
+                      {/* View Details Button */}
                       <button
-                        id={`course-enroll-${course.id}`}
-                        onClick={() => handleEnroll(course)}
+                        id={`course-details-${course.id}`}
+                        onClick={() => handleViewDetails(course.id)}
                         style={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
                           gap: "8px",
                           width: "100%",
-                          padding: "14px",
-                          background: "linear-gradient(135deg,#25D366,#20ba56)",
+                          padding: "12px",
+                          background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
                           color: "white",
                           border: "none",
                           borderRadius: "50px",
-                          fontSize: "15px",
+                          fontSize: "14px",
                           fontWeight: "700",
                           cursor: "pointer",
                           transition: "all 0.3s ease",
-                          boxShadow: "0 4px 16px rgba(37,211,102,0.3)",
+                          boxShadow: "0 4px 16px rgba(99,102,241,0.3)",
                           fontFamily: "'Inter', sans-serif",
                         }}
                         onMouseEnter={(e) => {
                           (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
-                          (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 24px rgba(37,211,102,0.45)";
+                          (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 24px rgba(99,102,241,0.45)";
                         }}
                         onMouseLeave={(e) => {
                           (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                          (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(37,211,102,0.3)";
+                          (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(99,102,241,0.3)";
                         }}
                       >
-                        <MessageCircle size={18} />
-                        Enroll via WhatsApp
+                        <BookOpen size={16} />
+                        View Details
                       </button>
                     </div>
                   </div>
