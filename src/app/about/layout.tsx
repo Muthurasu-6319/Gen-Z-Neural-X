@@ -1,15 +1,24 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Gen Z Neural-X | Software Development Company in Virudhunagar",
-  description: "Gen Z Neural-X provides web development, AI solutions, software development, internships and IT training in Srivilliputtur, Sivakasi and Virudhunagar district.",
+  title: "About Gen Z Neural-X | IT & Industrial Automation Company - Sivakasi, Srivilliputtur, Rajapalayam",
+  description: "Learn about Gen Z Neural-X — a full-service technology and industrial automation company serving Sivakasi, Srivilliputtur, Rajapalayam, and Virudhunagar district with web development, AI solutions, EMS, MES, SCADA, PLC, IIoT, machine monitoring, and production dashboards.",
   keywords: [
-    "srivilliputtur best it company", "sivakasi best it company", "srivilliputtur internship", "sivakasi internship",
-    "best software company in srivilliputtur", "best software company in sivakasi", "IT jobs in sivakasi", 
-    "IT jobs in srivilliputtur", "web development company in sivakasi", "web development company in srivilliputtur",
-    "software training in srivilliputtur", "software training in sivakasi", "best IT training institute sivakasi", 
-    "AI solutions srivilliputtur", "tech courses sivakasi", "internship for engineering students in sivakasi", 
-    "internship for engineering students in srivilliputtur", "Virudhunagar district best IT company"
+    "about gen z neural x", "gen z neural x srivilliputtur", "gen z neural x sivakasi",
+    "srivilliputtur best it company", "sivakasi best it company", "rajapalayam it company",
+    "best software company in srivilliputtur", "best software company in sivakasi",
+    "IT jobs in sivakasi", "IT jobs in srivilliputtur",
+    "web development company in sivakasi", "web development company in srivilliputtur",
+    "AI solutions srivilliputtur", "tech startup sivakasi",
+    "Virudhunagar district best IT company", "virudhunagar software company",
+    // Industrial Automation About Page
+    "industrial automation company sivakasi", "industrial automation srivilliputtur",
+    "industrial automation rajapalayam", "industrial automation virudhunagar district",
+    "SCADA company sivakasi", "PLC programming sivakasi", "PLC programmer srivilliputtur",
+    "energy management system company sivakasi", "MES company srivilliputtur",
+    "IIoT company sivakasi", "Industry 4.0 company tamil nadu",
+    "machine monitoring company sivakasi", "production dashboard company srivilliputtur",
+    "factory automation company rajapalayam", "automation engineer virudhunagar"
   ]
 };
 

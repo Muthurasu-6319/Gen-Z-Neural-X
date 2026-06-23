@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Users, Target, Eye, Award, ArrowRight, Trophy, Star, GraduationCap, Sparkles, Lightbulb, Handshake, BookOpen, Search, ShieldCheck } from "lucide-react";
+import { Users, Target, Eye, Award, ArrowRight, Trophy, Star, GraduationCap, Sparkles, Lightbulb, Handshake, BookOpen, Search, ShieldCheck, Zap, Factory, Radio, Cpu, Wifi, Activity, BarChart3, Database, ChevronRight, MapPin } from "lucide-react";
 
 const teamMembers = [
   { name: "Founder & CEO", initials: "CEO", role: "Technology Visionary & Business Strategist", color: "#6366f1" },
@@ -10,6 +10,7 @@ const teamMembers = [
   { name: "Marketing Head", initials: "MH", role: "Growth & Digital Marketing Expert", color: "#10b981" },
   { name: "AI/ML Lead", initials: "AI", role: "Machine Learning & Data Science", color: "#f59e0b" },
   { name: "Training Head", initials: "TH", role: "Education Programs & Mentorship", color: "#f43f5e" },
+  { name: "Automation Lead", initials: "AL", role: "SCADA, PLC & IIoT Engineering", color: "#0891b2" },
 ];
 
 const achievements = [
@@ -17,6 +18,17 @@ const achievements = [
   { icon: Target, title: "Vision 2026", desc: "Empowering 1000+ students" },
   { icon: Lightbulb, title: "Innovative Solutions", desc: "Custom software for startups" },
   { icon: Users, title: "Growing Community", desc: "Building a tech ecosystem" },
+];
+
+const industrialServices = [
+  { id: "energy-management-system", icon: Zap, title: "Energy Management System", short: "EMS", color: "#f59e0b", gradient: "linear-gradient(135deg, #f59e0b, #fbbf24)", href: "/services/energy-management-system" },
+  { id: "manufacturing-execution-system", icon: Factory, title: "Manufacturing Execution System", short: "MES", color: "#6366f1", gradient: "linear-gradient(135deg, #6366f1, #8b5cf6)", href: "/services/manufacturing-execution-system" },
+  { id: "scada-development", icon: Radio, title: "SCADA Development", short: "SCADA", color: "#ef4444", gradient: "linear-gradient(135deg, #ef4444, #f97316)", href: "/services/scada-development" },
+  { id: "plc-programming", icon: Cpu, title: "PLC Programming", short: "PLC", color: "#0891b2", gradient: "linear-gradient(135deg, #0891b2, #06b6d4)", href: "/services/plc-programming" },
+  { id: "industrial-iot-solutions", icon: Wifi, title: "Industrial IoT Solutions", short: "IIoT", color: "#10b981", gradient: "linear-gradient(135deg, #10b981, #34d399)", href: "/services/industrial-iot-solutions" },
+  { id: "machine-monitoring-systems", icon: Activity, title: "Machine Monitoring Systems", short: "MMS", color: "#8b5cf6", gradient: "linear-gradient(135deg, #8b5cf6, #a78bfa)", href: "/services/machine-monitoring-systems" },
+  { id: "production-dashboards", icon: BarChart3, title: "Production Dashboards", short: "KPI", color: "#f43f5e", gradient: "linear-gradient(135deg, #f43f5e, #fb7185)", href: "/services/production-dashboards" },
+  { id: "industrial-data-analytics", icon: Database, title: "Data Analytics & Reporting", short: "Analytics", color: "#3730a3", gradient: "linear-gradient(135deg, #3730a3, #6366f1)", href: "/services/industrial-data-analytics" },
 ];
 
 export default function AboutPage() {
@@ -35,8 +47,8 @@ export default function AboutPage() {
               Technology & Innovation
             </span>
           </h1>
-          <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "1.1rem", maxWidth: "600px", margin: "0 auto" }}>
-            Founded with a vision to democratize technology, Gen Z Neural-X has grown into a full-service technology company serving clients across India.
+          <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "1.1rem", maxWidth: "650px", margin: "0 auto" }}>
+            Founded with a vision to democratize technology, Gen Z Neural-X has grown into a full-service technology and industrial automation company serving clients across Sivakasi, Srivilliputtur, Rajapalayam, Virudhunagar district, and all of Tamil Nadu.
           </p>
         </div>
       </div>
@@ -52,13 +64,13 @@ export default function AboutPage() {
               </h2>
               <div className="divider" />
               <p style={{ color: "#4a4e7a", fontSize: "16px", lineHeight: "1.9", marginBottom: "20px" }}>
-                Founded in 2025, Gen Z Neural-X was born out of a shared vision to bridge the gap between emerging technologies and practical, real-world applications.
+                Founded in 2025, Gen Z Neural-X was born out of a shared vision to bridge the gap between emerging technologies and practical, real-world applications — in both software and industrial automation.
               </p>
               <p style={{ color: "#4a4e7a", fontSize: "16px", lineHeight: "1.9", marginBottom: "20px" }}>
-                As a dynamic and forward-thinking startup, we are building a strong foundation to offer state-of-the-art AI/ML solutions, robust web architectures, and transformative training programs.
+                Serving businesses across <strong>Sivakasi, Srivilliputtur, Rajapalayam, and Virudhunagar district</strong>, we deliver AI/ML solutions, web & mobile development, digital marketing, and a complete suite of industrial automation services including EMS, MES, SCADA, PLC programming, IIoT, machine monitoring, and production dashboards.
               </p>
               <p style={{ color: "#4a4e7a", fontSize: "16px", lineHeight: "1.9", marginBottom: "32px" }}>
-                Our journey has just begun, and we are committed to pushing the boundaries of what's possible, empowering the next generation of digital creators and businesses.
+                Our journey has just begun, and we are committed to pushing the boundaries of what&apos;s possible — empowering the next generation of digital creators, manufacturers, and businesses across Tamil Nadu and beyond.
               </p>
               <Link href="/contact" id="about-cta" className="btn-primary">
                 Work With Us <ArrowRight size={16} />
@@ -98,6 +110,85 @@ export default function AboutPage() {
               <p style={{ color: "rgba(255,255,255,0.85)", fontSize: "16px", lineHeight: "1.8" }}>
                 To become India&apos;s most trusted technology company, recognized globally for AI-driven innovation, exceptional client outcomes, and producing the next generation of tech leaders.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Industrial Automation Showcase */}
+      <section id="about-industrial" className="section" style={{ background: "linear-gradient(135deg, #0d0f2b 0%, #1a1d45 60%, #0f1629 100%)", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle at 20% 50%, rgba(251,191,36,0.07) 0%, transparent 45%), radial-gradient(circle at 80% 30%, rgba(99,102,241,0.07) 0%, transparent 45%)", pointerEvents: "none" }} />
+        <div className="container" style={{ position: "relative", zIndex: 1 }}>
+          <div className="grid-2" style={{ alignItems: "center", gap: "80px", marginBottom: "0px" }}>
+            <div>
+              <div className="section-tag" style={{ color: "rgba(251,191,36,0.9)", background: "rgba(251,191,36,0.1)", border: "1px solid rgba(251,191,36,0.2)", marginBottom: "20px" }}>
+                Industry 4.0
+              </div>
+              <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(1.8rem, 3vw, 2.8rem)", fontWeight: "900", color: "white", marginBottom: "20px", lineHeight: "1.15" }}>
+                Industrial Automation{" "}
+                <span style={{ background: "linear-gradient(135deg, #fbbf24, #f97316)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Experts</span>
+                {" "}in Tamil Nadu
+              </h2>
+              <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "1rem", lineHeight: "1.8", marginBottom: "20px" }}>
+                Beyond software, Gen Z Neural-X is Tamil Nadu&apos;s emerging leader in industrial automation — delivering EMS, MES, SCADA, PLC programming, IIoT, machine monitoring, and smart dashboards to manufacturers across{" "}
+                <strong style={{ color: "rgba(255,255,255,0.9)" }}>Sivakasi, Srivilliputtur, Rajapalayam, and Virudhunagar district</strong>.
+              </p>
+              <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.95rem", lineHeight: "1.7", marginBottom: "32px" }}>
+                From firecracker factories in Sivakasi to textile mills in Srivilliputtur and chemical plants in Virudhunagar — we bring Industry 4.0 to every factory floor in Tamil Nadu.
+              </p>
+              <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+                <Link href="/services/industrial-automation" id="about-industrial-cta" className="btn-primary" style={{ background: "linear-gradient(135deg, #f59e0b, #f97316)" }}>
+                  View All Solutions <ArrowRight size={16} />
+                </Link>
+                <Link href="/contact" id="about-industrial-contact" className="btn-secondary" style={{ borderColor: "rgba(255,255,255,0.3)", color: "white" }}>
+                  Get Free Assessment
+                </Link>
+              </div>
+            </div>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+                <MapPin size={16} style={{ color: "#fbbf24" }} />
+                <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "14px" }}>Serving Sivakasi · Srivilliputtur · Rajapalayam · Virudhunagar</span>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                {industrialServices.map((svc) => (
+                  <Link key={svc.id} href={svc.href} id={`about-industrial-${svc.id}`} style={{ textDecoration: "none" }}>
+                    <div
+                      style={{
+                        background: "rgba(255,255,255,0.04)",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                        borderRadius: "14px",
+                        padding: "16px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "12px",
+                        transition: "all 0.25s ease",
+                        cursor: "pointer",
+                      }}
+                      onMouseEnter={(e) => {
+                        const el = e.currentTarget as HTMLDivElement;
+                        el.style.background = "rgba(255,255,255,0.08)";
+                        el.style.borderColor = `${svc.color}50`;
+                        el.style.transform = "translateX(4px)";
+                      }}
+                      onMouseLeave={(e) => {
+                        const el = e.currentTarget as HTMLDivElement;
+                        el.style.background = "rgba(255,255,255,0.04)";
+                        el.style.borderColor = "rgba(255,255,255,0.07)";
+                        el.style.transform = "translateX(0)";
+                      }}
+                    >
+                      <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: svc.gradient, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <svc.icon size={18} style={{ color: "white" }} />
+                      </div>
+                      <div>
+                        <div style={{ fontSize: "10px", fontWeight: "700", color: svc.color, letterSpacing: "0.5px", marginBottom: "2px" }}>{svc.short}</div>
+                        <div style={{ fontSize: "12px", fontWeight: "600", color: "rgba(255,255,255,0.85)", lineHeight: "1.3" }}>{svc.title}</div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>

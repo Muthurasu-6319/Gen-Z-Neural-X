@@ -11,17 +11,24 @@ export const metadata: Metadata = {
   icons: {
     icon: "/logo.png",
   },
-  description: "Gen Z Neural-X is a leading technology company offering Web Development, Mobile Apps, AI/ML Solutions, Game Development, Digital Marketing, and professional training courses.",
+  description: "Gen Z Neural-X is a leading technology company offering Web Development, Mobile Apps, AI/ML Solutions, Game Development, Digital Marketing, Industrial Automation (EMS, MES, SCADA, PLC, IIoT), and professional training courses in Sivakasi, Srivilliputtur, Rajapalayam, and Virudhunagar district, Tamil Nadu.",
   keywords: [
-    "web development", "AI solutions", "machine learning", "mobile app development", "digital marketing", 
+    "web development", "AI solutions", "machine learning", "mobile app development", "digital marketing",
     "internships", "tech courses", "Gen Z Neural-X", "software company", "MERN stack", "Tamil Nadu Tech",
     "srivilliputtur best it company", "sivakasi best it company", "srivilliputtur internship", "sivakasi internship",
-    "best software company in srivilliputtur", "best software company in sivakasi", "IT jobs in sivakasi", 
+    "best software company in srivilliputtur", "best software company in sivakasi", "IT jobs in sivakasi",
     "IT jobs in srivilliputtur", "web development company in sivakasi", "web development company in srivilliputtur",
-    "software training in srivilliputtur", "software training in sivakasi", "best IT training institute sivakasi", 
-    "AI solutions srivilliputtur", "tech courses sivakasi", "internship for engineering students in sivakasi", 
+    "software training in srivilliputtur", "software training in sivakasi", "best IT training institute sivakasi",
+    "AI solutions srivilliputtur", "tech courses sivakasi", "internship for engineering students in sivakasi",
     "internship for engineering students in srivilliputtur", "Virudhunagar district best IT company",
-    "app development company sivakasi", "digital marketing agency srivilliputtur", "tech startup sivakasi"
+    "app development company sivakasi", "digital marketing agency srivilliputtur", "tech startup sivakasi",
+    "industrial automation company sivakasi", "industrial automation srivilliputtur", "industrial automation rajapalayam",
+    "industrial automation virudhunagar", "industrial automation tamil nadu",
+    "SCADA development sivakasi", "SCADA system srivilliputtur", "PLC programming sivakasi",
+    "PLC programming srivilliputtur", "PLC programming rajapalayam", "energy management system sivakasi",
+    "manufacturing execution system sivakasi", "MES software srivilliputtur", "industrial IoT solutions sivakasi",
+    "IIoT srivilliputtur", "Industry 4.0 tamil nadu", "machine monitoring system sivakasi",
+    "production dashboard sivakasi", "factory automation virudhunagar district", "automation company rajapalayam"
   ],
   authors: [{ name: "Gen Z Neural-X Team" }],
   creator: "Gen Z Neural-X",
@@ -71,9 +78,57 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Gen Z Neural-X",
+    "description": "IT & Industrial Automation company in Srivilliputtur, Sivakasi, Rajapalayam and Virudhunagar district, Tamil Nadu. Offering Web Development, AI/ML, SCADA, PLC Programming, EMS, MES, IIoT and Industrial Automation services.",
+    "url": "https://gen-z-neural-x.vercel.app",
+    "telephone": "+918124996319",
+    "email": "genzdevoff@gmail.com",
+    "foundingDate": "2025",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Srivilliputtur",
+      "addressRegion": "Tamil Nadu",
+      "postalCode": "626125",
+      "addressCountry": "IN"
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Sivakasi" },
+      { "@type": "City", "name": "Srivilliputtur" },
+      { "@type": "City", "name": "Rajapalayam" },
+      { "@type": "AdministrativeArea", "name": "Virudhunagar District" }
+    ],
+    "sameAs": [
+      "https://www.facebook.com/profile.php?id=61591068687800",
+      "https://www.instagram.com/genz.neural_x/",
+      "https://x.com/GenzNeuralX",
+      "https://www.linkedin.com/company/gen-z-neural-x",
+      "https://www.youtube.com/@GenzNeural-X",
+      "https://bsky.app/profile/genzneural-x.bsky.social"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "IT & Industrial Automation Services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Development" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SCADA Development" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "PLC Programming" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Energy Management System" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Industrial IoT Solutions" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AI/ML Solutions" } }
+      ]
+    }
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <LayoutWrapper>
           {children}
         </LayoutWrapper>

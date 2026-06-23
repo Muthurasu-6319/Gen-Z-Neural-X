@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowRight, Zap } from "lucide-react";
 
 const footerLinks = {
   company: [
@@ -19,6 +19,16 @@ const footerLinks = {
     { label: "Digital Marketing", href: "/services/digital-marketing" },
     { label: "UI/UX Design", href: "/services/ui-ux-design" },
     { label: "Game Development", href: "/services/game-development" },
+  ],
+  industrial: [
+    { label: "Energy Management (EMS)", href: "/services/energy-management-system" },
+    { label: "Mfg. Execution System", href: "/services/manufacturing-execution-system" },
+    { label: "SCADA Development", href: "/services/scada-development" },
+    { label: "PLC Programming", href: "/services/plc-programming" },
+    { label: "Industrial IoT (IIoT)", href: "/services/industrial-iot-solutions" },
+    { label: "Machine Monitoring", href: "/services/machine-monitoring-systems" },
+    { label: "Production Dashboards", href: "/services/production-dashboards" },
+    { label: "Data Analytics", href: "/services/industrial-data-analytics" },
   ],
   products: [
     { label: "AI Chatbot", href: "/products/ai-chatbot" },
@@ -111,6 +121,67 @@ const socialLinks = [
   },
 ];
 
+
+function IndustrialColumn() {
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "20px" }}>
+        <Zap size={13} style={{ color: "#f59e0b" }} />
+        <h3
+          style={{
+            fontFamily: "'Outfit', sans-serif",
+            fontSize: "14px",
+            fontWeight: "700",
+            color: "#fbbf24",
+            textTransform: "uppercase",
+            letterSpacing: "0.5px",
+          }}
+        >
+          Industrial Automation
+        </h3>
+      </div>
+      <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
+        {footerLinks.industrial.map((link) => (
+          <li key={link.label}>
+            <Link
+              href={link.href}
+              id={`footer-industrial-${link.href.split("/").pop()}`}
+              style={{
+                color: "rgba(255,255,255,0.5)",
+                textDecoration: "none",
+                fontSize: "14px",
+                transition: "all 0.2s ease",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "#fbbf24";
+                e.currentTarget.style.paddingLeft = "6px";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "rgba(255,255,255,0.5)";
+                e.currentTarget.style.paddingLeft = "0";
+              }}
+            >
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <div style={{ marginTop: "16px" }}>
+        <Link
+          href="/services/industrial-automation"
+          id="footer-industrial-view-all"
+          style={{ fontSize: "12px", color: "#f59e0b", fontWeight: "600", textDecoration: "none" }}
+        >
+          View All Solutions →
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -155,17 +226,17 @@ export default function Footer() {
               marginBottom: "16px",
             }}
           >
-            Let's Build Something Amazing
+            Let&apos;s Build Something Amazing
           </h2>
-          <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1.1rem", marginBottom: "40px", maxWidth: "500px", margin: "0 auto 40px" }}>
-            Partner with Gen Z Neural-X to accelerate your digital transformation with AI-powered solutions.
+          <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1.1rem", marginBottom: "40px", maxWidth: "580px", margin: "0 auto 40px" }}>
+            Partner with Gen Z Neural-X for web development, AI solutions, and industrial automation (EMS, MES, SCADA, PLC, IIoT) — serving Sivakasi, Srivilliputtur, Rajapalayam &amp; Virudhunagar district.
           </p>
           <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
             <Link href="/contact" id="footer-cta-contact" className="btn-white">
               Get Free Consultation <ArrowRight size={16} />
             </Link>
-            <Link href="/services" id="footer-cta-services" className="btn-secondary" style={{ borderColor: "rgba(255,255,255,0.4)", color: "white" }}>
-              Explore Services
+            <Link href="/services/industrial-automation" id="footer-cta-industrial" className="btn-secondary" style={{ borderColor: "rgba(251,191,36,0.6)", color: "#fbbf24" }}>
+              <Zap size={15} /> Industrial Solutions
             </Link>
           </div>
         </div>
@@ -193,7 +264,7 @@ export default function Footer() {
                 </div>
               </div>
               <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "14px", lineHeight: "1.8", marginBottom: "28px", maxWidth: "280px" }}>
-                Empowering businesses and individuals with cutting-edge AI technology, digital solutions, and world-class training programs.
+                Empowering businesses with AI technology, digital solutions, and industrial automation — serving Sivakasi, Srivilliputtur, Rajapalayam &amp; Virudhunagar district.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "rgba(255,255,255,0.7)", fontSize: "13px" }}>
@@ -254,7 +325,8 @@ export default function Footer() {
 
             {/* Company */}
             <FooterColumn title="Company" links={footerLinks.company} />
-            <FooterColumn title="Services" links={footerLinks.services} />
+            <FooterColumn title="Digital Services" links={footerLinks.services} />
+            <IndustrialColumn />
             <FooterColumn title="Products" links={footerLinks.products} />
             <FooterColumn title="Learn" links={footerLinks.learn} />
           </div>
@@ -294,6 +366,7 @@ export default function Footer() {
     </footer>
   );
 }
+
 
 function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
   return (
