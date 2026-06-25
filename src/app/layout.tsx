@@ -3,7 +3,7 @@ import "./globals.css";
 import LayoutWrapper from "@/components/LayoutWrapper";
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://gen-z-neural-x.vercel.app'),
+  metadataBase: new URL('https://genzneuralx.com'),
   title: {
     default: "Gen Z Neural-X | AI Technology & Digital Solutions",
     template: "%s | Gen Z Neural-X"
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Gen Z Neural-X | Leading AI & Tech Solutions",
     description: "Transform your digital future with Gen Z Neural-X's cutting-edge software development and professional education services.",
-    url: 'https://gen-z-neural-x.vercel.app',
+    url: 'https://genzneuralx.com',
     siteName: 'Gen Z Neural-X',
     images: [
       {
@@ -83,9 +83,9 @@ export default function RootLayout({
     "@type": "LocalBusiness",
     "name": "Gen Z Neural-X",
     "description": "IT & Industrial Automation company in Srivilliputtur, Sivakasi, Rajapalayam and Virudhunagar district, Tamil Nadu. Offering Web Development, AI/ML, SCADA, PLC Programming, EMS, MES, IIoT and Industrial Automation services.",
-    "url": "https://gen-z-neural-x.vercel.app",
+    "url": "https://genzneuralx.com",
     "telephone": "+918124996319",
-    "email": "genzdevoff@gmail.com",
+    "email": "info@genzneuralx.com",
     "foundingDate": "2025",
     "address": {
       "@type": "PostalAddress",

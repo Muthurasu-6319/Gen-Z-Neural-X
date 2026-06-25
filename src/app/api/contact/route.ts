@@ -50,7 +50,7 @@ export async function POST(req: Request) {
 
     const mailOptions = {
       from: 'genzdevoff@gmail.com',
-      to: 'genzdevoff@gmail.com',
+      to: 'info@genzneuralx.com',
       subject: `New Website Submission: ${formType || 'Contact'}`,
       text: `You have received a new submission from the ${formType || 'Contact'}.\n\nDetails:\n\n${formattedFields}`,
     };

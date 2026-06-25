@@ -269,11 +269,17 @@ export default function Footer() {
               <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "rgba(255,255,255,0.7)", fontSize: "13px" }}>
                   <Mail size={14} style={{ color: "#6366f1", flexShrink: 0 }} />
-                  genzdevoff@gmail.com
+                  <a href="mailto:info@genzneuralx.com" style={{ color: "inherit", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.color = "#6366f1"} onMouseLeave={(e) => e.currentTarget.style.color = "inherit"}>
+                    info@genzneuralx.com
+                  </a>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "rgba(255,255,255,0.7)", fontSize: "13px" }}>
                   <Phone size={14} style={{ color: "#6366f1", flexShrink: 0 }} />
-                  +91 81249 96319, +91 78718 03642
+                  <span>
+                    <a href="tel:+918124996319" style={{ color: "inherit", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.color = "#6366f1"} onMouseLeave={(e) => e.currentTarget.style.color = "inherit"}>+91 81249 96319</a>,{" "}
+                    <a href="tel:+918668099358" style={{ color: "inherit", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.color = "#6366f1"} onMouseLeave={(e) => e.currentTarget.style.color = "inherit"}>+91 86680 99358</a>,{" "}
+                    <a href="tel:+917871803642" style={{ color: "inherit", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.color = "#6366f1"} onMouseLeave={(e) => e.currentTarget.style.color = "inherit"}>+91 78718 03642</a>
+                  </span>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "rgba(255,255,255,0.7)", fontSize: "13px" }}>
                   <MapPin size={14} style={{ color: "#6366f1", flexShrink: 0 }} />

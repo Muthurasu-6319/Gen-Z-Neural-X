@@ -65,7 +65,7 @@ No Refund:
 • If more than 50% of course content has been accessed
 • If a certificate has been issued
 
-To request a refund, email us at genzdevoff@gmail.com with your order details and reason.`,
+To request a refund, email us at info@genzneuralx.com with your order details and reason.`,
               },
               {
                 title: "2. Service/Project Refund Policy",
@@ -91,7 +91,7 @@ We recommend reviewing project proposals carefully before signing agreements.`,
                 title: "4. How to Request a Refund",
                 content: `To request a refund:
 
-1. Email us at genzdevoff@gmail.com with subject "Refund Request"
+1. Email us at info@genzneuralx.com with subject "Refund Request"
 2. Include your order ID, name, and reason for refund
 3. Our team will review and respond within 3-5 business days
 4. Approved refunds are processed within 7-10 business days to the original payment method`,
@@ -99,8 +99,8 @@ We recommend reviewing project proposals carefully before signing agreements.`,
               {
                 title: "5. Contact Us",
                 content: `For refund inquiries, contact us at:
-Email: genzdevoff@gmail.com
-Phone: +91 63 1900 0000
+Email: info@genzneuralx.com
+Phone: +91 81249 96319, +91 86680 99358, +91 78718 03642
 Hours: Monday-Saturday, 9am-6pm IST`,
               },
             ].map((section, i) => (

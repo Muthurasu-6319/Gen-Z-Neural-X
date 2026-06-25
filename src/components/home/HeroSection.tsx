@@ -200,7 +200,7 @@ export default function HeroSection() {
               fontWeight: "400",
             }}
           >
-            Gen Z Neural-X is your elite technology partner for AI-powered solutions, enterprise digital transformation, and world-class architectures.
+            Gen Z Neural-X is a forward-thinking, Gen Z-led technology company founded in 2025. We build custom AI/ML integrations, premium full-stack web/mobile applications, and smart Industry 4.0 automation systems.
           </p>
 
           {/* Service Badges */}

@@ -55,7 +55,7 @@ export default function WhyChooseUs() {
               The Gen Z Neural-X <span className="gradient-text">Advantage</span>
             </h2>
             <p className="section-subtitle" style={{ marginBottom: "40px" }}>
-              We don&apos;t just build software — we build partnerships. Our team brings passion, precision, and expertise to every project.
+              We don&apos;t just write code — we engineer robust digital and industrial solutions. Our Gen Z tech-native team brings absolute focus, agile practices, and cutting-edge tech expertise to every collaboration.
             </p>
 
             {/* Key points */}

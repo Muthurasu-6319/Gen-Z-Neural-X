@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: "Final Year Project Support | Gen Z Neural-X",
     description:
       "End-to-end final year project support – code, documentation, PPT, and viva coaching.",
-    url: "https://gen-z-neural-x.vercel.app/learn/final-year-project",
+    url: "https://genzneuralx.com/learn/final-year-project",
     siteName: "Gen Z Neural-X",
     images: [{ url: "/final-year-project-hero.png", width: 1200, height: 630, alt: "Final Year Project Support" }],
     type: "website",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     images: ["/final-year-project-hero.png"],
   },
   alternates: {
-    canonical: "https://gen-z-neural-x.vercel.app/learn/final-year-project",
+    canonical: "https://genzneuralx.com/learn/final-year-project",
   },
 };
 
@@ -49,7 +49,7 @@ export default function FinalYearProjectLayout({
     "provider": {
       "@type": "Organization",
       "name": "Gen Z Neural-X",
-      "url": "https://gen-z-neural-x.vercel.app/"
+      "url": "https://genzneuralx.com/"
     },
     "description": "End-to-end Final Year Project support including software development, IEEE documentation, abstract writing, PPT creation, and viva coaching for engineering students.",
     "areaServed": "India",

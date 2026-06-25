@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { Users, Target, Eye, Award, ArrowRight, Trophy, Star, GraduationCap, Sparkles, Lightbulb, Handshake, BookOpen, Search, ShieldCheck, Zap, Factory, Radio, Cpu, Wifi, Activity, BarChart3, Database, ChevronRight, MapPin } from "lucide-react";
+import { Users, Target, Eye, Award, ArrowRight, Trophy, Star, GraduationCap, Sparkles, Lightbulb, Handshake, BookOpen, Search, ShieldCheck, Zap, Factory, Radio, Cpu, Wifi, Activity, BarChart3, Database, ChevronRight, MapPin, HelpCircle, ChevronDown, Plus, Minus } from "lucide-react";
 
 const teamMembers = [
   { name: "Founder & CEO", initials: "CEO", role: "Technology Visionary & Business Strategist", color: "#6366f1" },
@@ -32,6 +33,8 @@ const industrialServices = [
 ];
 
 export default function AboutPage() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
   return (
     <>
       {/* Page Hero */}
@@ -48,7 +51,7 @@ export default function AboutPage() {
             </span>
           </h1>
           <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "1.1rem", maxWidth: "650px", margin: "0 auto" }}>
-            Founded with a vision to democratize technology, Gen Z Neural-X has grown into a full-service technology and industrial automation company serving clients across Sivakasi, Srivilliputtur, Rajapalayam, Virudhunagar district, and all of Tamil Nadu.
+            Founded with a vision to democratize technology, Gen Z Neural-X is a next-generation technology and industrial automation company delivering custom software and Industry 4.0 solutions across Sivakasi, Srivilliputtur, Rajapalayam, Virudhunagar district, and all of Tamil Nadu.
           </p>
         </div>
       </div>
@@ -64,13 +67,13 @@ export default function AboutPage() {
               </h2>
               <div className="divider" />
               <p style={{ color: "#4a4e7a", fontSize: "16px", lineHeight: "1.9", marginBottom: "20px" }}>
-                Founded in 2025, Gen Z Neural-X was born out of a shared vision to bridge the gap between emerging technologies and practical, real-world applications — in both software and industrial automation.
+                Founded in 2025, Gen Z Neural-X is a next-generation technology company built from the ground up by a team of passionate Gen Z software developers, AI engineers, and industrial automation specialists. Being tech-natives, we were born out of a shared vision to bridge the gap between rapidly evolving modern technologies and practical, real-world industry applications.
               </p>
               <p style={{ color: "#4a4e7a", fontSize: "16px", lineHeight: "1.9", marginBottom: "20px" }}>
-                Serving businesses across <strong>Sivakasi, Srivilliputtur, Rajapalayam, and Virudhunagar district</strong>, we deliver AI/ML solutions, web & mobile development, digital marketing, and a complete suite of industrial automation services including EMS, MES, SCADA, PLC programming, IIoT, machine monitoring, and production dashboards.
+                Serving businesses and industries across <strong>Sivakasi, Srivilliputtur, Rajapalayam, and Virudhunagar district</strong>, we deliver high-performance AI/ML solutions, full-stack web & mobile development, digital marketing, and a complete suite of industrial automation services including EMS, MES, SCADA, PLC programming, IIoT, machine monitoring, and production dashboards.
               </p>
               <p style={{ color: "#4a4e7a", fontSize: "16px", lineHeight: "1.9", marginBottom: "32px" }}>
-                Our journey has just begun, and we are committed to pushing the boundaries of what&apos;s possible — empowering the next generation of digital creators, manufacturers, and businesses across Tamil Nadu and beyond.
+                As a team of young Gen Z creators and tech professionals, we bring agility, fresh perspectives, and a deep understanding of modern tech architectures to the table, empowering businesses and manufacturers across Tamil Nadu and beyond.
               </p>
               <Link href="/contact" id="about-cta" className="btn-primary">
                 Work With Us <ArrowRight size={16} />
@@ -238,6 +241,135 @@ export default function AboutPage() {
                 <p style={{ fontSize: "14px", color: "#6b6fa0", lineHeight: "1.7" }}>{item.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section for SEO / AEO / GEO Optimization */}
+      <section id="faq" className="section" style={{ background: "white" }}>
+        <div className="container" style={{ maxWidth: "800px" }}>
+          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+            <div className="section-tag" style={{ margin: "0 auto 16px" }}>
+              <HelpCircle size={14} style={{ display: 'inline', marginRight: '4px' }} /> FAQ
+            </div>
+            <h2 className="section-title">
+              Frequently Asked <span className="gradient-text">Questions</span>
+            </h2>
+            <p className="section-subtitle" style={{ margin: "0 auto", maxWidth: "600px" }}>
+              Quick answers about Gen Z Neural-X, our technology expertise, and services to help you make informed decisions.
+            </p>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            {[
+              {
+                q: "Who is Gen Z Neural-X?",
+                a: "Gen Z Neural-X is a dynamic technology company founded in 2025 by a team of tech-native Gen Z software engineers, AI developers, and industrial automation experts. We deliver custom software development, artificial intelligence integrations, MERN stack web applications, mobile apps, and advanced Industry 4.0 automation systems (EMS, MES, SCADA, PLC programming, and Industrial IoT)."
+              },
+              {
+                q: "What makes Gen Z Neural-X unique compared to legacy technology firms?",
+                a: "As a team composed entirely of Gen Z developers and engineers, we are true tech-natives. We write clean, modern, modular code using modern frameworks (such as Next.js, React, Node.js, TailwindCSS) and AI-driven methodologies. This allows us to deliver products with remarkable speed, security, and scalability compared to traditional development agencies."
+              },
+              {
+                q: "What industrial automation solutions do you provide?",
+                a: "We are pioneers in bridging the gap between digital systems and the factory floor. Our specialized team delivers complete Energy Management Systems (EMS), Manufacturing Execution Systems (MES), custom SCADA/HMI developments, expert PLC programming (Siemens, Allen Bradley, Delta), real-time OEE machine monitoring systems, and responsive production dashboards to optimize industrial outputs."
+              },
+              {
+                q: "Which areas do you serve in Tamil Nadu?",
+                a: "While our core team operates from Srivilliputtur, we provide full on-site and remote technology services, automation setups, and engineering training programs for businesses, factories, and students across Sivakasi, Srivilliputtur, Rajapalayam, and the surrounding Virudhunagar district."
+              },
+              {
+                q: "Does Gen Z Neural-X offer internship and career-building courses?",
+                a: "Yes! We run professional courses and hands-on internship programs focusing on MERN Stack Development, AI/ML, and Industrial Automation. Additionally, we provide comprehensive support for final year engineering students, covering project code development, IEEE-format documentation, synopsis and presentation design, and viva voce preparation."
+              }
+            ].map((faq, i) => {
+              const isOpen = openFaq === i;
+              return (
+                <div
+                  key={i}
+                  id={`faq-item-${i}`}
+                  style={{
+                    background: isOpen ? "#f8f9ff" : "white",
+                    border: isOpen ? "1px solid rgba(99,102,241,0.2)" : "1px solid var(--gray-100)",
+                    borderRadius: "16px",
+                    overflow: "hidden",
+                    transition: "all 0.3s ease",
+                    boxShadow: isOpen ? "0 4px 20px rgba(99,102,241,0.06)" : "none",
+                  }}
+                >
+                  <button
+                    onClick={() => setOpenFaq(isOpen ? null : i)}
+                    style={{
+                      width: "100%",
+                      padding: "20px 24px",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      background: "none",
+                      border: "none",
+                      outline: "none",
+                      textAlign: "left",
+                      cursor: "pointer",
+                      gap: "16px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "'Outfit', sans-serif",
+                        fontSize: "16px",
+                        fontWeight: "700",
+                        color: isOpen ? "#3730a3" : "#0a0a0f",
+                        transition: "color 0.2s ease",
+                      }}
+                    >
+                      {faq.q}
+                    </span>
+                    <div
+                      style={{
+                        width: "28px",
+                        height: "28px",
+                        borderRadius: "50%",
+                        background: isOpen ? "#6366f1" : "var(--gray-50)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: isOpen ? "white" : "#4a4e7a",
+                        transition: "all 0.3s ease",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <ChevronDown
+                        size={16}
+                        style={{
+                          transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                          transition: "transform 0.3s ease",
+                        }}
+                      />
+                    </div>
+                  </button>
+                  <div
+                    style={{
+                      maxHeight: isOpen ? "300px" : "0",
+                      opacity: isOpen ? 1 : 0,
+                      overflow: "hidden",
+                      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    }}
+                  >
+                    <p
+                      style={{
+                        padding: "0 24px 24px",
+                        color: "#4a4e7a",
+                        fontSize: "14.5px",
+                        lineHeight: "1.8",
+                        margin: 0,
+                      }}
+                    >
+                      {faq.a}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Industrial Automation Solutions | Gen Z Neural-X | Sivakasi, Srivilliputtur, Tamil Nadu",
     description: "EMS, MES, SCADA, PLC, IIoT, Machine Monitoring, Production Dashboards & Data Analytics for factories in Sivakasi, Srivilliputtur, Rajapalayam and Virudhunagar district.",
-    url: "https://gen-z-neural-x.vercel.app/services/industrial-automation",
+    url: "https://genzneuralx.com/services/industrial-automation",
     images: [{ url: "/logo.png", width: 800, height: 600, alt: "Gen Z Neural-X Industrial Automation" }],
   },
 };

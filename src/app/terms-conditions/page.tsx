@@ -64,7 +64,7 @@ All services are subject to separate service agreements and pricing as agreed up
               },
               {
                 title: "8. Contact",
-                content: `For questions about these Terms, contact us at genzdevoff@gmail.com`,
+                content: `For questions about these Terms, contact us at info@genzneuralx.com`,
               },
             ].map((section, i) => (
               <div key={i} id={`terms-section-${i}`}>

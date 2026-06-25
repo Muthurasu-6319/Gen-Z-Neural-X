@@ -66,13 +66,13 @@ The types of information we may collect include your name, email address, phone 
 • Request restriction of processing
 • Data portability
 
-To exercise these rights, contact us at genzdevoff@gmail.com`,
+To exercise these rights, contact us at info@genzneuralx.com`,
               },
               {
                 title: "7. Contact Us",
                 content: `If you have any questions about this Privacy Policy, please contact us at:
-Email: genzdevoff@gmail.com
-Phone: +91 63 1900 0000
+Email: info@genzneuralx.com
+Phone: +91 81249 96319, +91 86680 99358, +91 78718 03642
 Address: Tamil Nadu, India`,
               },
             ].map((section, i) => (

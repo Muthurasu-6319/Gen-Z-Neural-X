@@ -8,15 +8,15 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email Us",
-    detail: "genzdevoff@gmail.com",
+    detail: "info@genzneuralx.com",
     sub: "We reply within 24 hours",
-    href: "mailto:genzdevoff@gmail.com",
+    href: "mailto:info@genzneuralx.com",
     color: "#6366f1",
   },
   {
     icon: Phone,
     title: "Call Us",
-    detail: "+91 81249 96319",
+    detail: "+91 81249 96319\n+91 86680 99358\n+91 78718 03642",
     sub: "Mon-Sat, 9am to 6pm IST",
     href: "tel:+918124996319",
     color: "#10b981",
@@ -24,7 +24,7 @@ const contactInfo = [
   {
     icon: MessageCircle,
     title: "WhatsApp",
-    detail: "+91 81249 96319",
+    detail: "+91 81249 96319\n+91 86680 99358\n+91 78718 03642",
     sub: "Chat with us directly",
     href: "https://wa.me/918124996319",
     color: "#25d366",
@@ -193,7 +193,7 @@ export default function ContactPage() {
                     <item.icon size={24} style={{ color: item.color }} />
                   </div>
                   <h4 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "15px", fontWeight: "700", color: "#0a0a0f", marginBottom: "6px" }}>{item.title}</h4>
-                  <p style={{ fontSize: "14px", color: "#2d3160", fontWeight: "600", marginBottom: "4px" }}>{item.detail}</p>
+                  <p style={{ fontSize: "14px", color: "#2d3160", fontWeight: "600", marginBottom: "4px", whiteSpace: "pre-line" }}>{item.detail}</p>
                   <p style={{ fontSize: "12px", color: "#9499c9" }}>{item.sub}</p>
                 </div>
               </a>
