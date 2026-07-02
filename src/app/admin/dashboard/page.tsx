@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Briefcase, Send, LogOut, CheckCircle, MessageSquare, Edit, Trash2, FileText, GraduationCap, BookOpen } from "lucide-react";
+import dynamic from "next/dynamic";
+import "@uiw/react-md-editor/markdown-editor.css";
+import "@uiw/react-markdown-preview/markdown.css";
 
+const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 export default function AdminDashboard() {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -748,9 +752,16 @@ export default function AdminDashboard() {
                     </div>
                   </div>
 
-                  <div className="form-group">
-                    <label className="form-label">Full Blog Content (Markdown / Text)</label>
-                    <textarea name="content" className="form-textarea" placeholder="Write your full SEO optimized blog post here..." value={blogData.content} onChange={handleBlogChange} required style={{ minHeight: "300px" }} />
+                  <div className="form-group" style={{ marginBottom: "16px" }}>
+                    <label className="form-label">Full Blog Content (Markdown)</label>
+                    <div data-color-mode="light">
+                      <MDEditor
+                        value={blogData.content}
+                        onChange={(val) => setBlogData({ ...blogData, content: val || "" })}
+                        height={400}
+                        preview="live"
+                      />
+                    </div>
                   </div>
 
                   {/* SEO Settings Section */}

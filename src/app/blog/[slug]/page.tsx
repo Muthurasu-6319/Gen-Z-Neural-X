@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft, Clock, User, Calendar } from "lucide-react";
 import ReactMarkdown from 'react-markdown';
 import { Metadata, ResolvingMetadata } from 'next';
+import BlogClient from './BlogClient';
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -155,14 +156,8 @@ export default async function BlogPostPage({ params }: Props) {
       </div>
 
       <section className="section" style={{ background: "white" }}>
-        <div className="container" style={{ maxWidth: "780px" }}>
-          <div style={{ fontSize: "17px", color: "#2d3160", lineHeight: "1.9" }}>
-            
-            <div style={{ whiteSpace: "pre-wrap" }}>
-              <ReactMarkdown>{blog.content}</ReactMarkdown>
-            </div>
-            
-          </div>
+        <div className="container" style={{ maxWidth: "1100px" }}>
+          <BlogClient content={blog.content || ""} />
 
           {/* Tags */}
           {blog.keywords && (
