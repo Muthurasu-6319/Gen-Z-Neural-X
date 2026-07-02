@@ -402,7 +402,7 @@ export default function AdminDashboard() {
         category: "",
         excerpt: "",
         content: "",
-        author: "Admin",
+        author: "Muthurasu M",
         readTime: "5 min",
         seoTitle: "",
         metaDescription: "",
