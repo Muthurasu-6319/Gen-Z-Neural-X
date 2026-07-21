@@ -1,0 +1,36 @@
+[
+  {
+    "id": "full-stack-web-dev",
+    "title": "Full Stack Web Development",
+    "description": "Learn to build complete web applications using modern technologies like React, Node.js, and MongoDB. Perfect for beginners looking to start a career in tech.",
+    "duration": "12 Weeks",
+    "students": "1500+",
+    "rating": "4.9",
+    "level": "Beginner",
+    "imageUrl": "",
+    "syllabus": "HTML/CSS, JavaScript, React, Node.js, MongoDB",
+    "mode": "Online + Offline",
+    "certification": true,
+    "whatsappMessage": "Hi, I'm interested in the Full Stack Web Development course.",
+    "seoTitle": "Full Stack Web Development Course",
+    "metaDescription": "Learn full stack web development from scratch.",
+    "keywords": "web dev, react, nodejs"
+  },
+  {
+    "id": "data-science-ai",
+    "title": "Data Science & AI",
+    "description": "Master data science concepts, machine learning algorithms, and AI with Python. Build predictive models and learn from industry experts.",
+    "duration": "16 Weeks",
+    "students": "1200+",
+    "rating": "4.8",
+    "level": "Intermediate",
+    "imageUrl": "",
+    "syllabus": "Python, Pandas, NumPy, Scikit-Learn, TensorFlow",
+    "mode": "Online",
+    "certification": true,
+    "whatsappMessage": "Hi, I'm interested in the Data Science course.",
+    "seoTitle": "Data Science & AI Course",
+    "metaDescription": "Comprehensive data science and AI course.",
+    "keywords": "data science, ai, python, machine learning"
+  }
+]

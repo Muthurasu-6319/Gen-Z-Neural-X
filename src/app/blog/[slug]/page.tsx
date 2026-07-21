@@ -5,6 +5,7 @@ import { ArrowLeft, Clock, User, Calendar } from "lucide-react";
 import ReactMarkdown from 'react-markdown';
 import { Metadata, ResolvingMetadata } from 'next';
 import BlogClient from './BlogClient';
+import localBlogs from '@/data/blogs.json';
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -17,28 +18,36 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { slug } = await params;
   
+  let blog: any = null;
+  
   try {
     const docRef = doc(db, 'blogs', slug);
     const docSnap = await getDoc(docRef);
     
     if (docSnap.exists()) {
-      const blog = docSnap.data() as Record<string, any>;
-      
-      return {
-        title: blog.seoTitle || blog.title,
-        description: blog.metaDescription || blog.excerpt,
-        keywords: blog.keywords ? blog.keywords.split(',').map((k: string) => k.trim()) : ['Gen Z Neural-X', 'Technology', 'Blog'],
-        openGraph: {
-          title: blog.seoTitle || blog.title,
-          description: blog.metaDescription || blog.excerpt,
-          type: 'article',
-          publishedTime: blog.createdAt,
-          authors: [blog.author || 'Gen Z Neural-X Team'],
-        },
-      };
+      blog = docSnap.data();
     }
   } catch (error) {
     console.error("Error generating metadata", error);
+  }
+  
+  if (!blog) {
+    blog = localBlogs.find((b: any) => b.id === slug);
+  }
+  
+  if (blog) {
+    return {
+      title: blog.seoTitle || blog.title,
+      description: blog.metaDescription || blog.excerpt,
+      keywords: blog.keywords ? blog.keywords.split(',').map((k: string) => k.trim()) : ['Gen Z Neural-X', 'Technology', 'Blog'],
+      openGraph: {
+        title: blog.seoTitle || blog.title,
+        description: blog.metaDescription || blog.excerpt,
+        type: 'article',
+        publishedTime: blog.createdAt,
+        authors: [blog.author || 'Gen Z Neural-X Team'],
+      },
+    };
   }
   
   // Fallback if blog not found
@@ -77,6 +86,13 @@ export default async function BlogPostPage({ params }: Props) {
     }
   } catch (err) {
     console.error("Error fetching blog", err);
+  }
+
+  if (!blog) {
+    const localBlog = localBlogs.find((b: any) => b.id === slug);
+    if (localBlog) {
+      blog = localBlog as BlogData;
+    }
   }
 
   if (!blog) {

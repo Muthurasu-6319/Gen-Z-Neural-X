@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeSlug from "rehype-slug";
+import remarkGfm from "remark-gfm";
 import { ArrowUp } from "lucide-react";
 
 interface BlogClientProps {
@@ -67,7 +68,10 @@ export default function BlogClient({ content }: BlogClientProps) {
       {/* Markdown Content */}
       <div style={{ fontSize: "17px", color: "#2d3160", lineHeight: "1.9" }}>
         <div className="markdown-content">
-          <ReactMarkdown rehypePlugins={[rehypeSlug]}>
+          <ReactMarkdown 
+            remarkPlugins={[remarkGfm]} 
+            rehypePlugins={[rehypeSlug]}
+          >
             {content}
           </ReactMarkdown>
         </div>

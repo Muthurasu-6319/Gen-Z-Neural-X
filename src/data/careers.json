@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "id": "frontend-developer",
+    "title": "Senior Frontend Developer",
+    "location": "Chennai / Remote",
+    "experience": "3-5 Years",
+    "department": "Engineering",
+    "type": "Full-Time",
+    "createdAt": "2026-07-01T00:00:00.000Z"
+  },
+  {
+    "id": "digital-marketing-manager",
+    "title": "Digital Marketing Manager",
+    "location": "Bangalore",
+    "experience": "2-4 Years",
+    "department": "Marketing",
+    "type": "Full-Time",
+    "createdAt": "2026-07-05T00:00:00.000Z"
+  }
+]

@@ -4,14 +4,24 @@ import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
 
 export const dynamic = 'force-dynamic';
 
+import localBlogs from '@/data/blogs.json';
+
 export async function GET() {
   try {
     const blogsCol = collection(db, 'blogs');
     const blogSnapshot = await getDocs(blogsCol);
-    const blogs = blogSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    let blogs = blogSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    
+    // Fallback to local data if firestore is empty
+    if (blogs.length === 0) {
+      blogs = localBlogs;
+    }
+    
     return NextResponse.json({ blogs });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch blogs' }, { status: 500 });
+    console.error("Firebase fetch error:", error);
+    // Fallback to local JSON on error
+    return NextResponse.json({ blogs: localBlogs });
   }
 }
 

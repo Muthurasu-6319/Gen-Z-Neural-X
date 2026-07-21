@@ -1,0 +1,24 @@
+[
+  {
+    "id": "web-dev-intern",
+    "category": "Web Development",
+    "slots": "5 Openings",
+    "title": "Web Development Intern",
+    "duration": "3 Months",
+    "mode": "Remote",
+    "paidOrNot": "Paid Stipend",
+    "description": "Get hands-on experience building React applications and working with modern web technologies. Great opportunity for freshers.",
+    "createdAt": "2026-07-10T00:00:00.000Z"
+  },
+  {
+    "id": "ml-intern",
+    "category": "Machine Learning",
+    "slots": "3 Openings",
+    "title": "Machine Learning Intern",
+    "duration": "6 Months",
+    "mode": "On-site",
+    "paidOrNot": "Paid Stipend",
+    "description": "Work with our data science team on real-world AI problems and deep learning models. Mentorship provided by senior data scientists.",
+    "createdAt": "2026-07-12T00:00:00.000Z"
+  }
+]

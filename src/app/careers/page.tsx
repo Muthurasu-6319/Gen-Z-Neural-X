@@ -2,6 +2,7 @@ import Link from "next/link";
 import { MapPin, Clock, Briefcase, Users, ArrowRight } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
+import localCareers from "@/data/careers.json";
 
 export const dynamic = 'force-dynamic';
 
@@ -15,9 +16,13 @@ export default async function CareersPage() {
   try {
     const querySnapshot = await getDocs(collection(db, "careers"));
     careers = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    if (careers.length === 0) {
+      careers = localCareers;
+    }
     careers.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
   } catch (err) {
     console.error("Failed to load careers", err);
+    careers = localCareers;
   }
 
   return (

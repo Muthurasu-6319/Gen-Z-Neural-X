@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Briefcase, Clock, Users, ArrowRight, DollarSign } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
+import localInternships from "@/data/internships.json";
 
 export const dynamic = 'force-dynamic';
 
@@ -15,9 +16,13 @@ export default async function InternshipsPage() {
   try {
     const querySnapshot = await getDocs(collection(db, "internships"));
     internships = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    if (internships.length === 0) {
+      internships = localInternships;
+    }
     internships.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
   } catch (err) {
     console.error("Failed to load internships", err);
+    internships = localInternships;
   }
 
   return (

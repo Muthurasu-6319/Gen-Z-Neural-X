@@ -1,16 +1,21 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
+import localCourses from '@/data/courses.json';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
     const snapshot = await getDocs(collection(db, 'courses'));
-    const courses = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+    let courses = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+    if (courses.length === 0) {
+      courses = localCourses;
+    }
     return NextResponse.json({ courses });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch courses' }, { status: 500 });
+    console.error("Firebase fetch error:", error);
+    return NextResponse.json({ courses: localCourses });
   }
 }
 
