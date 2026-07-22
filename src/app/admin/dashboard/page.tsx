@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Briefcase, Send, LogOut, CheckCircle, MessageSquare, Edit, Trash2, FileText, GraduationCap, BookOpen } from "lucide-react";
+import { Briefcase, Send, LogOut, CheckCircle, MessageSquare, Edit, Trash2, FileText, GraduationCap, BookOpen, Trophy, Package } from "lucide-react";
 import dynamic from "next/dynamic";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
@@ -46,6 +46,25 @@ export default function AdminDashboard() {
   const [courses, setCourses] = useState<any[]>([]);
   const [loadingCourses, setLoadingCourses] = useState(false);
   const [editingCourseSlug, setEditingCourseSlug] = useState<string | null>(null);
+  
+  const [portfolioItems, setPortfolioItems] = useState<any[]>([]);
+  const [loadingPortfolio, setLoadingPortfolio] = useState(false);
+  const [editingPortfolioId, setEditingPortfolioId] = useState<string | null>(null);
+  
+  const [products, setProducts] = useState<any[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+  const [editingProductId, setEditingProductId] = useState<string | null>(null);
+  const [productData, setProductData] = useState({
+    title: "", description: "", imageUrl: "", features: "", category: "Software",
+    seoTitle: "", metaDescription: "", keywords: ""
+  });
+
+  const [portfolioData, setPortfolioData] = useState({
+    title: "", client: "", category: "Web Development", categoryColor: "#6366f1",
+    description: "", tech: "", result: "", bgGradient: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+    logoUrl: "", imageUrl: "", websiteUrl: ""
+  });
+
   const [courseData, setCourseData] = useState({
     title: "", description: "", duration: "", students: "", rating: "",
     level: "Beginner", imageUrl: "", syllabus: "", mode: "Online + Offline",
@@ -94,9 +113,17 @@ export default function AdminDashboard() {
       fetchBlogs();
     } else if (activeTab === "internships") {
       fetchInternships();
+    
     } else if (activeTab === "courses") {
       fetchCourses();
+    
+    } else if (activeTab === "portfolio") {
+      fetchPortfolio();
+    } else if (activeTab === "products") {
+      fetchProducts();
     }
+
+
   }, [activeTab]);
 
   const fetchResponses = async () => {
@@ -163,6 +190,40 @@ export default function AdminDashboard() {
     }
   };
 
+  
+  
+  const fetchProducts = async () => {
+    setLoadingProducts(true);
+    try {
+      const res = await fetch('/api/products', { cache: 'no-store' });
+      const data = await res.json();
+      if (data.products) {
+        const sorted = data.products.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        setProducts(sorted);
+      }
+    } catch (err) {
+      console.error("Failed to fetch products", err);
+    } finally {
+      setLoadingProducts(false);
+    }
+  };
+
+  const fetchPortfolio = async () => {
+    setLoadingPortfolio(true);
+    try {
+      const res = await fetch('/api/portfolio', { cache: 'no-store' });
+      const data = await res.json();
+      if (data.portfolio) {
+        const sorted = data.portfolio.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        setPortfolioItems(sorted);
+      }
+    } catch (err) {
+      console.error("Failed to fetch portfolio", err);
+    } finally {
+      setLoadingPortfolio(false);
+    }
+  };
+
   const fetchCourses = async () => {
     setLoadingCourses(true);
     try {
@@ -174,6 +235,109 @@ export default function AdminDashboard() {
     } finally {
       setLoadingCourses(false);
     }
+  };
+
+  
+  
+  const handleProductChange = (e: any) => {
+    setProductData({ ...productData, [e.target.name]: e.target.value });
+  };
+
+  const handleProductSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      if (editingProductId) {
+        const res = await fetch(`/api/products/${editingProductId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(productData)
+        });
+        if (res.ok) { setSuccessMsg("Product updated!"); setEditingProductId(null); }
+      } else {
+        const res = await fetch('/api/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(productData)
+        });
+        if (res.ok) { setSuccessMsg("Product published!"); }
+      }
+      setProductData({ title: "", description: "", imageUrl: "", features: "", category: "Software", seoTitle: "", metaDescription: "", keywords: "" });
+      fetchProducts();
+      setTimeout(() => setSuccessMsg(""), 3000);
+    } catch (err) { console.error(err); }
+  };
+
+  const handleProductEdit = (item: any) => {
+    setEditingProductId(item.id || item.slug);
+    setProductData({
+      title: item.title || "", description: item.description || "", imageUrl: item.imageUrl || "", 
+      features: item.features || "", category: item.category || "Software",
+      seoTitle: item.seoTitle || "", metaDescription: item.metaDescription || "", keywords: item.keywords || ""
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleProductDelete = async (id: string) => {
+    if (confirm("Delete this product?")) {
+      await fetch(`/api/products/${id}`, { method: 'DELETE' });
+      fetchProducts();
+    }
+  };
+
+  const cancelProductEdit = () => {
+    setEditingProductId(null);
+    setProductData({ title: "", description: "", imageUrl: "", features: "", category: "Software", seoTitle: "", metaDescription: "", keywords: "" });
+  };
+
+  const handlePortfolioChange = (e: any) => {
+    setPortfolioData({ ...portfolioData, [e.target.name]: e.target.value });
+  };
+
+  const handlePortfolioSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      if (editingPortfolioId) {
+        const res = await fetch(`/api/portfolio/${editingPortfolioId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(portfolioData)
+        });
+        if (res.ok) { setSuccessMsg("Portfolio updated!"); setEditingPortfolioId(null); }
+      } else {
+        const res = await fetch('/api/portfolio', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(portfolioData)
+        });
+        if (res.ok) { setSuccessMsg("Portfolio published!"); }
+      }
+      setPortfolioData({ title: "", client: "", category: "Web Development", categoryColor: "#6366f1", description: "", tech: "", result: "", bgGradient: "linear-gradient(135deg, #6366f1, #8b5cf6)", logoUrl: "", imageUrl: "", websiteUrl: "" });
+      fetchPortfolio();
+      setTimeout(() => setSuccessMsg(""), 3000);
+    } catch (err) { console.error(err); }
+  };
+
+  const handlePortfolioEdit = (item: any) => {
+    setEditingPortfolioId(item.id || item.slug);
+    setPortfolioData({
+      title: item.title || "", client: item.client || "", category: item.category || "Web Development",
+      categoryColor: item.categoryColor || "#6366f1", description: item.description || "", tech: item.tech || "",
+      result: item.result || "", bgGradient: item.bgGradient || "linear-gradient(135deg, #6366f1, #8b5cf6)",
+      logoUrl: item.logoUrl || "", imageUrl: item.imageUrl || "", websiteUrl: item.websiteUrl || ""
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handlePortfolioDelete = async (id: string) => {
+    if (confirm("Delete this portfolio item?")) {
+      await fetch(`/api/portfolio/${id}`, { method: 'DELETE' });
+      fetchPortfolio();
+    }
+  };
+
+  const cancelPortfolioEdit = () => {
+    setEditingPortfolioId(null);
+    setPortfolioData({ title: "", client: "", category: "Web Development", categoryColor: "#6366f1", description: "", tech: "", result: "", bgGradient: "linear-gradient(135deg, #6366f1, #8b5cf6)", logoUrl: "", imageUrl: "", websiteUrl: "" });
   };
 
   const handleCourseChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -557,6 +721,30 @@ export default function AdminDashboard() {
             <BookOpen size={20} /> Courses
           </button>
           <button 
+            onClick={() => setActiveTab("portfolio")}
+            style={{ 
+              display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "12px", 
+              background: activeTab === "portfolio" ? "var(--primary-glow)" : "transparent",
+              color: activeTab === "portfolio" ? "var(--primary-light)" : "var(--gray-600)",
+              border: "none", cursor: "pointer", fontSize: "15px", fontWeight: "600", transition: "all 0.2s"
+            }}
+          >
+            <Trophy size={20} /> Portfolio
+          </button>
+          <button 
+            onClick={() => setActiveTab("products")}
+            style={{ 
+              display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "12px", 
+              background: activeTab === "products" ? "var(--primary-glow)" : "transparent",
+              color: activeTab === "products" ? "var(--primary-light)" : "var(--gray-600)",
+              border: "none", cursor: "pointer", fontSize: "15px", fontWeight: "600", transition: "all 0.2s"
+            }}
+          >
+            <Package size={20} /> Products
+          </button>
+
+
+          <button 
             onClick={() => setActiveTab("responses")}
             style={{ 
               display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "12px", 
@@ -589,14 +777,14 @@ export default function AdminDashboard() {
           
           <div style={{ marginBottom: "32px", display: "flex", alignItems: "center", gap: "16px" }}>
                         <div style={{ width: "48px", height: "48px", background: "white", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--primary-light)", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
-              {activeTab === "careers" ? <Briefcase size={24} /> : activeTab === "blogs" ? <FileText size={24} /> : activeTab === "internships" ? <GraduationCap size={24} /> : <MessageSquare size={24} />}
+              {activeTab === "careers" ? <Briefcase size={24} /> : activeTab === "blogs" ? <FileText size={24} /> : activeTab === "internships" ? <GraduationCap size={24} /> : activeTab === "products" ? <Package size={24} /> : activeTab === "portfolio" ? <Trophy size={24} /> : <MessageSquare size={24} />}
             </div>
             <div>
               <h1 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "28px", fontWeight: "800", color: "#0a0a0f" }}>
-                {activeTab === "careers" ? "Manage Careers" : activeTab === "blogs" ? "Manage Blog Posts" : activeTab === "internships" ? "Manage Internships" : activeTab === "courses" ? "Manage Courses" : "Contact Responses"}
+                {activeTab === "careers" ? "Manage Careers" : activeTab === "blogs" ? "Manage Blog Posts" : activeTab === "internships" ? "Manage Internships" : activeTab === "products" ? "Manage Products" : activeTab === "portfolio" ? "Manage Portfolio" : activeTab === "courses" ? "Manage Courses" : "Contact Responses"}
               </h1>
               <p style={{ color: "var(--gray-500)", fontSize: "15px" }}>
-                {activeTab === "careers" ? "Post and manage job openings" : activeTab === "blogs" ? "Publish and edit SEO optimized blog articles" : activeTab === "internships" ? "Post internship opportunities" : activeTab === "courses" ? "Publish and manage course listings" : "View all form submissions from the website"}
+                {activeTab === "careers" ? "Post and manage job openings" : activeTab === "blogs" ? "Publish and edit SEO optimized blog articles" : activeTab === "internships" ? "Post internship opportunities" : activeTab === "products" ? "Publish and manage SEO-based products without payments" : activeTab === "portfolio" ? "Manage your past work and case studies" : activeTab === "courses" ? "Publish and manage course listings" : "View all form submissions from the website"}
               </p>
             </div>
           </div>
@@ -627,6 +815,7 @@ export default function AdminDashboard() {
                     </div>
                   </div>
 
+                  
                   <div className="grid-3">
                     <div className="form-group">
                       <label className="form-label">Location</label>
@@ -1071,6 +1260,253 @@ export default function AdminDashboard() {
                             <Edit size={18} />
                           </button>
                           <button onClick={() => handleCourseDelete(c.id)} style={{ background: "#fef2f2", color: "#ef4444", border: "none", width: "40px", height: "40px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                            <Trash2 size={18} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          
+          {/* Portfolio Tab */}
+          {activeTab === "portfolio" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+              <div className="card">
+                <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "20px", fontWeight: "700", marginBottom: "24px" }}>
+                  {editingPortfolioId ? "Edit Portfolio Item" : "Add New Portfolio Item"}
+                </h2>
+
+                {successMsg && (
+                  <div style={{ background: "#ecfdf5", color: "#10b981", padding: "16px", borderRadius: "12px", fontSize: "15px", fontWeight: "500", display: "flex", alignItems: "center", gap: "8px", marginBottom: "24px", border: "1px solid #d1fae5" }}>
+                    <CheckCircle size={20} /> {successMsg}
+                  </div>
+                )}
+
+                <form onSubmit={handlePortfolioSubmit} style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                  <div className="grid-2">
+                    <div className="form-group">
+                      <label className="form-label">Project Title</label>
+                      <input type="text" name="title" className="form-input" placeholder="e.g. Dental Clinic Website" value={portfolioData.title} onChange={handlePortfolioChange} required />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Client Name</label>
+                      <input type="text" name="client" className="form-input" placeholder="e.g. ABC Dental" value={portfolioData.client} onChange={handlePortfolioChange} required />
+                    </div>
+                  </div>
+
+                  <div className="grid-2">
+                    <div className="form-group">
+                      <label className="form-label">Category</label>
+                      <select name="category" className="form-input" value={portfolioData.category} onChange={handlePortfolioChange} required>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Digital Marketing">Digital Marketing</option>
+                        <option value="SEO">SEO</option>
+                        <option value="Mobile App">Mobile App</option>
+                        <option value="AI/ML">AI/ML</option>
+                        <option value="Custom Software">Custom Software</option>
+                      </select>
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Tech / Services Used</label>
+                      <input type="text" name="tech" className="form-input" placeholder="e.g. Next.js, SEO, Facebook Ads (comma separated)" value={portfolioData.tech} onChange={handlePortfolioChange} required />
+                    </div>
+                  </div>
+
+                  <div className="grid-2">
+                    <div className="form-group">
+                      <label className="form-label">Client Logo URL (Optional)</label>
+                      <input type="text" name="logoUrl" className="form-input" placeholder="https://.../logo.png" value={portfolioData.logoUrl} onChange={handlePortfolioChange} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Project Image URL (Optional)</label>
+                      <input type="text" name="imageUrl" className="form-input" placeholder="https://.../project.png" value={portfolioData.imageUrl} onChange={handlePortfolioChange} />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Description</label>
+                    <textarea name="description" className="form-textarea" placeholder="Briefly describe the project and what you did..." value={portfolioData.description} onChange={handlePortfolioChange} required style={{ minHeight: "100px" }} />
+                  </div>
+
+                  <div className="grid-3">
+                    <div className="form-group">
+                      <label className="form-label">Result / Impact</label>
+                      <input type="text" name="result" className="form-input" placeholder="e.g. 200% traffic increase" value={portfolioData.result} onChange={handlePortfolioChange} required />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Category Color (Hex)</label>
+                      <input type="text" name="categoryColor" className="form-input" placeholder="#6366f1" value={portfolioData.categoryColor} onChange={handlePortfolioChange} required />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Background Gradient (CSS)</label>
+                      <input type="text" name="bgGradient" className="form-input" placeholder="linear-gradient(135deg, #6366f1, #8b5cf6)" value={portfolioData.bgGradient} onChange={handlePortfolioChange} required />
+                    </div>
+                  </div>
+
+                  
+                  <div className="form-group" style={{ marginBottom: "24px" }}>
+                    <label className="form-label">Client Website URL (Optional)</label>
+                    <input type="url" name="websiteUrl" className="form-input" placeholder="https://www.clientwebsite.com" value={portfolioData.websiteUrl} onChange={handlePortfolioChange} />
+                  </div>
+
+                  <div style={{ display: "flex", gap: "16px" }}>
+                    <button type="submit" className="btn-primary" style={{ padding: "16px 32px" }}>
+                      <Send size={18} /> {editingPortfolioId ? "Update Portfolio" : "Add Portfolio Item"}
+                    </button>
+                    {editingPortfolioId && (
+                      <button type="button" onClick={cancelPortfolioEdit} className="btn-secondary" style={{ padding: "16px 32px", borderColor: "var(--gray-300)", color: "var(--gray-600)" }}>
+                        Cancel
+                      </button>
+                    )}
+                  </div>
+                </form>
+              </div>
+
+              <div>
+                <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "20px", fontWeight: "700", marginBottom: "16px", color: "var(--black)" }}>Portfolio Items</h3>
+                {loadingPortfolio ? (
+                  <p style={{ color: "var(--gray-500)" }}>Loading portfolio...</p>
+                ) : portfolioItems.length === 0 ? (
+                  <p style={{ color: "var(--gray-500)", background: "white", padding: "24px", borderRadius: "12px", border: "1px solid var(--gray-200)", textAlign: "center" }}>No portfolio items added yet.</p>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    {portfolioItems.map((item: any) => (
+                      <div key={item.id} style={{ background: "white", padding: "20px", borderRadius: "12px", border: "1px solid var(--gray-200)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                          {item.logoUrl ? (
+                            <img src={item.logoUrl} alt="logo" style={{ width: "50px", height: "50px", objectFit: "contain", borderRadius: "8px" }} />
+                          ) : (
+                            <div style={{ width: "50px", height: "50px", background: item.bgGradient || "var(--gray-200)", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
+                              <Trophy size={24} />
+                            </div>
+                          )}
+                          <div>
+                            <h4 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "18px", fontWeight: "700", color: "var(--black)", marginBottom: "4px" }}>{item.title}</h4>
+                            <div style={{ display: "flex", gap: "12px", color: "var(--gray-500)", fontSize: "14px" }}>
+                              <span>{item.client}</span> • 
+                              <span>{item.category}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div style={{ display: "flex", gap: "12px" }}>
+                          <button onClick={() => handlePortfolioEdit(item)} style={{ background: "var(--primary-glow)", color: "var(--primary)", border: "none", width: "40px", height: "40px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                            <Edit size={18} />
+                          </button>
+                          <button onClick={() => handlePortfolioDelete(item.id)} style={{ background: "#fef2f2", color: "#ef4444", border: "none", width: "40px", height: "40px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                            <Trash2 size={18} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          
+          {/* Products Tab */}
+          {activeTab === "products" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+              <div className="card">
+                <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "20px", fontWeight: "700", marginBottom: "24px" }}>
+                  {editingProductId ? "Edit Product" : "Add New Product"}
+                </h2>
+
+                {successMsg && (
+                  <div style={{ background: "#ecfdf5", color: "#10b981", padding: "16px", borderRadius: "12px", fontSize: "15px", fontWeight: "500", display: "flex", alignItems: "center", gap: "8px", marginBottom: "24px", border: "1px solid #d1fae5" }}>
+                    <CheckCircle size={20} /> {successMsg}
+                  </div>
+                )}
+
+                <form onSubmit={handleProductSubmit} style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                  <div className="grid-2">
+                    <div className="form-group">
+                      <label className="form-label">Product Title</label>
+                      <input type="text" name="title" className="form-input" placeholder="e.g. CRM System" value={productData.title} onChange={handleProductChange} required />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Category</label>
+                      <input type="text" name="category" className="form-input" placeholder="e.g. Software / Templates" value={productData.category} onChange={handleProductChange} required />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Product Image URL</label>
+                    <input type="text" name="imageUrl" className="form-input" placeholder="https://.../product.png" value={productData.imageUrl} onChange={handleProductChange} required />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Product Description</label>
+                    <textarea name="description" className="form-textarea" placeholder="Detailed product description..." value={productData.description} onChange={handleProductChange} required style={{ minHeight: "100px" }} />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Key Features (Comma separated)</label>
+                    <input type="text" name="features" className="form-input" placeholder="e.g. Real-time updates, Secure, SEO Friendly" value={productData.features} onChange={handleProductChange} required />
+                  </div>
+
+                  <div style={{ background: "rgba(99,102,241,0.05)", padding: "20px", borderRadius: "12px", border: "1px solid rgba(99,102,241,0.1)", display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <h3 style={{ fontSize: "16px", fontWeight: "700", color: "var(--primary)", margin: 0 }}>SEO Settings</h3>
+                    <div className="form-group" style={{ margin: 0 }}>
+                      <label className="form-label">SEO Title</label>
+                      <input type="text" name="seoTitle" className="form-input" value={productData.seoTitle} onChange={handleProductChange} required />
+                    </div>
+                    <div className="form-group" style={{ margin: 0 }}>
+                      <label className="form-label">Meta Description</label>
+                      <input type="text" name="metaDescription" className="form-input" value={productData.metaDescription} onChange={handleProductChange} required />
+                    </div>
+                    <div className="form-group" style={{ margin: 0 }}>
+                      <label className="form-label">SEO Keywords</label>
+                      <input type="text" name="keywords" className="form-input" placeholder="e.g. buy CRM software, custom templates" value={productData.keywords} onChange={handleProductChange} required />
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", gap: "16px" }}>
+                    <button type="submit" className="btn-primary" style={{ padding: "16px 32px" }}>
+                      <Send size={18} /> {editingProductId ? "Update Product" : "Publish Product"}
+                    </button>
+                    {editingProductId && (
+                      <button type="button" onClick={cancelProductEdit} className="btn-secondary" style={{ padding: "16px 32px", borderColor: "var(--gray-300)", color: "var(--gray-600)" }}>
+                        Cancel
+                      </button>
+                    )}
+                  </div>
+                </form>
+              </div>
+
+              <div>
+                <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "20px", fontWeight: "700", marginBottom: "16px", color: "var(--black)" }}>Published Products</h3>
+                {loadingProducts ? (
+                  <p style={{ color: "var(--gray-500)" }}>Loading products...</p>
+                ) : products.length === 0 ? (
+                  <p style={{ color: "var(--gray-500)", background: "white", padding: "24px", borderRadius: "12px", border: "1px solid var(--gray-200)", textAlign: "center" }}>No products added yet.</p>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    {products.map((item: any) => (
+                      <div key={item.id} style={{ background: "white", padding: "20px", borderRadius: "12px", border: "1px solid var(--gray-200)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                          {item.imageUrl ? (
+                            <img src={item.imageUrl} alt="product" style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "8px" }} />
+                          ) : (
+                            <div style={{ width: "50px", height: "50px", background: "var(--gray-200)", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
+                              <Package size={24} />
+                            </div>
+                          )}
+                          <div>
+                            <h4 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "18px", fontWeight: "700", color: "var(--black)", margin: 0 }}>{item.title}</h4>
+                            <span style={{ color: "var(--gray-500)", fontSize: "14px" }}>{item.category}</span>
+                          </div>
+                        </div>
+                        <div style={{ display: "flex", gap: "12px" }}>
+                          <button onClick={() => handleProductEdit(item)} style={{ background: "var(--primary-glow)", color: "var(--primary)", border: "none", width: "40px", height: "40px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                            <Edit size={18} />
+                          </button>
+                          <button onClick={() => handleProductDelete(item.id)} style={{ background: "#fef2f2", color: "#ef4444", border: "none", width: "40px", height: "40px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
                             <Trash2 size={18} />
                           </button>
                         </div>

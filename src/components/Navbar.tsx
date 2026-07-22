@@ -39,6 +39,7 @@ const navItems = [
       { label: "Portfolio", href: "/portfolio" },
       { label: "Blog", href: "/blog" },
       { label: "Careers", href: "/careers" },
+      { label: "Partners", href: "/partners" },
     ],
   },
   {
@@ -49,14 +50,6 @@ const navItems = [
   {
     label: "Products",
     href: "/products",
-    children: [
-      { label: "AI Chatbot", href: "/products/ai-chatbot" },
-      { label: "School Management", href: "/products/school-management" },
-      { label: "ERP Software", href: "/products/erp-software" },
-      { label: "CRM System", href: "/products/crm-system" },
-      { label: "E-learning Platform", href: "/products/elearning-platform" },
-      { label: "SaaS Products", href: "/products/saas-products" },
-    ],
   },
   {
     label: "Learn",
@@ -64,7 +57,6 @@ const navItems = [
     children: [
       { label: "Courses", href: "/courses" },
       { label: "Internships", href: "/internships" },
-      { label: "Certifications", href: "/certifications" },
       { label: "Final Year Project", href: "/learn/final-year-project" },
     ],
   },
