@@ -21,5 +21,45 @@
     "interest": "Referral",
     "message": "Hiii",
     "submittedAt": "2026-07-22T14:38:56.100Z"
+  },
+  {
+    "id": "1784820490612",
+    "formType": "Partnership Inquiry",
+    "companyName": "ennoda company tha",
+    "contactPerson": "Nantha",
+    "email": "ennodamail@gmail.com",
+    "interest": "Agency White-Label",
+    "message": "summa panni pathen paa....",
+    "submittedAt": "2026-07-23T15:28:10.612Z"
+  },
+  {
+    "id": "1784820653787",
+    "formType": "Partnership Inquiry",
+    "companyName": "Test Agency",
+    "contactPerson": "Test User",
+    "email": "test@test.com",
+    "interest": "Agency White-Label",
+    "message": "This is a test submission from partners page",
+    "submittedAt": "2026-07-23T15:30:53.787Z"
+  },
+  {
+    "id": "1784821080308",
+    "formType": "Partnership Inquiry",
+    "companyName": "namma company tha",
+    "contactPerson": "nantha",
+    "email": "muthurasu6319@gmail.com",
+    "interest": "Agency White-Label",
+    "message": "summa msg pannen",
+    "submittedAt": "2026-07-23T15:38:00.308Z"
+  },
+  {
+    "id": "1784821444710",
+    "formType": "Partnership Inquiry",
+    "companyName": "Test Agency",
+    "contactPerson": "Test User",
+    "email": "test@test.com",
+    "interest": "Agency White-Label",
+    "message": "Testing new app password from partners page",
+    "submittedAt": "2026-07-23T15:44:04.710Z"
   }
 ]

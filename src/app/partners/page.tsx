@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { Handshake, Building2, Rocket, TrendingUp, ArrowRight, ShieldCheck, Sparkles, CheckCircle2, Zap } from "lucide-react";
+import { Handshake, Building2, Rocket, TrendingUp, ShieldCheck, CheckCircle2, Zap, ArrowRight } from "lucide-react";
 import { useState } from "react";
 
 export default function PartnersPage() {
@@ -59,13 +58,23 @@ export default function PartnersPage() {
 
           {/* Section header */}
           <div style={{ textAlign: "center", marginBottom: "56px" }}>
-            <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)", fontWeight: "800", color: "var(--black)", marginBottom: "14px" }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "20px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", padding: "5px 14px 5px 8px", background: "rgba(99,102,241,0.08)", border: "1px solid rgba(99,102,241,0.15)", borderRadius: "50px", fontSize: "12px", fontWeight: "700", color: "#6366f1" }}>
+                <Building2 size={14} /> Agency Partner Network
+              </div>
+              <div style={{ width: "24px", height: "1.5px", background: "var(--gray-200)" }} />
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", padding: "5px 14px 5px 8px", background: "rgba(16,185,129,0.07)", border: "1px solid rgba(16,185,129,0.15)", borderRadius: "50px", fontSize: "12px", fontWeight: "700", color: "#10b981" }}>
+                <Rocket size={14} /> Co-Build Studio
+              </div>
+            </div>
+            <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)", fontWeight: "800", color: "var(--black)", marginBottom: "14px", lineHeight: 1.15 }}>
               Two Strategic Ways To Collaborate
             </h2>
-            <p style={{ fontSize: "16px", color: "var(--gray-500)", maxWidth: "580px", margin: "0 auto", lineHeight: 1.7 }}>
+            <p style={{ fontSize: "16px", color: "var(--gray-500)", maxWidth: "560px", margin: "0 auto", lineHeight: 1.75 }}>
               Choose the track that fits your business goals — agency tech fulfillment or product co-founding.
             </p>
           </div>
+
 
           {/* ── TRACK CARDS ──────────────────────────── */}
           <div className="partner-track-grid">
@@ -97,9 +106,7 @@ export default function PartnersPage() {
                     </div>
                   ))}
                 </div>
-                <Link href="/contact?type=agency-partner" className="btn-primary" style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "13px 20px", fontSize: "14px", gap: "8px", borderRadius: "12px", marginTop: "auto" }}>
-                  Join Agency Network <ArrowRight size={15} />
-                </Link>
+
               </div>
             </div>
 
@@ -132,9 +139,7 @@ export default function PartnersPage() {
                   ))}
                 </div>
 
-                <Link href="/contact?type=co-build" className="btn-secondary" style={{ display: "inline-flex", justifyContent: "center", padding: "14px 24px", fontSize: "14px", gap: "8px", borderRadius: "14px", border: "2px solid #10b981", color: "#10b981" }}>
-                  Pitch Your Product Idea <Sparkles size={16} />
-                </Link>
+
               </div>
             </div>
           </div>
