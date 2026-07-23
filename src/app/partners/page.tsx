@@ -69,7 +69,7 @@ export default function PartnersPage() {
           {/* Dual Tracks Section */}
           <div className="grid-2" style={{ gap: "32px", marginBottom: "64px" }}>
             {/* Track 1: Agency Partner Network */}
-            <div style={{ background: "white", borderRadius: "24px", padding: "48px", border: "1px solid var(--gray-100)", boxShadow: "0 10px 30px rgba(0,0,0,0.03)" }}>
+            <div className="partner-card" style={{ background: "white", borderRadius: "24px", border: "1px solid var(--gray-100)", boxShadow: "0 10px 30px rgba(0,0,0,0.03)" }}>
               <div style={{ width: "64px", height: "64px", background: "rgba(99, 102, 241, 0.1)", borderRadius: "16px", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--primary)", marginBottom: "24px" }}>
                 <Building2 size={32} />
               </div>
@@ -109,7 +109,7 @@ export default function PartnersPage() {
             </div>
 
             {/* Track 2: Product Co-Building Studio */}
-            <div style={{ background: "white", borderRadius: "24px", padding: "48px", border: "1px solid var(--gray-100)", boxShadow: "0 10px 30px rgba(0,0,0,0.03)" }}>
+            <div className="partner-card" style={{ background: "white", borderRadius: "24px", border: "1px solid var(--gray-100)", boxShadow: "0 10px 30px rgba(0,0,0,0.03)" }}>
               <div style={{ width: "64px", height: "64px", background: "rgba(16, 185, 129, 0.1)", borderRadius: "16px", display: "flex", alignItems: "center", justifyContent: "center", color: "#10b981", marginBottom: "24px" }}>
                 <Rocket size={32} />
               </div>
@@ -150,12 +150,12 @@ export default function PartnersPage() {
           </div>
 
           {/* Form & Value Proposition Banner */}
-          <div style={{ background: "white", borderRadius: "24px", padding: "56px", display: "flex", flexWrap: "wrap", gap: "48px", border: "1px solid var(--gray-100)", boxShadow: "0 10px 40px rgba(0,0,0,0.05)" }}>
-            <div style={{ flex: "1 1 400px" }}>
+          <div className="partner-banner" style={{ background: "white", borderRadius: "24px", display: "flex", flexWrap: "wrap", gap: "48px", border: "1px solid var(--gray-100)", boxShadow: "0 10px 40px rgba(0,0,0,0.05)" }}>
+            <div className="partner-flex-item">
               <div style={{ display: "inline-block", padding: "8px 16px", background: "rgba(99,102,241,0.1)", color: "var(--primary)", borderRadius: "50px", fontWeight: "600", fontSize: "13px", marginBottom: "16px" }}>
                 Get In Touch
               </div>
-              <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "32px", fontWeight: "800", color: "var(--black)", marginBottom: "20px" }}>
+              <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(1.75rem, 4vw, 2rem)", fontWeight: "800", color: "var(--black)", marginBottom: "20px" }}>
                 Let's Discuss How We Can Partner
               </h3>
               <p style={{ fontSize: "15px", color: "var(--gray-500)", lineHeight: "1.7", marginBottom: "32px" }}>
@@ -164,7 +164,7 @@ export default function PartnersPage() {
 
               <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                  <div style={{ width: "44px", height: "44px", background: "rgba(99,102,241,0.1)", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--primary)" }}>
+                  <div style={{ width: "44px", height: "44px", background: "rgba(99,102,241,0.1)", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--primary)", flexShrink: 0 }}>
                     <ShieldCheck size={22} />
                   </div>
                   <div>
@@ -174,7 +174,7 @@ export default function PartnersPage() {
                 </div>
 
                 <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                  <div style={{ width: "44px", height: "44px", background: "rgba(16,185,129,0.1)", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", color: "#10b981" }}>
+                  <div style={{ width: "44px", height: "44px", background: "rgba(16,185,129,0.1)", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", color: "#10b981", flexShrink: 0 }}>
                     <TrendingUp size={22} />
                   </div>
                   <div>
@@ -185,7 +185,7 @@ export default function PartnersPage() {
               </div>
             </div>
             
-            <div style={{ flex: "1 1 400px", background: "var(--gray-50)", borderRadius: "20px", padding: "40px" }}>
+            <div className="partner-flex-item partner-form-box" style={{ background: "var(--gray-50)", borderRadius: "20px" }}>
               <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "20px", color: "var(--black)" }}>Partnership Request Form</h3>
               <form className="contact-form" onSubmit={handleSubmit}>
                 {status === "success" && (
