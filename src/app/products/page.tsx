@@ -58,7 +58,6 @@ export default function ProductsPage() {
             <div style={{ textAlign: "center", padding: "100px 0", color: "var(--gray-500)" }}>
               <Package size={48} style={{ margin: "0 auto 16px", color: "var(--gray-300)" }} />
               <p style={{ fontSize: "18px", fontWeight: "600", color: "var(--gray-600)" }}>No products found.</p>
-              <p>Products added from the admin dashboard will appear here.</p>
             </div>
           ) : (
             <div className="grid-3">

@@ -126,13 +126,12 @@ function IndustrialColumn() {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "20px" }}>
-        <Zap size={13} style={{ color: "#f59e0b" }} />
         <h3
           style={{
             fontFamily: "'Outfit', sans-serif",
             fontSize: "14px",
             fontWeight: "700",
-            color: "#fbbf24",
+            color: "white",
             textTransform: "uppercase",
             letterSpacing: "0.5px",
           }}
@@ -156,7 +155,7 @@ function IndustrialColumn() {
                 gap: "6px",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.color = "#fbbf24";
+                e.currentTarget.style.color = "#a5b4fc";
                 e.currentTarget.style.paddingLeft = "6px";
               }}
               onMouseLeave={(e) => {
@@ -173,7 +172,7 @@ function IndustrialColumn() {
         <Link
           href="/services/industrial-automation"
           id="footer-industrial-view-all"
-          style={{ fontSize: "12px", color: "#f59e0b", fontWeight: "600", textDecoration: "none" }}
+          style={{ fontSize: "12px", color: "white", fontWeight: "600", textDecoration: "none" }}
         >
           View All Solutions →
         </Link>
@@ -236,7 +235,7 @@ export default function Footer() {
               Get Free Consultation <ArrowRight size={16} />
             </Link>
             <Link href="/services/industrial-automation" id="footer-cta-industrial" className="btn-secondary" style={{ borderColor: "rgba(251,191,36,0.6)", color: "#fbbf24" }}>
-              <Zap size={15} /> Industrial Solutions
+              Industrial Solutions
             </Link>
           </div>
         </div>
@@ -333,7 +332,6 @@ export default function Footer() {
             <FooterColumn title="Company" links={footerLinks.company} />
             <FooterColumn title="Digital Services" links={footerLinks.services} />
             <IndustrialColumn />
-            <FooterColumn title="Products" links={footerLinks.products} />
             <FooterColumn title="Learn" links={footerLinks.learn} />
           </div>
 

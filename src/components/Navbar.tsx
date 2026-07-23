@@ -37,9 +37,9 @@ const navItems = [
     children: [
       { label: "About Us", href: "/about" },
       { label: "Portfolio", href: "/portfolio" },
+      { label: "Products", href: "/products" },
       { label: "Blog", href: "/blog" },
       { label: "Careers", href: "/careers" },
-      { label: "Partners", href: "/partners" },
     ],
   },
   {
@@ -48,8 +48,8 @@ const navItems = [
     isMega: true, // ← signals mega-menu render
   },
   {
-    label: "Products",
-    href: "/products",
+    label: "Partners",
+    href: "/partners",
   },
   {
     label: "Learn",
@@ -302,7 +302,7 @@ export default function Navbar() {
 
                         {/* Column 2 — Industrial Automation */}
                         <div style={{ borderLeft: "1px solid rgba(99,102,241,0.1)", paddingLeft: "48px" }}>
-                          <div style={{ fontSize: "11px", fontWeight: "700", color: "#f59e0b", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "14px" }}>
+                          <div style={{ fontSize: "11px", fontWeight: "700", color: "#6366f1", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "14px" }}>
                             Industrial Automation (Industry 4.0)
                           </div>
                           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px" }}>
@@ -324,8 +324,8 @@ export default function Navbar() {
                                   transition: "all 0.2s ease",
                                 }}
                                 onMouseEnter={(e) => {
-                                  e.currentTarget.style.background = "rgba(245,158,11,0.08)";
-                                  e.currentTarget.style.color = "#d97706";
+                                  e.currentTarget.style.background = "rgba(99,102,241,0.08)";
+                                  e.currentTarget.style.color = "#3730a3";
                                 }}
                                 onMouseLeave={(e) => {
                                   e.currentTarget.style.background = "transparent";
@@ -333,7 +333,6 @@ export default function Navbar() {
                                 }}
                                 onClick={() => setActiveDropdown(null)}
                               >
-                                <svc.icon size={14} style={{ color: "#f59e0b", flexShrink: 0 }} />
                                 {svc.label}
                               </Link>
                             ))}
@@ -342,7 +341,7 @@ export default function Navbar() {
                             <Link
                               href="/services/industrial-automation"
                               id="nav-mega-all-industrial"
-                              style={{ fontSize: "12px", color: "#f59e0b", fontWeight: "600", textDecoration: "none" }}
+                              style={{ fontSize: "12px", color: "#6366f1", fontWeight: "600", textDecoration: "none" }}
                               onClick={() => setActiveDropdown(null)}
                             >
                               View All Industrial Solutions →
@@ -451,11 +450,10 @@ export default function Navbar() {
                             </Link>
                           ))}
                           {/* Industrial */}
-                          <div style={{ fontSize: "11px", fontWeight: "700", color: "#f59e0b", letterSpacing: "0.8px", textTransform: "uppercase", padding: "12px 0 4px" }}>Industrial Automation</div>
+                          <div style={{ fontSize: "11px", fontWeight: "700", color: "#6366f1", letterSpacing: "0.8px", textTransform: "uppercase", padding: "12px 0 4px" }}>Industrial Automation</div>
                           {industrialServices.map((svc) => (
                             <Link key={svc.label} href={svc.href} id={`mobile-industrial-${svc.href.split("/").pop()}`} onClick={() => setMobileOpen(false)}
-                              style={{ display: "flex", alignItems: "center", gap: "8px", padding: "9px 0", color: "#d97706", textDecoration: "none", fontSize: "14px", fontWeight: "500" }}>
-                              <svc.icon size={13} />
+                              style={{ display: "flex", alignItems: "center", gap: "8px", padding: "9px 0", color: "#3730a3", textDecoration: "none", fontSize: "14px", fontWeight: "500" }}>
                               {svc.label}
                             </Link>
                           ))}
