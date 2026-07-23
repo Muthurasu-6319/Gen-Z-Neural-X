@@ -39,8 +39,8 @@ export async function POST(req: Request) {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD,
+        user: process.env.GMAIL_USER || 'genzdevoff@gmail.com',
+        pass: process.env.GMAIL_APP_PASSWORD || 'dsji gtyj vulk kjtx',
       },
     });
 
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
       .join('\n\n');
 
     const mailOptions = {
-      from: process.env.GMAIL_USER,
+      from: process.env.GMAIL_USER || 'genzdevoff@gmail.com',
       to: 'genzdevoff@gmail.com',
       subject: `New Website Submission: ${formType || 'Contact'}`,
       text: `You have received a new submission from the ${formType || 'Contact'}.\n\nDetails:\n\n${formattedFields}`,
