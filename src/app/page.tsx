@@ -1,7 +1,6 @@
 import HeroSection from "@/components/home/HeroSection";
 import TechStackMarquee from "@/components/home/TechStackMarquee";
 import ServicesOverview from "@/components/home/ServicesOverview";
-import ProductsOverview from "@/components/home/ProductsOverview";
 import LearnHighlights from "@/components/home/LearnHighlights";
 import PartnersOverview from "@/components/home/PartnersOverview";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
@@ -42,7 +41,6 @@ export default function HomePage() {
       <HeroSection />
       <TechStackMarquee />
       <ServicesOverview />
-      <ProductsOverview />
       <WhyChooseUs />
       <LearnHighlights />
       <PartnersOverview />
