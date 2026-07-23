@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Handshake, Building2, Rocket, TrendingUp, Globe2, ArrowRight, ShieldCheck, Zap, Sparkles, CheckCircle2 } from "lucide-react";
+import { Handshake, Building2, Rocket, TrendingUp, ArrowRight, ShieldCheck, Sparkles, CheckCircle2, Zap } from "lucide-react";
 import { useState } from "react";
 
 export default function PartnersPage() {
@@ -9,7 +9,7 @@ export default function PartnersPage() {
     companyName: "",
     contactPerson: "",
     email: "",
-    interest: "White-Label",
+    interest: "Agency White-Label",
     message: ""
   });
   const [status, setStatus] = useState("");
@@ -17,214 +17,207 @@ export default function PartnersPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("submitting");
-    
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          formType: 'Partnership Inquiry',
-          ...formData
-        })
+        body: JSON.stringify({ formType: 'Partnership Inquiry', ...formData })
       });
-      
       if (res.ok) {
         setStatus("success");
-        setFormData({ companyName: "", contactPerson: "", email: "", interest: "White-Label", message: "" });
-      } else {
-        setStatus("error");
-      }
-    } catch (error) {
-      setStatus("error");
-    }
+        setFormData({ companyName: "", contactPerson: "", email: "", interest: "Agency White-Label", message: "" });
+      } else { setStatus("error"); }
+    } catch { setStatus("error"); }
   };
 
   return (
     <>
+      {/* ── HERO ─────────────────────────────────────── */}
       <div className="page-hero">
         <div className="container" style={{ position: "relative", textAlign: "center" }}>
-          <div className="section-tag" style={{ color: "rgba(255,255,255,0.9)", background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.25)", margin: "0 auto 24px" }}>
-            <Handshake size={16} style={{ display: "inline-block", marginRight: "8px", verticalAlign: "middle" }} /> Ecosystem Partnerships
+          <div className="section-tag" style={{ color: "rgba(255,255,255,0.9)", background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)", margin: "0 auto 24px" }}>
+            <Handshake size={15} style={{ display: "inline-block", marginRight: "8px", verticalAlign: "middle" }} />
+            Ecosystem Partnerships
           </div>
-          <h1 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: "900", color: "white", marginBottom: "20px" }}>
-            Agency Network & <span style={{ background: "linear-gradient(135deg, #a5b4fc, #67e8f9)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Co-Build Studio</span>
+          <h1 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: "900", color: "white", marginBottom: "20px", lineHeight: 1.1 }}>
+            Agency Network &{" "}
+            <span style={{ background: "linear-gradient(135deg, #a5b4fc, #67e8f9)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+              Co-Build Studio
+            </span>
           </h1>
-          <p style={{ color: "rgba(255,255,255,0.75)", fontSize: "1.15rem", maxWidth: "680px", margin: "0 auto", lineHeight: "1.7" }}>
-            We empower marketing agencies to scale client delivery through 100% white-label software engineering, while co-building groundbreaking products with forward-thinking companies.
+          <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1.1rem", maxWidth: "640px", margin: "0 auto", lineHeight: 1.75 }}>
+            We empower marketing agencies to scale client delivery through 100% white-label engineering, and co-build breakthrough products with forward-thinking companies.
           </p>
+
+
         </div>
       </div>
 
+      {/* ── SECTION ──────────────────────────────────── */}
       <section className="section" style={{ background: "var(--gray-50)" }}>
         <div className="container">
-          <div style={{ textAlign: "center", marginBottom: "64px" }}>
-            <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "36px", fontWeight: "800", color: "var(--black)", marginBottom: "16px" }}>
+
+          {/* Section header */}
+          <div style={{ textAlign: "center", marginBottom: "56px" }}>
+            <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)", fontWeight: "800", color: "var(--black)", marginBottom: "14px" }}>
               Two Strategic Ways To Collaborate
             </h2>
-            <p style={{ fontSize: "16px", color: "var(--gray-500)", maxWidth: "620px", margin: "0 auto" }}>
-              Select the partnership track that matches your business goals — whether you need client fulfillment execution or product co-founding.
+            <p style={{ fontSize: "16px", color: "var(--gray-500)", maxWidth: "580px", margin: "0 auto", lineHeight: 1.7 }}>
+              Choose the track that fits your business goals — agency tech fulfillment or product co-founding.
             </p>
           </div>
 
-          {/* Dual Tracks Section */}
-          <div className="grid-2" style={{ gap: "32px", marginBottom: "64px" }}>
-            {/* Track 1: Agency Partner Network */}
-            <div className="partner-card" style={{ background: "white", borderRadius: "24px", border: "1px solid var(--gray-100)", boxShadow: "0 10px 30px rgba(0,0,0,0.03)" }}>
-              <div style={{ width: "64px", height: "64px", background: "rgba(99, 102, 241, 0.1)", borderRadius: "16px", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--primary)", marginBottom: "24px" }}>
-                <Building2 size={32} />
-              </div>
-              <div style={{ fontSize: "13px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1px", color: "var(--primary)", marginBottom: "8px" }}>
-                Track 01 — Agency Growth
-              </div>
-              <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "28px", fontWeight: "800", color: "var(--black)", marginBottom: "16px" }}>
-                Agency Partner Program
-              </h3>
-              <p style={{ fontSize: "15px", color: "var(--gray-500)", lineHeight: "1.7", marginBottom: "24px" }}>
-                Are you a digital, marketing, or UI agency getting client inquiries for Web, Mobile Apps, AI, or Custom Software? Partner with us to handle complete technical execution under your agency's banner.
-              </p>
+          {/* ── TRACK CARDS ──────────────────────────── */}
+          <div className="partner-track-grid">
 
-              <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "32px" }}>
-                <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
-                  <CheckCircle2 size={20} color="#10b981" style={{ flexShrink: 0, marginTop: "2px" }} />
-                  <div>
-                    <strong style={{ color: "var(--black)", display: "block", fontSize: "15px" }}>100% White-Label Fulfillment</strong>
-                    <span style={{ fontSize: "14px", color: "var(--gray-500)" }}>We work in the background. Code, demos, and updates are presented under your agency branding.</span>
-                  </div>
+            {/* Card 1 — Agency */}
+            <div className="partner-track-card" style={{ border: "1.5px solid rgba(99,102,241,0.15)", boxShadow: "0 8px 32px rgba(99,102,241,0.08)" }}>
+              <div style={{ height: "4px", background: "linear-gradient(90deg, #6366f1, #a5b4fc)", flexShrink: 0 }} />
+              <div className="partner-card">
+                <div style={{ width: "56px", height: "56px", background: "linear-gradient(135deg, rgba(99,102,241,0.12), rgba(99,102,241,0.04))", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center", color: "#6366f1", marginBottom: "18px", border: "1px solid rgba(99,102,241,0.12)", flexShrink: 0 }}>
+                  <Building2 size={26} />
                 </div>
-                <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
-                  <CheckCircle2 size={20} color="#10b981" style={{ flexShrink: 0, marginTop: "2px" }} />
-                  <div>
-                    <strong style={{ color: "var(--black)", display: "block", fontSize: "15px" }}>Referral & Revenue Share</strong>
-                    <span style={{ fontSize: "14px", color: "var(--gray-500)" }}>Earn attractive 10-20% recurring commissions for client introductions and tech referrals.</span>
-                  </div>
+                <div style={{ fontSize: "10px", fontWeight: "800", textTransform: "uppercase", letterSpacing: "1.5px", color: "#6366f1", marginBottom: "6px" }}>Track 01 — Agency Growth</div>
+                <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(1.35rem, 2vw, 1.65rem)", fontWeight: "800", color: "var(--black)", marginBottom: "12px", lineHeight: 1.2 }}>Agency Partner Program</h3>
+                <p style={{ fontSize: "14px", color: "var(--gray-500)", lineHeight: 1.75, marginBottom: "24px" }}>
+                  Are you a digital, marketing, or UI agency getting client inquiries for Web, Mobile, AI, or Custom Software? We handle full technical execution under your brand.
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "28px", flex: 1 }}>
+                  {[
+                    { title: "100% White-Label Fulfillment", desc: "Delivered entirely under your agency branding — clients never see us." },
+                    { title: "Referral & Revenue Share", desc: "Earn 10-20% recurring commissions on client introductions." },
+                    { title: "Dedicated Tech Leads & NDA", desc: "Strict NDA, guaranteed SLA, and a personal project lead for every engagement." },
+                  ].map((item, i) => (
+                    <div key={i} style={{ display: "flex", gap: "10px", alignItems: "flex-start", padding: "12px 14px", background: "rgba(99,102,241,0.04)", borderRadius: "10px", border: "1px solid rgba(99,102,241,0.07)" }}>
+                      <CheckCircle2 size={17} color="#6366f1" style={{ flexShrink: 0, marginTop: "2px" }} />
+                      <div>
+                        <strong style={{ color: "var(--black)", display: "block", fontSize: "13.5px", marginBottom: "2px" }}>{item.title}</strong>
+                        <span style={{ fontSize: "12.5px", color: "var(--gray-500)", lineHeight: 1.55 }}>{item.desc}</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
-                  <CheckCircle2 size={20} color="#10b981" style={{ flexShrink: 0, marginTop: "2px" }} />
-                  <div>
-                    <strong style={{ color: "var(--black)", display: "block", fontSize: "15px" }}>Dedicated Tech Leads & Strict NDA</strong>
-                    <span style={{ fontSize: "14px", color: "var(--gray-500)" }}>Guaranteed SLA, sprint updates, and strict non-compete agreements to protect your client accounts.</span>
-                  </div>
-                </div>
+                <Link href="/contact?type=agency-partner" className="btn-primary" style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "13px 20px", fontSize: "14px", gap: "8px", borderRadius: "12px", marginTop: "auto" }}>
+                  Join Agency Network <ArrowRight size={15} />
+                </Link>
               </div>
             </div>
 
-            {/* Track 2: Product Co-Building Studio */}
-            <div className="partner-card" style={{ background: "white", borderRadius: "24px", border: "1px solid var(--gray-100)", boxShadow: "0 10px 30px rgba(0,0,0,0.03)" }}>
-              <div style={{ width: "64px", height: "64px", background: "rgba(16, 185, 129, 0.1)", borderRadius: "16px", display: "flex", alignItems: "center", justifyContent: "center", color: "#10b981", marginBottom: "24px" }}>
-                <Rocket size={32} />
-              </div>
-              <div style={{ fontSize: "13px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1px", color: "#10b981", marginBottom: "8px" }}>
-                Track 02 — Product Collaboration
-              </div>
-              <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "28px", fontWeight: "800", color: "var(--black)", marginBottom: "16px" }}>
-                Co-Build & Venture Studio
-              </h3>
-              <p style={{ fontSize: "15px", color: "var(--gray-500)", lineHeight: "1.7", marginBottom: "24px" }}>
-                Have a proprietary product idea, SaaS concept, or enterprise solution? We partner with companies to co-create, engineer, and launch high-impact digital products.
-              </p>
+            {/* Card 2 — Co-Build */}
+            <div className="partner-track-card" style={{ border: "1.5px solid rgba(16,185,129,0.18)", boxShadow: "0 8px 32px rgba(16,185,129,0.07)" }}>
+              <div style={{ height: "4px", background: "linear-gradient(90deg, #10b981, #34d399)", flexShrink: 0 }} />
+              <div className="partner-card">
+                <div style={{ width: "56px", height: "56px", background: "linear-gradient(135deg, rgba(16,185,129,0.12), rgba(16,185,129,0.04))", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center", color: "#10b981", marginBottom: "18px", border: "1px solid rgba(16,185,129,0.12)", flexShrink: 0 }}>
+                  <Rocket size={26} />
+                </div>
+                <div style={{ fontSize: "10px", fontWeight: "800", textTransform: "uppercase", letterSpacing: "1.5px", color: "#10b981", marginBottom: "6px" }}>Track 02 — Product Collaboration</div>
+                <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(1.35rem, 2vw, 1.65rem)", fontWeight: "800", color: "var(--black)", marginBottom: "12px", lineHeight: 1.2 }}>Co-Build & Venture Studio</h3>
+                <p style={{ fontSize: "14px", color: "var(--gray-500)", lineHeight: 1.75, marginBottom: "24px" }}>
+                  Have a SaaS concept or enterprise product idea? We partner as your tech co-founders — from architecture and MVP to scale and launch.
+                </p>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "32px" }}>
-                <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
-                  <CheckCircle2 size={20} color="#10b981" style={{ flexShrink: 0, marginTop: "2px" }} />
-                  <div>
-                    <strong style={{ color: "var(--black)", display: "block", fontSize: "15px" }}>Tech Co-Founding & Architecture</strong>
-                    <span style={{ fontSize: "14px", color: "var(--gray-500)" }}>We act as your dedicated engineering arm from prototype wireframes to enterprise scale.</span>
-                  </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "14px", marginBottom: "32px", flex: 1 }}>
+                  {[
+                    { title: "Tech Co-Founding & Architecture", desc: "We design, architect, and build from wireframes all the way to enterprise scale." },
+                    { title: "Flexible Equity & Commercial Models", desc: "Choose from co-dev, profit-share, sweat-equity, or hybrid retainer." },
+                    { title: "Next-Gen Tech Stack", desc: "Next.js, AI/ML, Cloud, Industrial IoT — we bring modern capabilities to your vision." },
+                  ].map((item, i) => (
+                    <div key={i} style={{ display: "flex", gap: "12px", alignItems: "flex-start", padding: "14px", background: "rgba(16,185,129,0.04)", borderRadius: "12px", border: "1px solid rgba(16,185,129,0.08)" }}>
+                      <CheckCircle2 size={18} color="#10b981" style={{ flexShrink: 0, marginTop: "2px" }} />
+                      <div>
+                        <strong style={{ color: "var(--black)", display: "block", fontSize: "14px", marginBottom: "3px" }}>{item.title}</strong>
+                        <span style={{ fontSize: "13px", color: "var(--gray-500)", lineHeight: 1.5 }}>{item.desc}</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
-                  <CheckCircle2 size={20} color="#10b981" style={{ flexShrink: 0, marginTop: "2px" }} />
-                  <div>
-                    <strong style={{ color: "var(--black)", display: "block", fontSize: "15px" }}>Flexible Equity & Commercial Models</strong>
-                    <span style={{ fontSize: "14px", color: "var(--gray-500)" }}>Co-development, profit-share, sweat-equity, or hybrid retainer models customized to your vision.</span>
-                  </div>
-                </div>
-                <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
-                  <CheckCircle2 size={20} color="#10b981" style={{ flexShrink: 0, marginTop: "2px" }} />
-                  <div>
-                    <strong style={{ color: "var(--black)", display: "block", fontSize: "15px" }}>Next-Gen Tech Capabilities</strong>
-                    <span style={{ fontSize: "14px", color: "var(--gray-500)" }}>Deep expertise in Next.js, Cloud Architectures, AI/ML models, IoT, and Industrial Automation.</span>
-                  </div>
-                </div>
+
+                <Link href="/contact?type=co-build" className="btn-secondary" style={{ display: "inline-flex", justifyContent: "center", padding: "14px 24px", fontSize: "14px", gap: "8px", borderRadius: "14px", border: "2px solid #10b981", color: "#10b981" }}>
+                  Pitch Your Product Idea <Sparkles size={16} />
+                </Link>
               </div>
             </div>
           </div>
 
-          {/* Form & Value Proposition Banner */}
-          <div className="partner-banner" style={{ background: "white", borderRadius: "24px", display: "flex", flexWrap: "wrap", gap: "48px", border: "1px solid var(--gray-100)", boxShadow: "0 10px 40px rgba(0,0,0,0.05)" }}>
+          {/* ── FORM + TRUST SECTION ─────────────────── */}
+          <div className="partner-banner" style={{ background: "white", borderRadius: "24px", display: "flex", flexWrap: "wrap", gap: "48px", border: "1px solid var(--gray-100)", boxShadow: "0 12px 48px rgba(0,0,0,0.06)" }}>
+
+            {/* Left: Trust signals */}
             <div className="partner-flex-item">
-              <div style={{ display: "inline-block", padding: "8px 16px", background: "rgba(99,102,241,0.1)", color: "var(--primary)", borderRadius: "50px", fontWeight: "600", fontSize: "13px", marginBottom: "16px" }}>
-                Get In Touch
+              <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "7px 16px", background: "rgba(99,102,241,0.08)", color: "var(--primary)", borderRadius: "50px", fontWeight: "700", fontSize: "12px", marginBottom: "20px", border: "1px solid rgba(99,102,241,0.12)" }}>
+                <Zap size={13} /> Get In Touch
               </div>
-              <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(1.75rem, 4vw, 2rem)", fontWeight: "800", color: "var(--black)", marginBottom: "20px" }}>
+              <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: "800", color: "var(--black)", marginBottom: "16px", lineHeight: 1.2 }}>
                 Let's Discuss How We Can Partner
               </h3>
-              <p style={{ fontSize: "15px", color: "var(--gray-500)", lineHeight: "1.7", marginBottom: "32px" }}>
-                Fill out the partnership inquiry form and our Head of Strategic Alliances will set up a discovery call with your leadership team within 24 hours.
+              <p style={{ fontSize: "15px", color: "var(--gray-500)", lineHeight: 1.75, marginBottom: "36px" }}>
+                Fill out the inquiry form and our Head of Strategic Alliances will schedule a discovery call within 24 hours.
               </p>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                  <div style={{ width: "44px", height: "44px", background: "rgba(99,102,241,0.1)", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--primary)", flexShrink: 0 }}>
-                    <ShieldCheck size={22} />
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                {[
+                  { icon: ShieldCheck, color: "#6366f1", bg: "rgba(99,102,241,0.08)", label: "Enterprise Assurance", desc: "Strict NDA signed before any sensitive project discussion." },
+                  { icon: TrendingUp, color: "#10b981", bg: "rgba(16,185,129,0.08)", label: "Fast Onboarding", desc: "Dev team plugged into your workflow within 48 hours." },
+                  { icon: Handshake, color: "#f59e0b", bg: "rgba(245,158,11,0.08)", label: "Trusted by 50+ Partners", desc: "Agencies and founders across India, US, and UK." },
+                ].map((item, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: "16px", padding: "16px", background: "var(--gray-50)", borderRadius: "14px", border: "1px solid var(--gray-100)" }}>
+                    <div style={{ width: "44px", height: "44px", background: item.bg, borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", color: item.color, flexShrink: 0 }}>
+                      <item.icon size={20} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "14px", fontWeight: "700", color: "var(--black)", marginBottom: "2px" }}>{item.label}</div>
+                      <div style={{ fontSize: "13px", color: "var(--gray-500)" }}>{item.desc}</div>
+                    </div>
                   </div>
-                  <div>
-                    <div style={{ fontSize: "15px", fontWeight: "700", color: "var(--black)" }}>Enterprise Assurance</div>
-                    <div style={{ fontSize: "13px", color: "var(--gray-500)" }}>Strict NDA signed before discussing sensitive project code or IP.</div>
-                  </div>
-                </div>
-
-                <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                  <div style={{ width: "44px", height: "44px", background: "rgba(16,185,129,0.1)", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", color: "#10b981", flexShrink: 0 }}>
-                    <TrendingUp size={22} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: "15px", fontWeight: "700", color: "var(--black)" }}>Fast Onboarding</div>
-                    <div style={{ fontSize: "13px", color: "var(--gray-500)" }}>Plug dev resources into your pipeline within 48 hours.</div>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
-            
-            <div className="partner-flex-item partner-form-box" style={{ background: "var(--gray-50)", borderRadius: "20px" }}>
-              <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "20px", color: "var(--black)" }}>Partnership Request Form</h3>
-              <form className="contact-form" onSubmit={handleSubmit}>
+
+            {/* Right: Form */}
+            <div className="partner-flex-item partner-form-box" style={{ background: "linear-gradient(145deg, #f8f9ff, #f1f2fc)", borderRadius: "20px", border: "1px solid var(--gray-200)" }}>
+              <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "20px", fontWeight: "800", marginBottom: "6px", color: "var(--black)" }}>Partnership Request Form</h3>
+              <p style={{ fontSize: "13px", color: "var(--gray-500)", marginBottom: "24px" }}>We respond within 24 business hours.</p>
+
+              <form className="contact-form" onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 {status === "success" && (
-                  <div style={{ background: "#ecfdf5", color: "#10b981", padding: "14px", borderRadius: "10px", marginBottom: "20px", fontSize: "14px", fontWeight: "600" }}>
-                    ✓ Thank you! Your partnership request has been submitted. Our team will contact you shortly.
+                  <div style={{ background: "#ecfdf5", color: "#059669", padding: "14px 16px", borderRadius: "12px", fontSize: "14px", fontWeight: "600", border: "1px solid rgba(16,185,129,0.2)" }}>
+                    ✓ Request submitted! We'll reach out within 24 hours.
                   </div>
                 )}
                 {status === "error" && (
-                  <div style={{ background: "#fef2f2", color: "#ef4444", padding: "14px", borderRadius: "10px", marginBottom: "20px", fontSize: "14px", fontWeight: "600" }}>
-                    Oops! Something went wrong. Please check your network and try again.
+                  <div style={{ background: "#fef2f2", color: "#dc2626", padding: "14px 16px", borderRadius: "12px", fontSize: "14px", fontWeight: "600", border: "1px solid rgba(239,68,68,0.2)" }}>
+                    Something went wrong. Please try again.
                   </div>
                 )}
+
                 <div className="form-group">
                   <label className="form-label">Company / Agency Name</label>
-                  <input type="text" className="form-input" placeholder="e.g. Apex Digital Media" required value={formData.companyName} onChange={e => setFormData({...formData, companyName: e.target.value})} />
+                  <input type="text" className="form-input" placeholder="e.g. Apex Digital Media" required value={formData.companyName} onChange={e => setFormData({ ...formData, companyName: e.target.value })} />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Contact Person & Title</label>
-                  <input type="text" className="form-input" placeholder="e.g. Alex Morgan, CEO" required value={formData.contactPerson} onChange={e => setFormData({...formData, contactPerson: e.target.value})} />
+                  <input type="text" className="form-input" placeholder="e.g. Alex Morgan, CEO" required value={formData.contactPerson} onChange={e => setFormData({ ...formData, contactPerson: e.target.value })} />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Work Email Address</label>
-                  <input type="email" className="form-input" placeholder="alex@company.com" required value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+                  <input type="email" className="form-input" placeholder="alex@company.com" required value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Partnership Track Interest</label>
-                  <select className="form-input" required value={formData.interest} onChange={e => setFormData({...formData, interest: e.target.value})}>
-                    <option value="Agency White-Label">Agency White-Label Development (We build under your brand)</option>
-                    <option value="Agency Referral">Agency Referral Partner (Earn commission on client leads)</option>
-                    <option value="Co-Build Product">Product Co-Building / Joint Venture (Build a project together)</option>
+                  <label className="form-label">Partnership Track</label>
+                  <select className="form-input" required value={formData.interest} onChange={e => setFormData({ ...formData, interest: e.target.value })}>
+                    <option value="Agency White-Label">Agency White-Label Development</option>
+                    <option value="Agency Referral">Agency Referral Partner</option>
+                    <option value="Co-Build Product">Product Co-Building / Joint Venture</option>
                     <option value="Strategic Collaboration">Strategic Tech Collaboration</option>
                     <option value="Other">Other Partnership Idea</option>
                   </select>
                 </div>
                 <div className="form-group">
                   <label className="form-label">Project / Collaboration Details</label>
-                  <textarea className="form-textarea" placeholder="Tell us about your agency needs or product idea..." rows={4} required value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})}></textarea>
+                  <textarea className="form-textarea" placeholder="Tell us about your agency needs or product idea..." rows={4} required value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} />
                 </div>
-                <button type="submit" className="btn-primary" style={{ width: "100%", justifyContent: "center", padding: "16px", fontSize: "15px" }} disabled={status === "submitting"}>
+
+                <button type="submit" className="btn-primary" style={{ width: "100%", justifyContent: "center", padding: "15px", fontSize: "15px", borderRadius: "14px" }} disabled={status === "submitting"}>
                   {status === "submitting" ? "Submitting Request..." : "Submit Partnership Inquiry"} <ArrowRight size={18} />
                 </button>
               </form>
