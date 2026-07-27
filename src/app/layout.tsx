@@ -125,7 +125,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4559745172452836" crossOrigin="anonymous"></script>
+        <meta name="google-adsense-account" content="ca-pub-7293282475631802" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7293282475631802" crossOrigin="anonymous"></script>
       </head>
       <body suppressHydrationWarning>
         <script
