@@ -13,7 +13,7 @@ const staticProjects = [
   // Business & Corporate
   { id: 's4', title: 'Gen Z Neural-X', category: 'Business & Corporate', url: 'https://genzneuralx.com/', type: 'Original' },
   { id: 's5', title: 'JSA Finance', category: 'Business & Corporate', url: 'https://jsa-finance.vercel.app/', type: 'Running App' },
-  { id: 's6', title: 'Neela Fashion', category: 'Business & Corporate', url: 'https://neelafashion.com/', type: 'Original' },
+
   { id: 's7', title: 'Nuts Website', category: 'Business & Corporate', url: 'https://nuts-website-gamma.vercel.app/', type: 'Running App' },
   // Sports & Community
   { id: 's8', title: 'Pumpa Squash Academy', category: 'Sports & Community', url: 'https://pumpa-squash-academy.vercel.app/', type: 'Running App' },
@@ -24,12 +24,12 @@ const staticProjects = [
   { id: 's12', title: 'AK Crackers', category: 'E-Commerce & Retail', url: 'https://akcrackers.genzneuralx.com/shop', type: 'Original' },
   { id: 's13', title: 'Sakthi Mobile', category: 'E-Commerce & Retail', url: 'https://sakthimobile.vercel.app/', type: 'Running App' },
   // Software & Web Applications
-  { id: 's14', title: 'DP Billing Software', category: 'Software & Web Apps', url: 'https://dp-billing-software.vercel.app/dashboard', type: 'Running App' },
+
   { id: 's15', title: 'GenZ Blogs', category: 'Software & Web Apps', url: 'https://genzblogs.genzneuralx.com/', type: 'Original' },
   { id: 's16', title: 'Mobile Election', category: 'Software & Web Apps', url: 'https://moblie-election.vercel.app/', type: 'Running App' },
   { id: 's17', title: 'Online Yoga Class', category: 'Software & Web Apps', url: 'https://onlineyoga-pearl.vercel.app/', type: 'Running App' },
   { id: 's18', title: 'E-Sevai', category: 'Software & Web Apps', url: 'https://e-sevai-apply-portal.vercel.app/', type: 'Running App' },
-  { id: 's19', title: 'Portfolio / Gallery Project', category: 'Software & Web Apps', url: 'https://clever-pixie-2df981.netlify.app/gallery', type: 'Running App' },
+  { id: 's19', title: 'Virundhu Caterers', category: 'Software & Web Apps', url: 'https://clever-pixie-2df981.netlify.app/gallery', type: 'Running App' },
 ];
 
 export default function PortfolioPage() {
