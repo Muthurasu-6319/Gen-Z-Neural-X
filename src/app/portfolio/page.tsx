@@ -1,197 +1,224 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, CheckCircle, Trophy, ExternalLink } from "lucide-react";
+import { ArrowRight, Trophy, ExternalLink, ArrowUpRight } from "lucide-react";
+
+// Our Static Featured Projects
+const staticProjects = [
+  // Education & Learning
+  { id: 's1', title: 'VNET Distance University', category: 'Education & Learning', url: 'https://www.vnetdistaanceuniversity.com/', type: 'Original' },
+  { id: 's2', title: 'Gemini AI Student', category: 'Education & Learning', url: 'https://geminiai-student.netlify.app/', type: 'Running App' },
+  { id: 's3', title: 'Next Skill Technologies', category: 'Education & Learning', url: 'https://next-skill-technologies.vercel.app/', type: 'Running App' },
+  // Business & Corporate
+  { id: 's4', title: 'Gen Z Neural-X', category: 'Business & Corporate', url: 'https://genzneuralx.com/', type: 'Original' },
+  { id: 's5', title: 'JSA Finance', category: 'Business & Corporate', url: 'https://jsa-finance.vercel.app/', type: 'Running App' },
+  { id: 's6', title: 'Neela Fashion', category: 'Business & Corporate', url: 'https://neelafashion.com/', type: 'Original' },
+  { id: 's7', title: 'Nuts Website', category: 'Business & Corporate', url: 'https://nuts-website-gamma.vercel.app/', type: 'Running App' },
+  // Sports & Community
+  { id: 's8', title: 'Pumpa Squash Academy', category: 'Sports & Community', url: 'https://pumpa-squash-academy.vercel.app/', type: 'Running App' },
+  { id: 's9', title: 'Spark X Dance Studio', category: 'Sports & Community', url: 'https://spark-x-eta.vercel.app/', type: 'Running App' },
+  { id: 's10', title: 'GASC Srivilliputhur', category: 'Sports & Community', url: 'https://gasc-srivilliputhur.vercel.app/', type: 'Running App' },
+  { id: 's11', title: 'GenSaaS Community', category: 'Sports & Community', url: 'https://community.gensaas.com/', type: 'Original' },
+  // E-Commerce & Retail
+  { id: 's12', title: 'AK Crackers', category: 'E-Commerce & Retail', url: 'https://akcrackers.genzneuralx.com/shop', type: 'Original' },
+  { id: 's13', title: 'Sakthi Mobile', category: 'E-Commerce & Retail', url: 'https://sakthimobile.vercel.app/', type: 'Running App' },
+  // Software & Web Applications
+  { id: 's14', title: 'DP Billing Software', category: 'Software & Web Apps', url: 'https://dp-billing-software.vercel.app/dashboard', type: 'Running App' },
+  { id: 's15', title: 'GenZ Blogs', category: 'Software & Web Apps', url: 'https://genzblogs.genzneuralx.com/', type: 'Original' },
+  { id: 's16', title: 'Mobile Election', category: 'Software & Web Apps', url: 'https://moblie-election.vercel.app/', type: 'Running App' },
+  { id: 's17', title: 'Online Yoga Class', category: 'Software & Web Apps', url: 'https://onlineyoga-pearl.vercel.app/', type: 'Running App' },
+  { id: 's18', title: 'E-Sevai', category: 'Software & Web Apps', url: 'https://e-sevai-apply-portal.vercel.app/', type: 'Running App' },
+  { id: 's19', title: 'Portfolio / Gallery Project', category: 'Software & Web Apps', url: 'https://clever-pixie-2df981.netlify.app/gallery', type: 'Running App' },
+];
 
 export default function PortfolioPage() {
-  const [projects, setProjects] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("All");
 
-  useEffect(() => {
-    const fetchPortfolio = async () => {
-      try {
-        const res = await fetch('/api/portfolio');
-        const data = await res.json();
-        if (data.portfolio && data.portfolio.length > 0) {
-          // Sort by creation date
-          const sorted = data.portfolio.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-          setProjects(sorted);
-        } else {
-          setProjects([]);
-        }
-      } catch (err) {
-        console.error("Failed to fetch portfolio", err);
-        setProjects([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const categories = ["All", ...Array.from(new Set(staticProjects.map(p => p.category)))];
 
-    fetchPortfolio();
-  }, []);
+  const filteredProjects = activeCategory === "All" 
+    ? staticProjects 
+    : staticProjects.filter(p => p.category === activeCategory);
 
-  const handleCardClick = (url: string) => {
-    if (url) {
-      window.open(url, '_blank');
-    }
+  const handleProjectClick = (url: string) => {
+    window.open(url, '_blank');
   };
 
   return (
-    <>
-      <div className="page-hero">
-        <div className="container" style={{ position: "relative", textAlign: "center" }}>
-          <div className="section-tag" style={{ color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", margin: "0 auto 24px" }}>
-            🏆 Our Work
+    <div style={{ backgroundColor: '#050508', minHeight: '100vh', color: 'white', paddingBottom: '100px' }}>
+      
+      {/* Hero Section */}
+      <div style={{ paddingTop: '160px', paddingBottom: '80px', position: 'relative', overflow: 'hidden' }}>
+        {/* Glow Effects */}
+        <div style={{ position: 'absolute', top: '10%', left: '20%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99,102,241,0.15) 0%, rgba(0,0,0,0) 70%)', filter: 'blur(40px)', zIndex: 0 }} />
+        <div style={{ position: 'absolute', bottom: '10%', right: '10%', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(236,72,153,0.1) 0%, rgba(0,0,0,0) 70%)', filter: 'blur(60px)', zIndex: 0 }} />
+
+        <div className="container" style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '50px', marginBottom: '24px' }}>
+            <Trophy size={16} color="#a5b4fc" />
+            <span style={{ fontSize: '13px', fontWeight: '500', letterSpacing: '1px', textTransform: 'uppercase', color: '#a5b4fc' }}>Selected Works</span>
           </div>
-          <h1 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: "900", color: "white", marginBottom: "20px" }}>
-            Portfolio & <span style={{ background: "linear-gradient(135deg, #a5b4fc, #67e8f9)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Case Studies</span>
+          
+          <h1 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(3rem, 6vw, 5rem)", fontWeight: "800", lineHeight: "1.1", marginBottom: "24px", color: '#ffffff' }}>
+            Crafting Digital <br/>
+            <span style={{ background: "linear-gradient(to right, #818cf8, #c084fc, #f472b6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Excellence.</span>
           </h1>
-          <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "1.1rem", maxWidth: "600px", margin: "0 auto" }}>
-            Real projects, real results. See how we've helped businesses across industries achieve their digital goals.
+          
+          <p style={{ fontSize: "1.1rem", color: "rgba(255,255,255,0.6)", maxWidth: "600px", margin: "0 auto 40px", lineHeight: "1.6" }}>
+            A curated showcase of our live web applications, e-commerce platforms, and digital solutions across various industries.
           </p>
+
+          {/* Category Filters */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }}>
+            {categories.map(cat => (
+              <button 
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                style={{
+                  background: activeCategory === cat ? 'rgba(255,255,255,0.1)' : 'transparent',
+                  border: `1px solid ${activeCategory === cat ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.05)'}`,
+                  color: activeCategory === cat ? 'white' : 'rgba(255,255,255,0.5)',
+                  padding: '10px 24px',
+                  borderRadius: '50px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  fontFamily: "'Inter', sans-serif"
+                }}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      <section className="section" style={{ background: "var(--gray-50)", minHeight: "60vh" }}>
-        <div className="container">
-          {loading ? (
-            <div style={{ textAlign: "center", padding: "100px 0", color: "var(--gray-500)" }}>
-              <div className="animate-spin-slow" style={{ width: "40px", height: "40px", border: "4px solid var(--gray-300)", borderTopColor: "var(--primary)", borderRadius: "50%", margin: "0 auto 16px" }}></div>
-              <p>Loading portfolio items...</p>
-            </div>
-          ) : projects.length === 0 ? (
-            <div style={{ textAlign: "center", padding: "100px 0", color: "var(--gray-500)" }}>
-              <Trophy size={48} style={{ margin: "0 auto 16px", color: "var(--gray-300)" }} />
-              <p style={{ fontSize: "18px", fontWeight: "600", color: "var(--gray-600)" }}>No portfolio items found.</p>
-              <p>Projects added from the admin dashboard will appear here.</p>
-            </div>
-          ) : (
-            <div className="grid-3">
-              {projects.map((project) => {
-                // Handle tech stack string to array conversion
-                const techList = typeof project.tech === 'string' 
-                  ? project.tech.split(',').map((t: string) => t.trim()) 
-                  : Array.isArray(project.tech) ? project.tech : [];
-
-                return (
-                  <div
-                    key={project.id}
-                    id={`portfolio-${project.id}`}
-                    className="card"
-                    style={{ 
-                      overflow: "hidden", 
-                      padding: 0,
-                      cursor: project.websiteUrl ? "pointer" : "default",
-                      position: "relative"
-                    }}
-                    onClick={() => handleCardClick(project.websiteUrl)}
-                  >
-                    {/* Project Visual */}
-                    <div
-                      style={{
-                        background: project.bgGradient || "var(--gradient-primary)",
-                        height: "180px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        position: "relative",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <div
-                        style={{
-                          position: "absolute",
-                          bottom: "-30px",
-                          right: "-30px",
-                          width: "120px",
-                          height: "120px",
-                          background: "rgba(255,255,255,0.1)",
-                          borderRadius: "50%",
-                        }}
-                      />
-                      
-                      <span style={{ position: "relative", zIndex: 1 }}>
-                        {project.imageUrl ? (
-                          <img src={project.imageUrl} alt={project.title} style={{ width: "100%", height: "180px", objectFit: "cover" }} />
-                        ) : project.logoUrl ? (
-                          <img src={project.logoUrl} alt={project.client} style={{ width: "100px", height: "100px", objectFit: "contain", background: "white", padding: "10px", borderRadius: "12px" }} />
-                        ) : (
-                          <Trophy size={56} color="white" />
-                        )}
-                      </span>
-                      
-                      {!project.imageUrl && (
-                        <span
-                          style={{
-                            position: "absolute",
-                            top: "16px",
-                            right: "16px",
-                            padding: "4px 12px",
-                            background: "rgba(255,255,255,0.2)",
-                            borderRadius: "50px",
-                            fontSize: "11px",
-                            fontWeight: "600",
-                            color: "white",
-                          }}
-                        >
-                          {project.category}
-                        </span>
-                      )}
-                    </div>
-
-                    <div style={{ padding: "28px" }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                        <p style={{ fontSize: "11px", color: "#9499c9", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "8px" }}>
-                          Client: {project.client}
-                        </p>
-                        {project.websiteUrl && (
-                          <ExternalLink size={16} color="var(--primary-light)" />
-                        )}
-                      </div>
-                      <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "19px", fontWeight: "700", color: "#0a0a0f", marginBottom: "10px" }}>
-                        {project.title}
-                      </h3>
-                      <p style={{ fontSize: "13.5px", color: "#6b6fa0", lineHeight: "1.7", marginBottom: "16px" }}>
-                        {project.description}
-                      </p>
-
-                      <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "16px" }}>
-                        {techList.map((t: string) => (
-                          <span key={t} style={{ padding: "3px 10px", background: "var(--gray-100)", borderRadius: "50px", fontSize: "11px", fontWeight: "600", color: "#4a4e7a" }}>
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "8px",
-                          padding: "10px 14px",
-                          background: `${project.categoryColor || '#6366f1'}10`,
-                          borderRadius: "10px",
-                          marginBottom: "0",
-                        }}
-                      >
-                        <CheckCircle size={16} color={project.categoryColor || '#6366f1'} />
-                        <span style={{ fontSize: "13px", color: project.categoryColor || '#6366f1', fontWeight: "600" }}>{project.result}</span>
-                      </div>
+      {/* Interactive List Design */}
+      <section style={{ position: 'relative', zIndex: 1, padding: '40px 0' }}>
+        <div className="container" style={{ maxWidth: '1000px' }}>
+          
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+            {filteredProjects.map((project) => (
+              <div 
+                key={project.id}
+                onMouseEnter={() => setHoveredId(project.id)}
+                onMouseLeave={() => setHoveredId(null)}
+                onClick={() => handleProjectClick(project.url)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '40px 20px',
+                  borderBottom: '1px solid rgba(255,255,255,0.1)',
+                  cursor: 'pointer',
+                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                  background: hoveredId === project.id ? 'rgba(255,255,255,0.02)' : 'transparent',
+                  transform: hoveredId === project.id ? 'translateX(10px)' : 'translateX(0)',
+                  position: 'relative'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '40px', flex: 1 }}>
+                  <span style={{ 
+                    fontFamily: "'Outfit', sans-serif", 
+                    fontSize: '16px', 
+                    color: hoveredId === project.id ? '#a5b4fc' : 'rgba(255,255,255,0.3)',
+                    transition: 'color 0.3s ease',
+                    minWidth: '40px'
+                  }}>
+                    {project.type === 'Original' ? '★' : '01'}
+                  </span>
+                  
+                  <div>
+                    <h3 style={{ 
+                      fontFamily: "'Outfit', sans-serif", 
+                      fontSize: "clamp(1.5rem, 3vw, 2.5rem)", 
+                      fontWeight: "700", 
+                      margin: 0,
+                      color: hoveredId === project.id ? '#ffffff' : 'rgba(255,255,255,0.7)',
+                      transition: 'color 0.3s ease'
+                    }}>
+                      {project.title}
+                    </h3>
+                    <div style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '12px', 
+                      marginTop: '8px',
+                      opacity: hoveredId === project.id ? 1 : 0.6,
+                      transition: 'opacity 0.3s ease'
+                    }}>
+                      <span style={{ fontSize: '14px', color: '#818cf8', fontWeight: '500' }}>{project.category}</span>
+                      <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(255,255,255,0.3)' }} />
+                      <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)' }}>{project.type}</span>
                     </div>
                   </div>
-                );
-              })}
+                </div>
+
+                <div style={{
+                  width: '60px',
+                  height: '60px',
+                  borderRadius: '50%',
+                  background: hoveredId === project.id ? 'white' : 'rgba(255,255,255,0.05)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.4s ease',
+                  transform: hoveredId === project.id ? 'scale(1)' : 'scale(0.8)'
+                }}>
+                  <ArrowUpRight 
+                    size={24} 
+                    color={hoveredId === project.id ? '#000' : 'rgba(255,255,255,0.5)'} 
+                    style={{
+                      transform: hoveredId === project.id ? 'rotate(45deg)' : 'rotate(0)',
+                      transition: 'transform 0.4s ease'
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {filteredProjects.length === 0 && (
+            <div style={{ textAlign: "center", padding: "100px 0", color: "rgba(255,255,255,0.5)" }}>
+              <p>No projects found for this category.</p>
             </div>
           )}
-
-          <div style={{ textAlign: "center", marginTop: "64px" }}>
-            <Link href="/contact" id="portfolio-contact-cta" className="btn-primary">
-              Start Your Project <ArrowRight size={16} />
-            </Link>
-          </div>
         </div>
       </section>
-    </>
+
+      {/* Call to action */}
+      <div style={{ textAlign: "center", marginTop: "100px" }}>
+        <Link 
+          href="/contact" 
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '10px',
+            background: 'linear-gradient(135deg, #4f46e5, #9333ea)',
+            color: 'white',
+            padding: '16px 32px',
+            borderRadius: '50px',
+            fontWeight: '600',
+            fontSize: '16px',
+            textDecoration: 'none',
+            boxShadow: '0 10px 25px -5px rgba(99,102,241,0.4)',
+            transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 15px 30px -5px rgba(99,102,241,0.5)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 10px 25px -5px rgba(99,102,241,0.4)';
+          }}
+        >
+          Start Your Project <ArrowRight size={20} />
+        </Link>
+      </div>
+    </div>
   );
 }

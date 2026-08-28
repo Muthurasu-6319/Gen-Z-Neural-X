@@ -85,7 +85,7 @@ export default function RootLayout({
     "description": "IT & Industrial Automation company in Srivilliputtur, Sivakasi, Rajapalayam and Virudhunagar district, Tamil Nadu. Offering Web Development, AI/ML, SCADA, PLC Programming, EMS, MES, IIoT and Industrial Automation services.",
     "url": "https://genzneuralx.com",
     "telephone": "+918124996319",
-    "email": "info@genzneuralx.com",
+    "email": "business.genzneuralx@gmail.com",
     "foundingDate": "2025",
     "address": {
       "@type": "PostalAddress",

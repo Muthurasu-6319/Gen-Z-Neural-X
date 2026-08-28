@@ -268,8 +268,8 @@ export default function Footer() {
               <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "rgba(255,255,255,0.7)", fontSize: "13px" }}>
                   <Mail size={14} style={{ color: "#6366f1", flexShrink: 0 }} />
-                  <a href="mailto:info@genzneuralx.com" style={{ color: "inherit", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.color = "#6366f1"} onMouseLeave={(e) => e.currentTarget.style.color = "inherit"}>
-                    info@genzneuralx.com
+                  <a href="mailto:business.genzneuralx@gmail.com" style={{ color: "inherit", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.color = "#6366f1"} onMouseLeave={(e) => e.currentTarget.style.color = "inherit"}>
+                    business.genzneuralx@gmail.com
                   </a>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "rgba(255,255,255,0.7)", fontSize: "13px" }}>

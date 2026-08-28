@@ -8,9 +8,9 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email Us",
-    detail: "info@genzneuralx.com",
+    detail: "business.genzneuralx@gmail.com",
     sub: "We reply within 24 hours",
-    href: "mailto:info@genzneuralx.com",
+    href: "mailto:business.genzneuralx@gmail.com",
     color: "#6366f1",
   },
   {

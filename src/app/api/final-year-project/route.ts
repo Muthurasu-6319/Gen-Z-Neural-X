@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 
     await transporter.sendMail({
       from: 'genzdevoff@gmail.com',
-      to: 'info@genzneuralx.com',
+      to: 'business.genzneuralx@gmail.com',
       subject: `🎓 Final Year Project Request – ${data.fullName} (${data.collegeName})`,
       html: htmlBody,
     });

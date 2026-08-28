@@ -66,12 +66,12 @@ The types of information we may collect include your name, email address, phone 
 • Request restriction of processing
 • Data portability
 
-To exercise these rights, contact us at info@genzneuralx.com`,
+To exercise these rights, contact us at business.genzneuralx@gmail.com`,
               },
               {
                 title: "7. Contact Us",
                 content: `If you have any questions about this Privacy Policy, please contact us at:
-Email: info@genzneuralx.com
+Email: business.genzneuralx@gmail.com
 Phone: +91 81249 96319, +91 86680 99358, +91 78718 03642
 Address: Tamil Nadu, India`,
               },

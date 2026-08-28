@@ -2,6 +2,8 @@
 
 import { Handshake, Building2, Rocket, TrendingUp, ShieldCheck, CheckCircle2, Zap, ArrowRight } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
+import wintechLogo from "../../asset/wintech.png";
 
 export default function PartnersPage() {
   const [formData, setFormData] = useState({
@@ -51,6 +53,24 @@ export default function PartnersPage() {
 
         </div>
       </div>
+
+      {/* ── OUR PARTNERS ──────────────────────────────── */}
+      <section className="section" style={{ background: "white", padding: "60px 0", borderBottom: "1px solid var(--gray-100)" }}>
+        <div className="container" style={{ textAlign: "center" }}>
+          <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "1.5rem", fontWeight: "700", color: "var(--gray-600)", marginBottom: "32px", textTransform: "uppercase", letterSpacing: "1px" }}>
+            Our Trusted Partners
+          </h2>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap", gap: "40px" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", opacity: 0.8, transition: "opacity 0.3s ease", cursor: "pointer" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.8"}>
+              <div style={{ position: "relative", width: "160px", height: "80px" }}>
+                <Image src={wintechLogo} alt="Win Tech Digital Partner" fill style={{ objectFit: "contain" }} />
+              </div>
+              <span style={{ fontSize: "14px", fontWeight: "600", color: "var(--black)" }}>Win Tech Digital Partner</span>
+            </div>
+            {/* Add more partners here in the future */}
+          </div>
+        </div>
+      </section>
 
       {/* ── SECTION ──────────────────────────────────── */}
       <section className="section" style={{ background: "var(--gray-50)" }}>
