@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Briefcase, Send, LogOut, CheckCircle, MessageSquare, Edit, Trash2, FileText, GraduationCap, BookOpen, Trophy, Package } from "lucide-react";
+import { Briefcase, Send, LogOut, CheckCircle, MessageSquare, Edit, Trash2, FileText, GraduationCap, BookOpen, Trophy, Package, Star } from "lucide-react";
 import dynamic from "next/dynamic";
+import { db } from "@/lib/firebase";
+import { collection, getDocs, deleteDoc, doc, updateDoc, query, orderBy } from "firebase/firestore";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 
@@ -96,6 +98,10 @@ export default function AdminDashboard() {
     keywords: ""
   });
 
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [loadingReviews, setLoadingReviews] = useState(false);
+  const [editingReview, setEditingReview] = useState<any>(null);
+
   useEffect(() => {
     if (sessionStorage.getItem("isAdmin") === "true") {
       setIsAuthenticated(true);
@@ -121,9 +127,9 @@ export default function AdminDashboard() {
       fetchPortfolio();
     } else if (activeTab === "products") {
       fetchProducts();
+    } else if (activeTab === "reviews") {
+      fetchReviews();
     }
-
-
   }, [activeTab]);
 
   const fetchResponses = async () => {
@@ -234,6 +240,59 @@ export default function AdminDashboard() {
       console.error("Failed to fetch courses", err);
     } finally {
       setLoadingCourses(false);
+    }
+  };
+
+  const fetchReviews = async () => {
+    setLoadingReviews(true);
+    try {
+      const reviewsRef = collection(db, "reviews");
+      const q = query(reviewsRef, orderBy("createdAt", "desc"));
+      const querySnapshot = await getDocs(q);
+      const fetchedReviews = querySnapshot.docs.map((doc: any) => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setReviews(fetchedReviews);
+    } catch (err) {
+      console.error("Failed to fetch reviews", err);
+    } finally {
+      setLoadingReviews(false);
+    }
+  };
+
+  const handleReviewDelete = async (id: string) => {
+    if (confirm("Are you sure you want to delete this review?")) {
+      try {
+        await deleteDoc(doc(db, "reviews", id));
+        setSuccessMsg("Review deleted successfully!");
+        fetchReviews();
+        setTimeout(() => setSuccessMsg(""), 3000);
+      } catch (err) {
+        console.error("Error deleting review", err);
+        alert("Failed to delete review.");
+      }
+    }
+  };
+
+  const handleReviewUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingReview) return;
+    try {
+      const reviewRef = doc(db, "reviews", editingReview.id);
+      await updateDoc(reviewRef, {
+        name: editingReview.name,
+        role: editingReview.role,
+        rating: editingReview.rating,
+        text: editingReview.text,
+      });
+      setSuccessMsg("Review updated successfully!");
+      setEditingReview(null);
+      fetchReviews();
+      setTimeout(() => setSuccessMsg(""), 3000);
+    } catch (err) {
+      console.error("Error updating review", err);
+      alert("Failed to update review.");
     }
   };
 
@@ -755,6 +814,18 @@ export default function AdminDashboard() {
           >
             <MessageSquare size={20} /> Responses
           </button>
+          
+          <button 
+            onClick={() => setActiveTab("reviews")}
+            style={{ 
+              display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "12px", 
+              background: activeTab === "reviews" ? "var(--primary-glow)" : "transparent",
+              color: activeTab === "reviews" ? "var(--primary-light)" : "var(--gray-600)",
+              border: "none", cursor: "pointer", fontSize: "15px", fontWeight: "600", transition: "all 0.2s"
+            }}
+          >
+            <Star size={20} /> Reviews
+          </button>
         </nav>
 
         <div style={{ padding: "16px" }}>
@@ -777,14 +848,14 @@ export default function AdminDashboard() {
           
           <div style={{ marginBottom: "32px", display: "flex", alignItems: "center", gap: "16px" }}>
                         <div style={{ width: "48px", height: "48px", background: "white", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--primary-light)", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
-              {activeTab === "careers" ? <Briefcase size={24} /> : activeTab === "blogs" ? <FileText size={24} /> : activeTab === "internships" ? <GraduationCap size={24} /> : activeTab === "products" ? <Package size={24} /> : activeTab === "portfolio" ? <Trophy size={24} /> : <MessageSquare size={24} />}
+              {activeTab === "careers" ? <Briefcase size={24} /> : activeTab === "blogs" ? <FileText size={24} /> : activeTab === "internships" ? <GraduationCap size={24} /> : activeTab === "products" ? <Package size={24} /> : activeTab === "portfolio" ? <Trophy size={24} /> : activeTab === "reviews" ? <Star size={24} /> : <MessageSquare size={24} />}
             </div>
             <div>
               <h1 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "28px", fontWeight: "800", color: "#0a0a0f" }}>
-                {activeTab === "careers" ? "Manage Careers" : activeTab === "blogs" ? "Manage Blog Posts" : activeTab === "internships" ? "Manage Internships" : activeTab === "products" ? "Manage Products" : activeTab === "portfolio" ? "Manage Portfolio" : activeTab === "courses" ? "Manage Courses" : "Contact Responses"}
+                {activeTab === "careers" ? "Manage Careers" : activeTab === "blogs" ? "Manage Blog Posts" : activeTab === "internships" ? "Manage Internships" : activeTab === "products" ? "Manage Products" : activeTab === "portfolio" ? "Manage Portfolio" : activeTab === "courses" ? "Manage Courses" : activeTab === "reviews" ? "Manage Reviews" : "Contact Responses"}
               </h1>
               <p style={{ color: "var(--gray-500)", fontSize: "15px" }}>
-                {activeTab === "careers" ? "Post and manage job openings" : activeTab === "blogs" ? "Publish and edit SEO optimized blog articles" : activeTab === "internships" ? "Post internship opportunities" : activeTab === "products" ? "Publish and manage SEO-based products without payments" : activeTab === "portfolio" ? "Manage your past work and case studies" : activeTab === "courses" ? "Publish and manage course listings" : "View all form submissions from the website"}
+                {activeTab === "careers" ? "Post and manage job openings" : activeTab === "blogs" ? "Publish and edit SEO optimized blog articles" : activeTab === "internships" ? "Post internship opportunities" : activeTab === "products" ? "Publish and manage SEO-based products without payments" : activeTab === "portfolio" ? "Manage your past work and case studies" : activeTab === "courses" ? "Publish and manage course listings" : activeTab === "reviews" ? "Approve, edit or delete user testimonials" : "View all form submissions from the website"}
               </p>
             </div>
           </div>
@@ -1567,6 +1638,88 @@ export default function AdminDashboard() {
                   </div>
                 ))
               )}
+            </div>
+          )}
+
+          {/* Reviews Tab */}
+          {activeTab === "reviews" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+              <div className="card">
+                <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "20px", fontWeight: "700", marginBottom: "24px" }}>
+                  {editingReview ? "Edit Review" : "Existing Reviews"}
+                </h2>
+                
+                {successMsg && (
+                  <div style={{ background: "#ecfdf5", color: "#10b981", padding: "16px", borderRadius: "12px", display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px", fontWeight: "500", border: "1px solid #a7f3d0" }}>
+                    <CheckCircle size={20} />
+                    {successMsg}
+                  </div>
+                )}
+
+                {editingReview ? (
+                  <form onSubmit={handleReviewUpdate} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                    <div className="form-group">
+                      <label className="form-label">Name</label>
+                      <input type="text" className="form-input" value={editingReview.name} onChange={(e) => setEditingReview({...editingReview, name: e.target.value})} required />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Role / Company</label>
+                      <input type="text" className="form-input" value={editingReview.role} onChange={(e) => setEditingReview({...editingReview, role: e.target.value})} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Rating</label>
+                      <div style={{ display: "flex", gap: "8px" }}>
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <button key={star} type="button" onClick={() => setEditingReview({...editingReview, rating: star})} style={{ background: "none", border: "none", cursor: "pointer", padding: "0" }}>
+                            <Star size={28} style={{ color: star <= editingReview.rating ? "#fbbf24" : "#e2e8f0", fill: star <= editingReview.rating ? "#fbbf24" : "transparent" }} />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Review Text</label>
+                      <textarea className="form-input" value={editingReview.text} onChange={(e) => setEditingReview({...editingReview, text: e.target.value})} required rows={4} />
+                    </div>
+                    <div style={{ display: "flex", gap: "16px", marginTop: "16px" }}>
+                      <button type="submit" className="btn-primary" style={{ flex: 1 }}>Update Review</button>
+                      <button type="button" onClick={() => setEditingReview(null)} className="btn-secondary" style={{ flex: 1 }}>Cancel</button>
+                    </div>
+                  </form>
+                ) : (
+                  <div>
+                    {loadingReviews ? (
+                      <div style={{ textAlign: "center", padding: "40px", color: "var(--gray-500)" }}>Loading reviews...</div>
+                    ) : reviews.length === 0 ? (
+                      <div style={{ textAlign: "center", padding: "40px", color: "var(--gray-500)" }}>No reviews found.</div>
+                    ) : (
+                      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                        {reviews.map((r: any) => (
+                          <div key={r.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px", border: "1px solid var(--gray-200)", borderRadius: "12px", background: "var(--gray-50)" }}>
+                            <div>
+                              <h4 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "18px", fontWeight: "700", color: "var(--black)", margin: 0 }}>{r.name}</h4>
+                              <div style={{ display: "flex", gap: "2px", margin: "4px 0" }}>
+                                {Array.from({ length: r.rating || 5 }).map((_, i) => (
+                                  <Star key={i} size={14} fill="#fbbf24" color="#fbbf24" />
+                                ))}
+                              </div>
+                              <span style={{ color: "var(--gray-500)", fontSize: "14px", display: "block", marginBottom: "8px" }}>{r.role}</span>
+                              <p style={{ color: "var(--gray-600)", fontSize: "14px", maxWidth: "500px", margin: 0 }}>"{r.text}"</p>
+                            </div>
+                            <div style={{ display: "flex", gap: "12px" }}>
+                              <button onClick={() => setEditingReview(r)} style={{ background: "var(--primary-glow)", color: "var(--primary)", border: "none", width: "40px", height: "40px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                                <Edit size={18} />
+                              </button>
+                              <button onClick={() => handleReviewDelete(r.id)} style={{ background: "#fef2f2", color: "#ef4444", border: "none", width: "40px", height: "40px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                                <Trash2 size={18} />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
